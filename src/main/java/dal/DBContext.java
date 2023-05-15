@@ -10,12 +10,12 @@ public class DBContext {
     public DBContext() {
         try {
             String user = "root";
-            String pass = "duong2003";
+            String pass = "nghia";
             String url = "jdbc:mysql://localhost:3306/sellphonecard";
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Connect fail!" + ex.getMessage());
+            System.out.println("Connect fail!");
         }
     }
 }
