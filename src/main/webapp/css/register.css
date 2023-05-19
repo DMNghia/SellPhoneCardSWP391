@@ -83,7 +83,7 @@ body {
     margin-bottom: 3px;
     font-size: 1.2em;
     font-weight: bold;
-    display: none;
+    /*display: none;*/
 }
 .footer {
     height: 6%;

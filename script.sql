@@ -15,4 +15,3 @@ create table user (
 );
 alter table user rename column phone_number to phoneNumber;
 alter table user add column isActive boolean;
-
