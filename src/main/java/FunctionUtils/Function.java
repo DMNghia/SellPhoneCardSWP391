@@ -12,7 +12,7 @@ public class Function {
         return DigestUtils.sha256Hex(str).toString();
     }
 
-    private String tokenGenerate() {
+    public String tokenGenerate() {
         String result = "";
         for (int i = 0; i < 6; i++) {
             result += (int)(Math.random() * 10) + "";
