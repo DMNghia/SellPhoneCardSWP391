@@ -22,7 +22,8 @@ public class ActiveAccount extends HttpServlet {
         String option = request.getParameter("option");
         String captchaInput = request.getParameter("captchaInput");
         String captchaValue = (String) session.getAttribute("captchaValue");
-        String messageErr;
+        System.out.println(captchaValue);
+        System.out.println(tokenValue);
         if (option.equals("confirm")) {
             if (captchaValue.equals(captchaInput)) {
                 if (tokenValue.equals(tokenInput)) {
@@ -35,16 +36,19 @@ public class ActiveAccount extends HttpServlet {
                     session.removeAttribute("captchaValue");
                     response.sendRedirect("login");
                 } else {
-                    messageErr = "Token is not correct! Please check again!";
+                    String tokenMessageErr = "Token is not correct! Please check again!";
+                    request.setAttribute("tokenMessageErr", tokenMessageErr);
+                    request.getRequestDispatcher("activeAccount.jsp").forward(request, response);
                 }
             } else {
-                messageErr = "Captcha is not correct!";
-                request.setAttribute("captchaMessageErr", messageErr);
+                String captchaMessageErr = "Captcha is not correct!";
+                request.setAttribute("captchaMessageErr", captchaMessageErr);
+                request.getRequestDispatcher("activeAccount.jsp").forward(request, response);
             }
         } else {
             doPost(request, response);
         }
-        request.getRequestDispatcher("activeAccount.jsp").forward(request, response);
+
     }
 
     @Override
@@ -53,7 +57,7 @@ public class ActiveAccount extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         String token = f.tokenGenerate();
-        f.authenEmail("nghiadmhe160858@fpt.edu.vn", "Dmnghi@15112002", user.getEmail(), token);
+        f.authenEmail("", "", user.getEmail(), token);
         session.setAttribute("token", token);
         request.getRequestDispatcher("activeAccount.jsp").forward(request, response);
     }

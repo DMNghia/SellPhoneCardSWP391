@@ -38,8 +38,8 @@
                                 <div class="label"><h3>Token</h3></div>
                                 <div class="input-area">
                                     <input style="font-size: 1.5em" type="text"
-                                           name="token"><br>
-                                    <p style="color: red;">${messageErr}</p>
+                                           name="tokenInput"><br>
+                                    <p style="color: red;">${tokenMessageErr}</p>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -59,7 +59,6 @@
                                                                                             class="fa fa-refresh"></i>
                                             </button>
                                         </div>
-
                                         <p style="color: red;" id="captcha-validate" class="message-error">${captchaMessageErr}</p>
                                     </div>
                                 </div>
