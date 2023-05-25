@@ -14,5 +14,4 @@ create table user
     primary key (id)
 );
 alter table user rename column phone_number to phoneNumber;
-alter table user
-    add column isActive boolean;
+alter table user add column isActive boolean;
