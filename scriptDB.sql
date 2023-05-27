@@ -8,10 +8,14 @@ create table user (
     password varchar(255) not null,
     email varchar(255) not null,
     role int,
-    phone_number varchar(255),
+    phoneNumber varchar(255),
     isDelete boolean,
+    isActive boolean,
+    createdAt datetime,
+    createdBy int,
+    updatedAt datetime,
+    updatedBy int,
+    deletedAt datetime,
+    deletedBy int,
     primary key (id)
-  --   constraint user_unique unique key (email, account)
 );
-alter table user rename column phone_number to phoneNumber;
-alter table user add column isActive boolean;
