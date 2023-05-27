@@ -34,7 +34,7 @@
                                 <div class="input-area">
                                     <input style="font-size: 1.5em" id="account-input" type="text"
                                            name="account" value="${account}"><br>
-                                    <p style="color: red;" id="account-validate" class="message-error"></p>
+                                    <p style="color: red;" id="account-validate" class="message-error">${accountMessageErr}</p>
                                 </div>
                             </div>
 
@@ -43,7 +43,7 @@
                                 <div class="input-area">
                                     <input style="font-size: 1.5em" id="password-input" type="password" name="password"
                                     value="${password}"><br>
-                                    <p style="color: red;" id="password-validate" class="message-error"></p>
+                                    <p style="color: red;" id="password-validate" class="message-error">${passwordMessageErr}</p>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -51,7 +51,7 @@
                                 <div class="input-area">
                                     <input style="font-size: 1.5em" id="email-input" type="text" name="email"
                                     value="${email}"><br>
-                                    <p style="color: red;" id="email-validate" class="message-error"></p>
+                                    <p style="color: red;" id="email-validate" class="message-error">${emailMessageErr}</p>
                                 </div>
                             </div>
                             <div class="form-row">
