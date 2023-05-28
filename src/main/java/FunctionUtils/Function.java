@@ -5,6 +5,9 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Properties;
 
 public class Function {
@@ -19,6 +22,21 @@ public class Function {
         }
 
         return result;
+    }
+
+    public boolean sendMailAvailable(String time) {
+        try {
+            LocalTime before = LocalTime.parse(time);
+            LocalTime now = LocalTime.now();
+
+            double distanceTime = now.toSecondOfDay() - before.toSecondOfDay();
+            if (distanceTime <= (30 * 60)) {
+                return false;
+            }
+        } catch (Exception e) {
+            return true;
+        }
+        return true;
     }
 
     public void send(String fromEmail, String password, String toEmail, String subject, String content) {
@@ -70,7 +88,8 @@ public class Function {
         });
 
         try {
-            String content = "Thank you for sign up our website. Below is your token to authenticate email:\nToken: " + token;
+            String content = "Thank you for sign up our website. Below is your token to authenticate email:\nToken: " + token +
+                    "\nNote: You can only use this token for 30 minutes and during this period you will not be able to receive any more tokens";
 
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(fromEmail));
