@@ -24,21 +24,6 @@ public class Function {
         return result;
     }
 
-    public boolean sendMailAvailable(String time) {
-        try {
-            LocalTime before = LocalTime.parse(time);
-            LocalTime now = LocalTime.now();
-
-            double distanceTime = now.toSecondOfDay() - before.toSecondOfDay();
-            if (distanceTime <= (30 * 60)) {
-                return false;
-            }
-        } catch (Exception e) {
-            return true;
-        }
-        return true;
-    }
-
     public void send(String fromEmail, String password, String toEmail, String subject, String content) {
         String host = "smtp.gmail.com";
         String port = "587";
