@@ -57,8 +57,8 @@ public class UserDAO extends DBContext{
 
     public void add(User user) {
         try {
-            String query = "INSERT INTO user (account, password, email, role, isDelete, isActive)" +
-                    "VALUES(?, ?, ?, ?, ?, ?);";
+            String query = "INSERT INTO user (account, password, email, role, isDelete, isActive, createdAt)" +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, user.getAccount());
             ps.setString(2, user.getPassword());

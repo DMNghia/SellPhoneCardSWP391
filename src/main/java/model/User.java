@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class User {
     private int id;
@@ -11,11 +11,11 @@ public class User {
     private String phoneNumber;
     private boolean isDelete;
     private boolean isActive;
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
     private int createdBy;
-    private LocalDateTime updatedAt;
+    private Timestamp updatedAt;
     private int updatedBy;
-    private LocalDateTime deletedAt;
+    private Timestamp deletedAt;
     private int deletedBy;
 
     public User() {
@@ -51,7 +51,17 @@ public class User {
         this.isActive = isActive;
     }
 
-    public User(String account, String password, String email, int role, String phoneNumber, boolean isDelete, boolean isActive, LocalDateTime createdAt, int createdBy, LocalDateTime updatedAt, int updatedBy, LocalDateTime deletedAt, int deletedBy) {
+    public User(String account, String password, String email, int role, boolean isDelete, boolean isActive, Timestamp createdAt) {
+        this.account = account;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.isDelete = isDelete;
+        this.isActive = isActive;
+        this.createdAt = createdAt;
+    }
+
+    public User(String account, String password, String email, int role, String phoneNumber, boolean isDelete, boolean isActive, Timestamp createdAt, int createdBy, Timestamp updatedAt, int updatedBy, Timestamp deletedAt, int deletedBy) {
         this.account = account;
         this.password = password;
         this.email = email;
@@ -67,7 +77,7 @@ public class User {
         this.deletedBy = deletedBy;
     }
 
-    public User(int id, String account, String password, String email, int role, String phoneNumber, boolean isDelete, boolean isActive, LocalDateTime createdAt, int createdBy, LocalDateTime updatedAt, int updatedBy, LocalDateTime deletedAt, int deletedBy) {
+    public User(int id, String account, String password, String email, int role, String phoneNumber, boolean isDelete, boolean isActive, Timestamp createdAt, int createdBy, Timestamp updatedAt, int updatedBy, Timestamp deletedAt, int deletedBy) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -148,11 +158,11 @@ public class User {
         isActive = active;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -164,11 +174,11 @@ public class User {
         this.createdBy = createdBy;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -180,11 +190,11 @@ public class User {
         this.updatedBy = updatedBy;
     }
 
-    public LocalDateTime getDeletedAt() {
+    public Timestamp getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(LocalDateTime deletedAt) {
+    public void setDeletedAt(Timestamp deletedAt) {
         this.deletedAt = deletedAt;
     }
 
