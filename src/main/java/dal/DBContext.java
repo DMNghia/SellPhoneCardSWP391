@@ -15,7 +15,7 @@ public class DBContext {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Connect fail!");
+            System.out.println("Connect fail!" + ex.getMessage());
         }
     }
 }

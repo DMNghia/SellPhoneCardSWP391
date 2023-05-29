@@ -4,6 +4,6 @@
 <html>
 <body>
 <c:set var="name" value="nghia"/>
-<h2>${name}</h2>
+<h2>duong</h2>
 </body>
 </html>

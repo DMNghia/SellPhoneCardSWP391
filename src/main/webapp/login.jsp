@@ -30,7 +30,7 @@
                         </div>
                         <div class="signup-detail">
                             <div class="signup-form">
-                                <form id="form-signup" method="post" action="register">
+                                <form id="form-signup" method="post" action="login">
                                     <div class="form-row">
                                         <div class="label"><h3>Account</h3></div>
                                         <div class="input-area">
@@ -70,8 +70,16 @@
                                         </div>
                                     </div>
                                     <div class="form-row">
-                                        <button style="">Đăng nhập</button>
+                                        <button style="font-weight: 500;font-size: 18px; line-height: 30px;color: #fff;background: #23a6f7;border-radius: 10px;padding: 10px 32px;
+                                                border: none;">Đăng nhập</button>
                                     </div>
+                                    <div>
+                                        <a href="url">Quên mật khẩu</a>
+                                        <a href="register">Đăng ký</a>
+                                    </div>
+                                    <div>
+                                        <p>${error}</p>
+                                    </div>      
                                 </form>
                             </div>
                         </div>

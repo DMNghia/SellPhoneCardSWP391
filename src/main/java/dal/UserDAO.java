@@ -37,6 +37,7 @@ public class UserDAO extends DBContext{
         }
         return true;
     }
+    
     public User getUser(String account, String password) {
         try {
             String query = "SELECT * FROM user WHERE account = ? and password = ?";
@@ -93,5 +94,36 @@ public class UserDAO extends DBContext{
         } catch (SQLException e) {
             System.out.println("UserDAO-update: " + e.getMessage());
         }
+    }
+    
+    public boolean checkUser(String account, String password) {
+        try {
+            String query = "SELECT * FROM user WHERE account = ? and password = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, account);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("UserDAO-checkUser: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean isAccountActive(String account) {
+        try {
+            String query = "SELECT * from user where account = ? and isActive = 1";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, account);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("UserDAO-isAccountAvailable: " + e.getMessage());
+        }
+        return false;
     }
 }
