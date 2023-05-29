@@ -4,36 +4,44 @@ import FunctionUtils.Function;
 import dal.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import model.User;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @WebServlet(name = "ActiveAccount", value = "/activeAccount")
 public class ActiveAccount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String tokenValue = (String) session.getAttribute("token");
+        String tokenValue = "";
+        Cookie[] cookies = request.getCookies();
+        Cookie tokenCookie = null;
+        for (Cookie c : cookies) {
+            if (c.getName().equals("tokenValue")) {
+                tokenValue = c.getValue();
+                tokenCookie = c;
+            }
+        }
         String tokenInput = request.getParameter("tokenInput");
         String option = request.getParameter("option");
         String captchaInput = request.getParameter("captchaInput");
         String captchaValue = (String) session.getAttribute("captchaValue");
-        System.out.println(captchaValue);
-        System.out.println(tokenValue);
         if (option.equals("confirm")) {
             if (captchaValue.equals(captchaInput)) {
-                if (tokenValue.equals(tokenInput)) {
+                if ((!tokenValue.isEmpty()) && tokenValue.equals(tokenInput)) {
                     User user = (User) session.getAttribute("user");
                     user.setActive(true);
                     UserDAO ud = new UserDAO();
                     ud.update(user, user.getId());
                     session.removeAttribute("user");
-                    session.removeAttribute("token");
                     session.removeAttribute("captchaValue");
+                    tokenCookie.setMaxAge(0);
+                    response.addCookie(tokenCookie);
                     response.sendRedirect("login");
                 } else {
                     String tokenMessageErr = "Token is not correct! Please check again!";
@@ -56,9 +64,24 @@ public class ActiveAccount extends HttpServlet {
         Function f = new Function();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        String token = f.tokenGenerate();
-        f.authenEmail("duongnthe171061@fpt.edu,vn", "Duong2003", user.getEmail(), token);
-        session.setAttribute("token", token);
+        Cookie[] cookies = request.getCookies();
+        String lastTimeSendMail_raw = null;
+        String patternDateTime = "HH:mm:ss";
+        String token = "";
+        for (Cookie c : cookies) {
+            if (c.getName().equals("tokenValue")) {
+                token = c.getValue();
+            }
+        }
+        if (token.isEmpty()) {
+            token = f.tokenGenerate();
+            f.authenEmail("nghiadmhe160858@fpt.edu.vn", "bulklghpctkttsrt", user.getEmail(), token);
+            Cookie tokenCookie = new Cookie("tokenValue", token);
+            tokenCookie.setMaxAge(60*30);
+            response.addCookie(tokenCookie);
+        } else {
+            request.setAttribute("messageErrForSendMail", "Token only send to your email every 30 minutes, Please check your email or wait");
+        }
         request.getRequestDispatcher("activeAccount.jsp").forward(request, response);
     }
 }
