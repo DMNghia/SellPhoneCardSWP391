@@ -1,6 +1,0 @@
-dal\SupplierDAO.class
-controller\homeController.class
-dal\DBContext.class
-model\Supplier.class
-model\Product.class
-dal\ProductDAO.class
