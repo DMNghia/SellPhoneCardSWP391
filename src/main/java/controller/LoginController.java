@@ -98,8 +98,7 @@ public class LoginController extends HttpServlet {
         else{
             request.setAttribute("account", account);
             request.setAttribute("password", password);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-
+            response.sendRedirect("home");
         }
     }
 

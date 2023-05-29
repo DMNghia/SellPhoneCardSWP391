@@ -76,6 +76,9 @@
                                 </div>
                             </div>
                             <div class="form-row">
+                                <p>Đã có tài khoản? <a href="/SellPhoneCard/login">Đăng nhập</a></p>
+                            </div>
+                            <div class="form-row">
                                 <button id="submit-button" type="button" onclick="submitData()"
                                         style="font-size: 1.2em;cursor: pointer;padding: 5px;">
                                     <i class="fa fa-plus"></i> Gửi thông tin đăng ký
