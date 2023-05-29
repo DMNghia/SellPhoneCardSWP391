@@ -11,6 +11,10 @@ import jakarta.servlet.http.HttpSession;
 import model.User;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @WebServlet("/register")
 public class RegisterController extends HttpServlet {
@@ -33,30 +37,40 @@ public class RegisterController extends HttpServlet {
         //Create new user data access object
         UserDAO ud = new UserDAO();
         String messageErr;
+        boolean success = true;
 
-        if (!ud.isAccountAvailable(account)) {
-            messageErr = "Account has been used!";
-            req.setAttribute("accountMessageErr", messageErr);
-        } else {
+        try {
+            if (!ud.isAccountAvailable(account)) {
+                success = false;
+                messageErr = "Account has been used!";
+                req.setAttribute("accountMessageErr", messageErr);
+            }
             if (!ud.isEmailAvailable(email)) {
+                success = false;
                 messageErr = "Email has been used!";
                 req.setAttribute("emailMessageErr", messageErr);
-            } else if (!captchaInput.equals(captchaValue)) {
+            }
+            if (!captchaInput.equals(captchaValue)) {
+                success = false;
                 messageErr = "Captcha is not correct!";
                 req.setAttribute("captchaMessageErr", messageErr);
-            } else {
+            }
+            if (success) {
                 Function f = new Function();
-                User newUser = new User(account, f.hash(password), email, 1, false, false);
+                Timestamp time = Timestamp.valueOf(LocalDateTime.now());
+                User newUser = new User(account, f.hash(password), email, 1, false, false, time);
                 ud.add(newUser);
                 User activeUser = ud.getUser(account, f.hash(password));
                 session.setAttribute("user", activeUser);
                 req.getRequestDispatcher("activeAccount").forward(req, resp);
+            } else {
+                req.setAttribute("account", account);
+                req.setAttribute("password", password);
+                req.setAttribute("email", email);
+                req.getRequestDispatcher("register.jsp").forward(req, resp);
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-
-        req.setAttribute("account", account);
-        req.setAttribute("password", password);
-        req.setAttribute("email", email);
-        req.getRequestDispatcher("register.jsp").forward(req, resp);
     }
 }

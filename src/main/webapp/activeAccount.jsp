@@ -53,7 +53,7 @@
                                             <input id="captcha-input"
                                                    style="font-size: 1.5em;font-weight: bold;width: 30%;margin-right: 2px;height: 40px;"
                                                    type="text"
-                                                   maxlength="5" placeholder="input" name="captcha">
+                                                   maxlength="5" placeholder="input" name="captchaInput">
                                             <button type="button" onclick="refreshCaptcha()" id="refresh-button"
                                                     style="cursor: pointer;height: 68%;"><i style="font-size: 1.5em;"
                                                                                             class="fa fa-refresh"></i>
@@ -76,6 +76,9 @@
                                 </button>
                             </div>
                         </form>
+                        <div class="form-row">
+                            <p style="color: red;font-size: 1.2em;">${messageErrForSendMail}</p>
+                        </div>
                     </div>
                 </div>
             </div>
