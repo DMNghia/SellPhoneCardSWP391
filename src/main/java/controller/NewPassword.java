@@ -44,8 +44,8 @@ public class NewPassword extends HttpServlet {
         if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
             user.setPassword(f.hash(newPassword));
             Timestamp updateTime = Timestamp.valueOf(LocalDateTime.now());
-            user.setupdatedAt(updateTime);
-            user.setupdatedBy(user.getId());
+            user.setUpdatedAt(updateTime);
+            user.setUpdatedBy(user.getId());
             ud.update(user, user.getId());
             response.sendRedirect("login");
         }else{

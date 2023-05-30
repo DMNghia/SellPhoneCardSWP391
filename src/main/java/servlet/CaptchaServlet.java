@@ -34,7 +34,7 @@ public class CaptchaServlet extends HttpServlet {
         int width = 100, height = 40;
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.OPAQUE);
         Graphics graphics = bufferedImage.createGraphics();
-        graphics.setFont(new Font("Arial", Font.BOLD, 20));
+        graphics.setFont(new Font("Arial", Font.BOLD, 24));
         graphics.setColor(new Color(169, 169, 169));
         graphics.fillRect(0, 0, width, height);
         graphics.setColor(new Color(255, 255, 255));

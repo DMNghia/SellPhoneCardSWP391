@@ -5,6 +5,7 @@
 package model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -13,13 +14,13 @@ import java.sql.Date;
 public class Supplier {
     private int id,createdBy,deletedBy,updatedBy;
     private String name;
-    private Date createdAt,deletedAt,updatedAt;
+    private Timestamp createdAt,deletedAt,updatedAt;
     private boolean isDelete;
     private String image;
     public Supplier() {
     }
 
-    public Supplier(int id, int createdBy, int deletedBy, int updatedBy, String name, Date createdAt, Date deletedAt, Date updatedAt, boolean isDelete, String image) {
+    public Supplier(int id, int createdBy, int deletedBy, int updatedBy, String name, Timestamp createdAt, Timestamp deletedAt, Timestamp updatedAt, boolean isDelete, String image) {
         this.id = id;
         this.createdBy = createdBy;
         this.deletedBy = deletedBy;
@@ -77,27 +78,27 @@ public class Supplier {
         this.name = name;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getDeletedAt() {
+    public Timestamp getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Date deletedAt) {
+    public void setDeletedAt(Timestamp deletedAt) {
         this.deletedAt = deletedAt;
     }
 
-    public Date getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 

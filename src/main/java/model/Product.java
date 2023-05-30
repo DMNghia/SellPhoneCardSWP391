@@ -5,6 +5,7 @@
 package model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 
 /**
@@ -15,13 +16,13 @@ public class Product {
     private int id,quantity,supplier,createdBy,deletedBy,updatedBy;
     private String name;
     private double price;
-    private Date createdAt,deletedAt,updatedAt;
+    private Timestamp createdAt,deletedAt,updatedAt;
     private boolean isDelete;
     
     public Product() {
     }
 
-    public Product(int id, int quantity, int supplier, int createdBy, int deletedBy, int updatedBy, String name, double price, Date createdAt, Date deletedAt, Date updatedAt, boolean isDelete) {
+    public Product(int id, int quantity, int supplier, int createdBy, int deletedBy, int updatedBy, String name, double price, Timestamp createdAt, Timestamp deletedAt, Timestamp updatedAt, boolean isDelete) {
         this.id = id;
         this.quantity = quantity;
         this.supplier = supplier;
@@ -105,27 +106,27 @@ public class Product {
         this.price = price;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getDeletedAt() {
+    public Timestamp getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Date deletedAt) {
+    public void setDeletedAt(Timestamp deletedAt) {
         this.deletedAt = deletedAt;
     }
 
-    public Date getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 

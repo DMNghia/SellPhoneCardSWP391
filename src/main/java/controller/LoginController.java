@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
@@ -98,6 +99,8 @@ public class LoginController extends HttpServlet {
         else{
             request.setAttribute("account", account);
             request.setAttribute("password", password);
+            User user = ud.getUser(account, f.hash(password));
+            session.setAttribute("user", user);
             response.sendRedirect("home");
         }
     }

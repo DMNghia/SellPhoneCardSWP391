@@ -83,8 +83,8 @@ public class ChangeProfileController extends HttpServlet {
         Timestamp updateTime = Timestamp.valueOf(LocalDateTime.now());
         User user = (User) session.getAttribute("user");
         user.setPhoneNumber(newPhonenumber);
-        user.setupdatedAt(updateTime);
-        user.setupdatedBy(user.getId());
+        user.setUpdatedAt(updateTime);
+        user.setUpdatedBy(user.getId());
         UserDAO ud = new UserDAO();
         ud.update(user, user.getId());
         session.setAttribute("user", user);

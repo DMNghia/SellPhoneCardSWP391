@@ -75,7 +75,7 @@ public class ActiveAccount extends HttpServlet {
         }
         if (token.isEmpty()) {
             token = f.tokenGenerate();
-            f.authenEmail("nghiadmhe160858@fpt.edu.vn", "bulklghpctkttsrt", user.getEmail(), token);
+            f.authenEmail("swp391grou5@gmail.com", "duhphxeehayasotx", user.getEmail(), token);
             Cookie tokenCookie = new Cookie("tokenValue", token);
             tokenCookie.setMaxAge(60*30);
             response.addCookie(tokenCookie);

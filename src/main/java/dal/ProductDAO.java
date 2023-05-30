@@ -18,8 +18,6 @@ import model.Product;
  */
 public class ProductDAO extends DBContext {
 
-    
-
     public ArrayList<Product> getListPrice(int id) {
         ArrayList<Product> list = new ArrayList<>();
         try {
