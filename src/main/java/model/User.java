@@ -1,7 +1,6 @@
 package model;
 
 import java.sql.Timestamp;
-import java.sql.Timestamp;
 
 public class User {
     private int id;
@@ -14,6 +13,8 @@ public class User {
     private boolean isActive;
     private Timestamp createdAt;
     private int createdBy;
+    private Timestamp updatedAt;
+    private int updatedBy;
     private Timestamp deletedAt;
     private int deletedBy;
 
@@ -50,7 +51,7 @@ public class User {
         this.isActive = isActive;
     }
 
-    public User(String account, String password, String email, int role, String phoneNumber, boolean isDelete, boolean isActive, Timestamp createdAt, int createdBy, Timestamp deletedAt, int deletedBy) {
+    public User(String account, String password, String email, int role, String phoneNumber, boolean isDelete, boolean isActive, Timestamp createdAt, int createdBy, Timestamp updatedAt, int updatedBy, Timestamp deletedAt, int deletedBy) {
         this.account = account;
         this.password = password;
         this.email = email;
@@ -60,6 +61,8 @@ public class User {
         this.isActive = isActive;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
+        this.updatedAt = updatedAt;
+        this.updatedBy = updatedBy;
         this.deletedAt = deletedAt;
         this.deletedBy = deletedBy;
     }
@@ -74,7 +77,7 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public User(int id, String account, String password, String email, int role, String phoneNumber, boolean isDelete, boolean isActive, Timestamp createdAt, int createdBy, Timestamp deletedAt, int deletedBy) {
+    public User(int id, String account, String password, String email, int role, String phoneNumber, boolean isDelete, boolean isActive, Timestamp createdAt, int createdBy, Timestamp updatedAt, int updatedBy, Timestamp deletedAt, int deletedBy) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -85,6 +88,8 @@ public class User {
         this.isActive = isActive;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
+        this.updatedAt = updatedAt;
+        this.updatedBy = updatedBy;
         this.deletedAt = deletedAt;
         this.deletedBy = deletedBy;
     }
@@ -167,6 +172,22 @@ public class User {
 
     public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Timestamp getupdatedAt() {
+        return updatedAt;
+    }
+
+    public void setupdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public int getupdatedBy() {
+        return updatedBy;
+    }
+
+    public void setupdatedBy(int updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public Timestamp getDeletedAt() {
