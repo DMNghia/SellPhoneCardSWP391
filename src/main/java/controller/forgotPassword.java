@@ -69,7 +69,7 @@ public class forgotPassword extends HttpServlet {
                 if (token.isEmpty()) {
                     session.setAttribute("user", user);
                     token = f.tokenGenerate();
-                    f.authenEmail("swp391grou5@gmail.com", "duhphxeehayasotx",user.getEmail(), token);
+                    f.resetPasswordMail(user.getEmail(), token);
                     Cookie tokenCookie = new Cookie("tokenValue-" + user.getId(), token);
                     tokenCookie.setMaxAge(60 * 30);
                     response.addCookie(tokenCookie);
