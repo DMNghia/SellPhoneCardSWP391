@@ -74,7 +74,7 @@
                                                 border: none;">Đăng nhập</button>
                                     </div>
                                     <div>
-                                        <a href="url">Quên mật khẩu</a>
+                                        <a href="forgotPassword">Quên mật khẩu</a>
                                         <a href="register">Đăng ký</a>
                                     </div>
                                     <div>

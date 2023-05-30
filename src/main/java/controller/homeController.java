@@ -72,7 +72,6 @@ public class homeController extends HttpServlet {
         ArrayList<Product> listP = new ArrayList<>();
         listP = (new ProductDAO()).getListPrice(id);
         
-        
         request.setAttribute("priceList", listP);
         request.setAttribute("imgList", list);
         request.getRequestDispatcher("home.jsp").forward(request, response);

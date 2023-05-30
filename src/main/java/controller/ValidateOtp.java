@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.User;
 
 /**
  * Servlet implementation class ValidateOtp
@@ -32,10 +33,11 @@ public class ValidateOtp extends HttpServlet {
         String tokenInput = request.getParameter("otp");
         String tokenValue = "";
         HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         Cookie[] cookies = request.getCookies();
         Cookie tokenCookie = null;
         for (Cookie c : cookies) {
-            if (c.getName().equals("tokenValue")) {
+            if (c.getName().equals("tokenValue-" + user.getId())) {
                 tokenValue = c.getValue();
                 tokenCookie = c;
             }
