@@ -8,21 +8,18 @@ import jakarta.servlet.http.*;
 import model.User;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 @WebServlet(name = "ActiveAccount", value = "/activeAccount")
 public class ActiveAccount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         String tokenValue = "";
         Cookie[] cookies = request.getCookies();
         Cookie tokenCookie = null;
         for (Cookie c : cookies) {
-            if (c.getName().equals("tokenValue")) {
+            if (c.getName().equals("tokenValue-" + user.getId())) {
                 tokenValue = c.getValue();
                 tokenCookie = c;
             }
@@ -34,7 +31,7 @@ public class ActiveAccount extends HttpServlet {
         if (option.equals("confirm")) {
             if (captchaValue.equals(captchaInput)) {
                 if ((!tokenValue.isEmpty()) && tokenValue.equals(tokenInput)) {
-                    User user = (User) session.getAttribute("user");
+
                     user.setActive(true);
                     UserDAO ud = new UserDAO();
                     ud.update(user, user.getId());
@@ -65,19 +62,17 @@ public class ActiveAccount extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         Cookie[] cookies = request.getCookies();
-        String lastTimeSendMail_raw = null;
-        String patternDateTime = "HH:mm:ss";
         String token = "";
         for (Cookie c : cookies) {
-            if (c.getName().equals("tokenValue")) {
+            if (c.getName().equals("tokenValue-" + user.getId())) {
                 token = c.getValue();
             }
         }
         if (token.isEmpty()) {
             token = f.tokenGenerate();
             f.authenEmail("swp391grou5@gmail.com", "duhphxeehayasotx", user.getEmail(), token);
-            Cookie tokenCookie = new Cookie("tokenValue", token);
-            tokenCookie.setMaxAge(60*30);
+            Cookie tokenCookie = new Cookie("tokenValue-" + user.getId(), token);
+            tokenCookie.setMaxAge(60 * 30);
             response.addCookie(tokenCookie);
         } else {
             request.setAttribute("messageErrForSendMail", "Token only send to your email every 30 minutes, Please check your email or wait");

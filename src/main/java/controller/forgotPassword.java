@@ -58,23 +58,19 @@ public class forgotPassword extends HttpServlet {
                 request.setAttribute("captchaMessageErr", messageErr);
             } else {
                 Function f = new Function();
-                UserDAO uc = new UserDAO();
-                
+                User user = ud.getUserbyAccount(account);
                 Cookie[] cookies = request.getCookies();
-                String lastTimeSendMail_raw = null;
-                String patternDateTime = "HH:mm:ss";
                 String token = "";
                 for (Cookie c : cookies) {
-                    if (c.getName().equals("tokenValue")) {
+                    if (c.getName().equals("tokenValue-" + user.getId())) {
                         token = c.getValue();
                     }
                 }
                 if (token.isEmpty()) {
-                    User us = ud.getUserbyAccount(account);
-                    session.setAttribute("user", us);
+                    session.setAttribute("user", user);
                     token = f.tokenGenerate();
-                    f.authenEmail("swp391grou5@gmail.com", "duhphxeehayasotx",us.getEmail(), token);
-                    Cookie tokenCookie = new Cookie("tokenValue", token);
+                    f.authenEmail("swp391grou5@gmail.com", "duhphxeehayasotx",user.getEmail(), token);
+                    Cookie tokenCookie = new Cookie("tokenValue-" + user.getId(), token);
                     tokenCookie.setMaxAge(60 * 30);
                     response.addCookie(tokenCookie);
                 } else {
