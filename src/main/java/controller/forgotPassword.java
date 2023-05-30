@@ -38,7 +38,6 @@ public class forgotPassword extends HttpServlet {
                 success = false;
                 messageErr = "Account does not exist!";
                 request.setAttribute("accountMessageErr", messageErr);
-//              request.setAttribute("message", "do not have account");
                 request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
 
             } else {
@@ -46,7 +45,6 @@ public class forgotPassword extends HttpServlet {
                     success = false;
                     messageErr = "Captcha is not correct!";
                     request.setAttribute("captchaMessageErr", messageErr);
-//                    request.setAttribute("message", "captchaMessageError");
                     request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
 
                 } else {
@@ -81,6 +79,5 @@ public class forgotPassword extends HttpServlet {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
 }
