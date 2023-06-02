@@ -8,6 +8,7 @@ import jakarta.servlet.http.*;
 import model.User;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @WebServlet(name = "ActiveAccount", value = "/activeAccount")
 public class ActiveAccount extends HttpServlet {
@@ -35,11 +36,11 @@ public class ActiveAccount extends HttpServlet {
                     user.setActive(true);
                     UserDAO ud = new UserDAO();
                     ud.update(user, user.getId());
-                    session.removeAttribute("user");
                     session.removeAttribute("captchaValue");
                     tokenCookie.setMaxAge(0);
                     response.addCookie(tokenCookie);
-                    response.sendRedirect("login");
+                    session.setAttribute("user", user);
+                    response.sendRedirect("home");
                 } else {
                     String tokenMessageErr = "Token is not correct! Please check again!";
                     request.setAttribute("tokenMessageErr", tokenMessageErr);
@@ -51,6 +52,9 @@ public class ActiveAccount extends HttpServlet {
                 request.getRequestDispatcher("activeAccount.jsp").forward(request, response);
             }
         } else {
+            tokenCookie.setMaxAge(0);
+            tokenCookie.setValue("");
+            response.addCookie(tokenCookie);
             doPost(request, response);
         }
 
@@ -70,8 +74,15 @@ public class ActiveAccount extends HttpServlet {
         }
         if (token.isEmpty()) {
             token = f.tokenGenerate();
-            f.authenEmail("swp391grou5@gmail.com", "duhphxeehayasotx", user.getEmail(), token);
-            Cookie tokenCookie = new Cookie("tokenValue-" + user.getId(), token);
+            String tokenValue = token;
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    f.authenEmail(user.getEmail(), tokenValue);
+                }
+            };
+            thread.start();
+            Cookie tokenCookie = new Cookie("tokenValue-" + user.getId(), tokenValue);
             tokenCookie.setMaxAge(60 * 30);
             response.addCookie(tokenCookie);
         } else {

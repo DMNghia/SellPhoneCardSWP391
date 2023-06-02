@@ -5,12 +5,12 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Properties;
 
 public class Function {
+
+    private final String FROMEMAIL = "swp391grou5@gmail.com";
+    private final String PASSWORD = "duhphxeehayasotx";
     public String hash(String str) {
         return DigestUtils.sha256Hex(str).toString();
     }
@@ -57,8 +57,6 @@ public class Function {
     }
 
     public void resetPasswordMail(String toEmail, String token) {
-        String fromEmail = "swp391grou5@gmail.com";
-        String password = "duhphxeehayasotx";
         String host = "smtp.gmail.com";
         String port = "587";
 
@@ -70,7 +68,7 @@ public class Function {
 
         Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(fromEmail, password);
+                return new PasswordAuthentication(FROMEMAIL, PASSWORD);
             }
         });
 
@@ -79,7 +77,7 @@ public class Function {
                     "\nLưu ý: Mã xác thực chỉ có hiệu nghiệm trong vòng 30 phút và bạn sẽ chỉ có thể nhận được mail mã xác thực mới sau 30 phút";
 
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(fromEmail));
+            message.setFrom(new InternetAddress(FROMEMAIL));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             message.setSubject("[Thông báo] Mã OPT reset mật khẩu");
             message.setText(content);
@@ -93,7 +91,7 @@ public class Function {
         }
     }
 
-    public void authenEmail(String fromEmail, String password, String toEmail, String token) {
+    public void authenEmail(String toEmail, String token) {
         String host = "smtp.gmail.com";
         String port = "587";
 
@@ -105,7 +103,7 @@ public class Function {
 
         Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(fromEmail, password);
+                return new PasswordAuthentication(FROMEMAIL, PASSWORD);
             }
         });
 
@@ -114,7 +112,7 @@ public class Function {
                     "\nNote: You can only use this token for 30 minutes and during this period you will not be able to receive any more tokens";
 
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(fromEmail));
+            message.setFrom(new InternetAddress(FROMEMAIL));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             message.setSubject("Authentication email");
             message.setText(content);

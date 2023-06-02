@@ -61,8 +61,15 @@ public class forgotPassword extends HttpServlet {
                         if (token.isEmpty()) {
                             session.setAttribute("user", user);
                             token = f.tokenGenerate();
-                            f.resetPasswordMail(user.getEmail(), token);
-                            Cookie tokenCookie = new Cookie("tokenValue-" + user.getId(), token);
+                            String tokenValue = token;
+                            Thread thread = new Thread() {
+                                @Override
+                                public void run() {
+                                    f.resetPasswordMail(user.getEmail(), tokenValue);
+                                }
+                            };
+                            thread.start();
+                            Cookie tokenCookie = new Cookie("tokenValue-" + user.getId(), tokenValue);
                             tokenCookie.setMaxAge(60 * 30);
                             response.addCookie(tokenCookie);
                         } else {

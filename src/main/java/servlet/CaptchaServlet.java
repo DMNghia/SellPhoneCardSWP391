@@ -1,13 +1,5 @@
 package servlet;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Random;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,6 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Random;
 
 @WebServlet("/captcha-servlet")
 public class CaptchaServlet extends HttpServlet {
@@ -30,6 +27,7 @@ public class CaptchaServlet extends HttpServlet {
         response.setDateHeader("Max-Age", 0);
 
         String captcha = generateCaptcha(5);
+        Random random = new Random();
 
         int width = 100, height = 40;
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.OPAQUE);
@@ -39,6 +37,12 @@ public class CaptchaServlet extends HttpServlet {
         graphics.fillRect(0, 0, width, height);
         graphics.setColor(new Color(255, 255, 255));
         graphics.drawString(captcha, 20, 25);
+        graphics.setColor(new Color(248, 25, 25));
+        graphics.drawLine(0, random.nextInt(40), 100, random.nextInt(40));
+        graphics.setColor(new Color(255, 232, 26));
+        graphics.drawLine(0, random.nextInt(40), 100, random.nextInt(40));
+        graphics.setColor(new Color(26, 255, 255));
+        graphics.drawLine(0, random.nextInt(40), 100, random.nextInt(40));
 
         HttpSession session = request.getSession(true);
         session.setAttribute("captchaValue", captcha);
@@ -59,9 +63,9 @@ public class CaptchaServlet extends HttpServlet {
         StringBuffer captchaBuffer = new StringBuffer();
         Random random = new Random();
 
-        while(captchaBuffer.length() < captchaLength) {
+        while (captchaBuffer.length() < captchaLength) {
             int index = (int) (random.nextFloat() * captcha.length());
-            captchaBuffer.append(captcha.substring(index, index+1));
+            captchaBuffer.append(captcha.substring(index, index + 1));
         }
         return captchaBuffer.toString();
     }

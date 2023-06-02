@@ -13,7 +13,7 @@
     <title>Active Account</title>
     <link rel="stylesheet" href="css/register.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <script src="js/activeAccount.js"></script>
 </head>
 <body>
 <div class="root">
@@ -69,8 +69,8 @@
                                         value="confirm">
                                     <i class="fa fa-check"></i> Xác nhận
                                 </button>
-                                <button type="submit"
-                                        style="font-size: 1.2em;cursor: pointer;padding: 5px;" name="option"
+                                <button type="button" id="reSendButton" class="reSendButton"
+                                        style="font-size: 1.2em;padding: 5px;" name="option"
                                         value="sendAgain">
                                     <i class="fa fa-send-o"></i> Gửi lại mã xác nhận
                                 </button>

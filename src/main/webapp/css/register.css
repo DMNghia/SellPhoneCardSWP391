@@ -94,3 +94,11 @@ body {
     margin-bottom: auto;
     margin-top: auto;
 }
+.reSendButton {
+    opacity: 0.3;
+    cursor: none;
+}
+.button-active {
+    opacity: 1;
+    cursor: pointer;
+}
