@@ -96,8 +96,7 @@
             background: #f2f2f2;
         }
 
-        .personal-info input[type="submit"],
-        .password-change input[type="submit"] {
+        button {
             padding: 10px 30px;
             background: linear-gradient(to right, #ff416c, #ff4b2b);
             color: #fff;
@@ -107,8 +106,7 @@
             transition: all 0.3s ease-in-out;
         }
 
-        .personal-info input[type="submit"]:hover,
-        .password-change input[type="submit"]:hover {
+        button {
             transform: translateY(-2px);
             box-shadow: 0 5px 10px rgba(255, 105, 135, 0.6);
             background: linear-gradient(to right, #ff4b2b, #ff416c);
@@ -157,7 +155,7 @@
         <h3>${message}</h3>
         <h2>Thông tin cá nhân</h2>
         <form action="changeProfile" method="post">
-            <label for="customer-id">Account:</label>
+            <label for="customer-id">Tài khoản:</label>
             <input type="text" id="customer-id" name="customer-id" value="${user.getAccount()}" readonly=""><br>
 
             <label for="email">Email:</label>
@@ -166,32 +164,36 @@
             <label for="phone-number">Số điện thoại:</label>
             <input type="text" id="phone-number" name="phone-number" value="${user. getPhoneNumber()}"><br>
 
-            <input type="submit" value="Lưu thay đổi">
+            <button type="submit" name="option" value="changeProfile">
+                Lưu thay đổi
+            </button>
         </form>
     </div>
 
-    <!--  <div class="password-change">
+    <div class="password-change">
         <h2>Đổi mật khẩu</h2>
-        <form action="EditServlet" method="post" enctype="multipart/form-data">
-          <label for="account">Tài khoản:</label>
-          <input type="text" id="account" name="account"><br>
+        <form action="changeProfile" method="post">
+            <label for="account">Tài khoản:</label>
+            <input type="text" id="account" name="account" value="${user.getAccount()}" readonly><br>
 
-          <label for="old-password">Mật khẩu cũ:</label>
-          <input type="password" id="old-password" name="old-password"><br>
+            <label for="old-password">Mật khẩu cũ:</label>
+            <input type="password" id="old-password" name="old-password">
+            <h4 style="color: red">${oldPasswordErr}</h4><br>
 
-          <label for="new-password">Mật khẩu mới:</label>
-          <input type="password" id="new-password" name="new-password"><br>
+            <label for="new-password">Mật khẩu mới:</label>
+            <input type="password" id="new-password" name="new-password"><br>
 
-          <label for="re-type-password">Nhập lại mật khẩu mới:</label>
-          <input type="password" id="re-type-password" name="re-type-password"><br>
+            <label for="re-type-password">Nhập lại mật khẩu mới:</label>
+            <input type="password" id="re-type-password" name="re-type-password">
+            <h4 style="color: red">${rePasswordErr}</h4><br>
 
-          <input type="submit" value="Lưu thay đổi">
+            <button type="submit" name="option" value="changePassword">
+                Lưu thay đổi
+            </button>
         </form>
-      </div>-->
+    </div>
 </div>
 
 
 </body>
 </html>
-
-
