@@ -31,29 +31,18 @@ public class ValidateOtp extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String tokenInput = request.getParameter("otp");
-        String tokenValue = "";
         HttpSession session = request.getSession();
+        String tokenValue = (String) session.getAttribute("optValue");
         User user = (User) session.getAttribute("user");
-        Cookie[] cookies = request.getCookies();
-        Cookie tokenCookie = null;
-        for (Cookie c : cookies) {
-            if (c.getName().equals("tokenValue-" + user.getId())) {
-                tokenValue = c.getValue();
-                tokenCookie = c;
-            }
-        }
 
         RequestDispatcher dispatcher = null;
 
-        if (!tokenInput.isEmpty() && tokenValue.equals(tokenInput)) {
-
+        if (tokenValue != null && !tokenInput.isEmpty() && tokenValue.equals(tokenInput)) {
             request.setAttribute("email", request.getParameter("email"));
             request.setAttribute("status", "success");
-            tokenCookie.setMaxAge(0);
-            response.addCookie(tokenCookie);
+            session.removeAttribute("optValue");
             dispatcher = request.getRequestDispatcher("newPassword.jsp");
             dispatcher.forward(request, response);
-
         } else {
             request.setAttribute("message", "wrong otp");
             dispatcher = request.getRequestDispatcher("EnterOtp.jsp");

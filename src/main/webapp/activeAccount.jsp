@@ -25,7 +25,7 @@
                 </div>
                 <div class="signup-detail">
                     <div class="signup-form">
-                        <form id="form-signup" method="get" action="activeAccount">
+                        <form id="form-signup" method="post" action="activeAccount">
                             <div class="form-row">
                                 <div class="label"><h3>Account</h3></div>
                                 <div class="input-area">

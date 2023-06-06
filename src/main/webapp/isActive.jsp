@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="activeAccount" method="post">
+        <form action="activeAccount" method="get">
             <h1>Tài khoản của bạn chưa được kích hoạt</h1>
             <button type="submit">Kích hoạt tài khoản</button>
         </form>

@@ -62,7 +62,7 @@ public class RegisterController extends HttpServlet {
                 ud.add(newUser);
                 User activeUser = ud.getUser(account, f.hash(password));
                 session.setAttribute("user", activeUser);
-                req.getRequestDispatcher("activeAccount").forward(req, resp);
+                resp.sendRedirect("activeAccount");
             } else {
                 req.setAttribute("account", account);
                 req.setAttribute("password", password);
