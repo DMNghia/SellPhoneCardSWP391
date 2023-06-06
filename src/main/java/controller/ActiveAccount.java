@@ -16,15 +16,7 @@ public class ActiveAccount extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        String tokenValue = "";
-        Cookie[] cookies = request.getCookies();
-        Cookie tokenCookie = null;
-        for (Cookie c : cookies) {
-            if (c.getName().equals("tokenValue-" + user.getId())) {
-                tokenValue = c.getValue();
-                tokenCookie = c;
-            }
-        }
+        String tokenValue = (String) session.getAttribute("optValue");
         String tokenInput = request.getParameter("tokenInput");
         String option = request.getParameter("option");
         String captchaInput = request.getParameter("captchaInput");
@@ -32,13 +24,11 @@ public class ActiveAccount extends HttpServlet {
         if (option.equals("confirm")) {
             if (captchaValue.equals(captchaInput)) {
                 if ((!tokenValue.isEmpty()) && tokenValue.equals(tokenInput)) {
-
                     user.setActive(true);
                     UserDAO ud = new UserDAO();
                     ud.update(user, user.getId());
                     session.removeAttribute("captchaValue");
-                    tokenCookie.setMaxAge(0);
-                    response.addCookie(tokenCookie);
+                    session.removeAttribute("optValue");
                     session.setAttribute("user", user);
                     response.sendRedirect("home");
                 } else {
@@ -52,9 +42,6 @@ public class ActiveAccount extends HttpServlet {
                 request.getRequestDispatcher("activeAccount.jsp").forward(request, response);
             }
         } else {
-            tokenCookie.setMaxAge(0);
-            tokenCookie.setValue("");
-            response.addCookie(tokenCookie);
             doPost(request, response);
         }
 
@@ -65,14 +52,8 @@ public class ActiveAccount extends HttpServlet {
         Function f = new Function();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        Cookie[] cookies = request.getCookies();
-        String token = "";
-        for (Cookie c : cookies) {
-            if (c.getName().equals("tokenValue-" + user.getId())) {
-                token = c.getValue();
-            }
-        }
-        if (token.isEmpty()) {
+        String token = (String) session.getAttribute("optValue");
+        if (token == null || token.isEmpty()) {
             token = f.tokenGenerate();
             String tokenValue = token;
             Thread thread = new Thread() {
@@ -82,9 +63,7 @@ public class ActiveAccount extends HttpServlet {
                 }
             };
             thread.start();
-            Cookie tokenCookie = new Cookie("tokenValue-" + user.getId(), tokenValue);
-            tokenCookie.setMaxAge(60 * 30);
-            response.addCookie(tokenCookie);
+            session.setAttribute("tokenValue", tokenValue);
         } else {
             request.setAttribute("messageErrForSendMail", "Token only send to your email every 30 minutes, Please check your email or wait");
         }

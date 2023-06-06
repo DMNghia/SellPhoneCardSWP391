@@ -51,14 +51,8 @@ public class forgotPassword extends HttpServlet {
                     if (success = true) {
                         Function f = new Function();
                         User user = ud.getUserbyAccount(account);
-                        Cookie[] cookies = request.getCookies();
-                        String token = "";
-                        for (Cookie c : cookies) {
-                            if (c.getName().equals("tokenValue-" + user.getId())) {
-                                token = c.getValue();
-                            }
-                        }
-                        if (token.isEmpty()) {
+                        String token = (String) session.getAttribute("optValue");
+                        if (token == null || token.isEmpty()) {
                             session.setAttribute("user", user);
                             token = f.tokenGenerate();
                             String tokenValue = token;
@@ -69,9 +63,7 @@ public class forgotPassword extends HttpServlet {
                                 }
                             };
                             thread.start();
-                            Cookie tokenCookie = new Cookie("tokenValue-" + user.getId(), tokenValue);
-                            tokenCookie.setMaxAge(60 * 30);
-                            response.addCookie(tokenCookie);
+                            session.setAttribute("optValue", tokenValue);
                         } else {
                             request.setAttribute("messageErrForSendMail", "Token only send to your email every 30 minutes, Please check your email or wait");
                         }
