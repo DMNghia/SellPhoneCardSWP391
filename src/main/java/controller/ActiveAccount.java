@@ -66,7 +66,7 @@ public class ActiveAccount extends HttpServlet {
                 request.getRequestDispatcher("activeAccount.jsp").forward(request, response);
             }
         } else {
-            doPost(request, response);
+            doGet(request, response);
         }
     }
 }

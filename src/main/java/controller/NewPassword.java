@@ -41,15 +41,20 @@ public class NewPassword extends HttpServlet {
         UserDAO ud = new UserDAO();
         Function f = new Function();
         RequestDispatcher dispatcher = null;
-        if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
+        if (user == null) {
+            request.setAttribute("message", "Change reset password fail!");
+            request.setAttribute("isModifyable", false);
+        }
+        if (user != null && newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
             user.setPassword(f.hash(newPassword));
             Timestamp updateTime = Timestamp.valueOf(LocalDateTime.now());
             user.setUpdatedAt(updateTime);
             user.setUpdatedBy(user.getId());
             ud.update(user, user.getId());
+            session.removeAttribute("user");
             response.sendRedirect("login");
         }else{
-            response.sendRedirect("newPassword");
+            request.getRequestDispatcher("newPassword.jsp").forward(request, response);
         }
     }
 

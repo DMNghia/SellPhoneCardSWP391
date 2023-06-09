@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html>
 <head>
@@ -68,16 +69,20 @@
                     </div>
                     <!-- Alternative Login -->
                     <div class="mx-0 px-0 bg-light">
-
                         <!-- Horizontal Line -->
                         <div class="px-4 pt-5">
+                            <h4>${message}</h4>
+                            <c:if test="${!isModifyable}">
+                                <span><a href="forgotPassword">Forgot password</a> </span>
+                                <span><a href="login">Login</a> </span>
+                            </c:if>
                             <hr>
                         </div>
                         <!-- Register Now -->
                         <div class="pt-2">
                             <div class="row justify-content-center">
                                 <h5>
-                                    Don't have an Account?<span><a href="#"
+                                    Don't have an Account?<span><a href="register"
                                                                    class="text-danger"> Register Now!</a></span>
                                 </h5>
                             </div>

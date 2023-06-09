@@ -5,7 +5,6 @@ var x = setInterval(function () {
     var distance = now - beforeDate;
 
     var timeAvailable = 1000 * 30;
-    console.log(distance);
 
     if (distance >= timeAvailable) {
         clearInterval(x);
