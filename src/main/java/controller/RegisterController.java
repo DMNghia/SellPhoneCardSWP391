@@ -1,6 +1,6 @@
 package controller;
 
-import FunctionUtils.Function;
+import functionUtils.Function;
 import dal.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,9 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import model.User;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @WebServlet("/register")

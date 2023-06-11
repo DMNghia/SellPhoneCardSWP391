@@ -1,6 +1,6 @@
 package controller;
 
-import FunctionUtils.Function;
+import functionUtils.Function;
 import dal.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
