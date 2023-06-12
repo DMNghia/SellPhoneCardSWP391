@@ -68,3 +68,7 @@ INSERT INTO supplier (`id`,`name`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`
 INSERT INTO supplier (`id`,`name`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`,`image`) VALUES (2,'Vinaphone',NULL,NULL,0,NULL,NULL,NULL,NULL,'image/vinaphone.png');
 INSERT INTO supplier (`id`,`name`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`,`image`) VALUES (3,'Vietnammobile',NULL,NULL,0,NULL,NULL,NULL,NULL,'image/vietnammobile.png');
 INSERT INTO supplier (`id`,`name`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`,`image`) VALUES (4,'Mobifone',NULL,NULL,0,NULL,NULL,NULL,NULL,'image/mobifone.png');
+
+/*Add admin user*/
+
+INSERT into user(account, password, email, role, isDelete, isActive) VALUE ('sys_admin', 'as@c.$240BE518FABD2724DDB6F04EEB1DA5967448D7E831C08C8FA822809F74C720A9', 'swp391grou5@gmail.com', true, false, true);
