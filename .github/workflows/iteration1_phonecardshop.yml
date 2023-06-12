@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'phonecardshop'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9332DBD502F8418FBF5C75F12B4F061B }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0440C66618EA4FEFB029BA3434D655BD }}
           package: '*.jar'
