@@ -1,4 +1,4 @@
-package FunctionUtils;
+package functionUtils;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
@@ -18,12 +18,12 @@ public class Function {
     }
 
     public String tokenGenerate() {
+        String salt = "as@c.$";
         String result = "";
         for (int i = 0; i < 6; i++) {
             result += (int) (Math.random() * 10) + "";
         }
-
-        return result;
+        return salt + result;
     }
 
     public void send(String fromEmail, String password, String toEmail, String subject, String content) {

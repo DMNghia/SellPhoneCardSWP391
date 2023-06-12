@@ -1,6 +1,6 @@
 package controller;
 
-import FunctionUtils.Function;
+import functionUtils.Function;
 import dal.UserDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
