@@ -1,7 +1,6 @@
 CREATE SCHEMA `sellphonecard`;
 
-USE
-    sellphonecard;
+USE sellphonecard;
 
 create table user
 (
