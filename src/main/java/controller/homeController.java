@@ -21,7 +21,7 @@ import model.Supplier;
  *
  * @author hp
  */
-@WebServlet("/home")
+@WebServlet(name = "HomeController", urlPatterns = {"/", "/home"})
 public class homeController extends HttpServlet {
 
     /**

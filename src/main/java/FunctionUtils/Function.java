@@ -11,14 +11,16 @@ public class Function {
 
     private final String FROMEMAIL = "swp391grou5@gmail.com";
     private final String PASSWORD = "duhphxeehayasotx";
+
     public String hash(String str) {
-        return DigestUtils.sha256Hex(str).toString();
+        String salt = "af.$ac";
+        return salt + DigestUtils.sha256Hex(str).toString();
     }
 
     public String tokenGenerate() {
         String result = "";
         for (int i = 0; i < 6; i++) {
-            result += (int)(Math.random() * 10) + "";
+            result += (int) (Math.random() * 10) + "";
         }
 
         return result;
@@ -125,5 +127,5 @@ public class Function {
             System.out.println(e.getMessage());
         }
     }
-    
+
 }
