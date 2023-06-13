@@ -1,7 +1,6 @@
 CREATE SCHEMA `sellphonecard`;
 
-USE
-sellphonecard;
+USE sellphonecard;
 
 create table user
 (
@@ -9,7 +8,7 @@ create table user
     account     varchar(255) not null,
     password    varchar(255) not null,
     email       varchar(255) not null,
-    role        int,
+    isAdmin     boolean,
     phoneNumber varchar(255),
     isDelete    boolean,
     isActive    boolean,
@@ -22,53 +21,87 @@ create table user
     primary key (id)
 );
 
-create table Product(
-                        id int not null AUTO_INCREMENT,
-                        name varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT null,
-                        quantity int ,
-                        price double,
-                        supplier int,
-                        createdAt datetime,
-                        createdBy int ,
-                        isDelete boolean,
-                        deletedAt datetime,
-                        deletedBy int,
-                        updatedAt datetime,
-                        updatedBy int,
-                        primary key(id)
+create table Product
+(
+    id        int not null AUTO_INCREMENT,
+    name      varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT null,
+    quantity  int,
+    price     double,
+    supplier  int,
+    createdAt datetime,
+    createdBy int,
+    isDelete  boolean,
+    deletedAt datetime,
+    deletedBy int,
+    updatedAt datetime,
+    updatedBy int,
+    primary key (id)
 );
 
-create table Supplier(
-                         id int not null AUTO_INCREMENT,
-                         name varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT null,
-                         createdAt datetime,
-                         createdBy int ,
-                         isDelete boolean,
-                         deletedAt datetime,
-                         deletedBy int,
-                         updatedAt datetime,
-                         updatedBy int,
-                         primary key(id)
+create table Supplier
+(
+    id        int not null AUTO_INCREMENT,
+    name      varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT null,
+    createdAt datetime,
+    createdBy int,
+    isDelete  boolean,
+    deletedAt datetime,
+    deletedBy int,
+    updatedAt datetime,
+    updatedBy int,
+    primary key (id)
 );
 
-alter table Supplier add image varchar(255);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (1,'Thẻ Viettel 30.000',10,30000,1,NULL,NULL,0,NULL,NULL,NULL,NULL);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (2,'Thẻ Vinaphone 20.000',5,20000,2,NULL,NULL,0,NULL,NULL,NULL,NULL);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (3,'Thẻ Vietnammoblie 50.000',15,50000,3,NULL,NULL,0,NULL,NULL,NULL,NULL);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (4,'Thẻ Mobifone 100.000',10,100000,4,NULL,NULL,0,NULL,NULL,NULL,NULL);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (5,'Thẻ Viettel 200.000',15,200000,1,NULL,NULL,0,NULL,NULL,NULL,NULL);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (6,'Thẻ Vinaphone 500.000',10,500000,2,NULL,NULL,0,NULL,NULL,NULL,NULL);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (7,'Thẻ Mobifone 20.000',5,20000,4,NULL,NULL,0,NULL,NULL,NULL,NULL);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (8,'Thẻ Viettel 100.000',20,100000,1,NULL,NULL,0,NULL,NULL,NULL,NULL);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (9,'Thẻ Vietnammobile 20.000',5,20000,3,NULL,NULL,0,NULL,NULL,NULL,NULL);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (10,'Thẻ Vinaphone 100.000',20,100000,2,NULL,NULL,0,NULL,NULL,NULL,NULL);
-INSERT INTO product (`id`,`name`,`quantity`,`price`,`supplier`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`) VALUES (11,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL);
+alter table Supplier
+    add image varchar(255);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (1, 'Thẻ Viettel 30.000', 10, 30000, 1, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (2, 'Thẻ Vinaphone 20.000', 5, 20000, 2, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (3, 'Thẻ Vietnammoblie 50.000', 15, 50000, 3, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (4, 'Thẻ Mobifone 100.000', 10, 100000, 4, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (5, 'Thẻ Viettel 200.000', 15, 200000, 1, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (6, 'Thẻ Vinaphone 500.000', 10, 500000, 2, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (7, 'Thẻ Mobifone 20.000', 5, 20000, 4, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (8, 'Thẻ Viettel 100.000', 20, 100000, 1, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (9, 'Thẻ Vietnammobile 20.000', 5, 20000, 3, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (10, 'Thẻ Vinaphone 100.000', 20, 100000, 2, NULL, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
+                     `deletedBy`, `updatedAt`, `updatedBy`)
+VALUES (11, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL);
 
-INSERT INTO supplier (`id`,`name`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`,`image`) VALUES (1,'Viettel',NULL,NULL,0,NULL,NULL,NULL,NULL,'image/viettel.png');
-INSERT INTO supplier (`id`,`name`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`,`image`) VALUES (2,'Vinaphone',NULL,NULL,0,NULL,NULL,NULL,NULL,'image/vinaphone.png');
-INSERT INTO supplier (`id`,`name`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`,`image`) VALUES (3,'Vietnammobile',NULL,NULL,0,NULL,NULL,NULL,NULL,'image/vietnammobile.png');
-INSERT INTO supplier (`id`,`name`,`createdAt`,`createdBy`,`isDelete`,`deletedAt`,`deletedBy`,`updatedAt`,`updatedBy`,`image`) VALUES (4,'Mobifone',NULL,NULL,0,NULL,NULL,NULL,NULL,'image/mobifone.png');
+INSERT INTO supplier (`id`, `name`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`, `deletedBy`, `updatedAt`,
+                      `updatedBy`, `image`)
+VALUES (1, 'Viettel', NULL, NULL, 0, NULL, NULL, NULL, NULL, 'image/viettel.png');
+INSERT INTO supplier (`id`, `name`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`, `deletedBy`, `updatedAt`,
+                      `updatedBy`, `image`)
+VALUES (2, 'Vinaphone', NULL, NULL, 0, NULL, NULL, NULL, NULL, 'image/vinaphone.png');
+INSERT INTO supplier (`id`, `name`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`, `deletedBy`, `updatedAt`,
+                      `updatedBy`, `image`)
+VALUES (3, 'Vietnammobile', NULL, NULL, 0, NULL, NULL, NULL, NULL, 'image/vietnammobile.png');
+INSERT INTO supplier (`id`, `name`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`, `deletedBy`, `updatedAt`,
+                      `updatedBy`, `image`)
+VALUES (4, 'Mobifone', NULL, NULL, 0, NULL, NULL, NULL, NULL, 'image/mobifone.png');
 
-/*Add admin user*/
-
-INSERT into user(account, password, email, role, isDelete, isActive) VALUE ('sys_admin', 'as@c.$240BE518FABD2724DDB6F04EEB1DA5967448D7E831C08C8FA822809F74C720A9', 'swp391grou5@gmail.com', true, false, true);
+INSERT INTO user (account, password, email, isAdmin, isDelete, isActive) value ('sys_admin',
+                                                                                'af.$ac240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
+                                                                                'swp391grou5@gmail.com', true, false,
+                                                                                true)

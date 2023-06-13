@@ -44,7 +44,7 @@
                                 <div class="input-area" style="display: flex">
                                     <img style="height: 40px;background-image: url('images/backgroundCaptcha.png')"
                                          id="captchaImg"
-                                         src="/SellPhoneCard/captcha-servlet">
+                                         src="/captcha-servlet">
                                     <div class="captcha-div">
                                         <div style="display: block">
                                             <input id="captcha-input"

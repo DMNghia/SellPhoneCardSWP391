@@ -85,7 +85,6 @@ public class LoginController extends HttpServlet {
         UserDAO ud = new UserDAO();
         Function f = new Function();
         String error = "";
-        System.out.println(f.hash(password));
         if (!ud.checkUser(account, f.hash(password))) {
             error = "Sai thông tin đăng nhập";
             request.setAttribute("account", account);

@@ -1,5 +1,5 @@
 function refreshCaptcha() {
-    fetch('/SellPhoneCard/captcha-servlet', {
+    fetch('/captcha-servlet', {
         method: 'POST'
     })
         .then(Response => Response.blob())
