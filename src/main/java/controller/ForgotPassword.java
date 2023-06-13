@@ -14,7 +14,7 @@ import java.io.IOException;
  * Servlet implementation class ForgotPassword
  */
 @WebServlet("/forgotPassword")
-public class forgotPassword extends HttpServlet {
+public class ForgotPassword extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("forgotPassword.jsp");
