@@ -21,7 +21,7 @@ public class SupplierDAO extends DBContext {
     public ArrayList<Supplier> getListSupplier() {
         ArrayList<Supplier> list = new ArrayList<>();
         try {
-            String strSelect = "select image,isDelete,id from Supplier ";
+            String strSelect = "select image,isDelete,id from supplier ";
             PreparedStatement ps = connection.prepareStatement(strSelect);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

@@ -137,8 +137,8 @@
                     <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
                         <ul>
-                            <li><a href="/SellPhoneCard/changeProfile">Thông tin người dùng</a></li>
-                            <li><a href="/SellPhoneCard/logout">Đăng xuất</a></li>
+                            <li><a href="changeProfile">Thông tin người dùng</a></li>
+                            <li><a href="logout">Đăng xuất</a></li>
                         </ul>
                     </li>
                 </ul>

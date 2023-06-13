@@ -32,18 +32,19 @@ public class CaptchaServlet extends HttpServlet {
         int width = 100, height = 40;
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.OPAQUE);
         Graphics graphics = bufferedImage.createGraphics();
-        graphics.setFont(new Font("Arial", Font.BOLD, 24));
-        graphics.setColor(new Color(169, 169, 169));
+        graphics.setFont(new Font("Arial", Font.BOLD, 25));
+        graphics.setColor(new Color(234, 174, 32));
         graphics.fillRect(0, 0, width, height);
-        graphics.setColor(new Color(255, 255, 255));
-        graphics.drawString(captcha, 20, 25);
         graphics.setColor(new Color(248, 25, 25));
-        graphics.drawLine(0, random.nextInt(40), 100, random.nextInt(40));
-        graphics.setColor(new Color(255, 232, 26));
-        graphics.drawLine(0, random.nextInt(40), 100, random.nextInt(40));
-        graphics.setColor(new Color(26, 255, 255));
-        graphics.drawLine(0, random.nextInt(40), 100, random.nextInt(40));
-
+        graphics.drawString(captcha, 10, 25);
+        for (int i = 0; i < 3; i++) {
+            graphics.setColor(new Color(248, 25, 25));
+            graphics.drawLine(0, random.nextInt(40), 100, random.nextInt(40));
+            graphics.setColor(new Color(255, 232, 26));
+            graphics.drawLine(0, random.nextInt(40), 100, random.nextInt(40));
+            graphics.setColor(new Color(26, 255, 255));
+            graphics.drawLine(0, random.nextInt(40), 100, random.nextInt(40));
+        }
         HttpSession session = request.getSession(true);
         session.setAttribute("captchaValue", captcha);
 

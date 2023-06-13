@@ -18,12 +18,11 @@ public class Function {
     }
 
     public String tokenGenerate() {
-        String salt = "as@c.$";
         String result = "";
         for (int i = 0; i < 6; i++) {
             result += (int) (Math.random() * 10) + "";
         }
-        return salt + result;
+        return result;
     }
 
     public void send(String fromEmail, String password, String toEmail, String subject, String content) {
@@ -75,8 +74,7 @@ public class Function {
         });
 
         try {
-            String content = "Bạn đang thực hiện việc reset mật khẩu. Đây là mã xác thực: " + token +
-                    "\nLưu ý: Mã xác thực chỉ có hiệu nghiệm trong vòng 30 phút và bạn sẽ chỉ có thể nhận được mail mã xác thực mới sau 30 phút";
+            String content = "Bạn đang thực hiện việc reset mật khẩu. Đây là mã xác thực: " + token;
 
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(FROMEMAIL));
@@ -110,8 +108,7 @@ public class Function {
         });
 
         try {
-            String content = "Thank you for sign up our website. Below is your token to authenticate email:\nToken: " + token +
-                    "\nNote: You can only use this token for 30 minutes and during this period you will not be able to receive any more tokens";
+            String content = "Cảm ơn bạn đã đăng ký website của chúng tôi để kích hoạt tài khoản và sử dụng vui lòng nhập mã xác thực dưới đây:\nToken: " + token;
 
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(FROMEMAIL));

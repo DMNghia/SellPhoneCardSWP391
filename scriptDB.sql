@@ -8,7 +8,7 @@ create table user
     account     varchar(255) not null,
     password    varchar(255) not null,
     email       varchar(255) not null,
-    isAdmin     boolean,
+    role        int,
     phoneNumber varchar(255),
     isDelete    boolean,
     isActive    boolean,
@@ -21,7 +21,7 @@ create table user
     primary key (id)
 );
 
-create table Product
+create table product
 (
     id        int not null AUTO_INCREMENT,
     name      varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT null,
@@ -38,7 +38,7 @@ create table Product
     primary key (id)
 );
 
-create table Supplier
+create table supplier
 (
     id        int not null AUTO_INCREMENT,
     name      varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT null,
@@ -52,7 +52,7 @@ create table Supplier
     primary key (id)
 );
 
-alter table Supplier
+alter table supplier
     add image varchar(255);
 INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
                      `deletedBy`, `updatedAt`, `updatedBy`)
@@ -101,7 +101,7 @@ INSERT INTO supplier (`id`, `name`, `createdAt`, `createdBy`, `isDelete`, `delet
                       `updatedBy`, `image`)
 VALUES (4, 'Mobifone', NULL, NULL, 0, NULL, NULL, NULL, NULL, 'image/mobifone.png');
 
-INSERT INTO user (account, password, email, isAdmin, isDelete, isActive) value ('sys_admin',
+INSERT INTO user (account, password, email, role, isDelete, isActive) value ('sys_admin',
                                                                                 'af.$ac240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
-                                                                                'swp391grou5@gmail.com', true, false,
+                                                                                'swp391grou5@gmail.com', 1, false,
                                                                                 true)
