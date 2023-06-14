@@ -6,19 +6,21 @@ package controller;
 
 import dal.ProductDAO;
 import dal.SupplierDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Product;
 import model.Supplier;
 
 /**
- *
  * @author hp
  */
 @WebServlet(name = "HomeController", urlPatterns = {"", "/home"})
@@ -28,20 +30,20 @@ public class HomeController extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet homeController</title>");            
+            out.println("<title>Servlet homeController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet homeController at " + request.getContextPath() + "</h1>");
@@ -51,13 +53,14 @@ public class HomeController extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -65,25 +68,31 @@ public class HomeController extends HttpServlet {
         ArrayList<Supplier> list = new ArrayList<>();
         list = (new SupplierDAO()).getListSupplier();
         int id = 0;
-        if(request.getParameter("id")!=null){
+        if (request.getParameter("id") != null) {
             id = Integer.parseInt(request.getParameter("id"));
         }
-        
+
         ArrayList<Product> listP = new ArrayList<>();
         listP = (new ProductDAO()).getListPrice(id);
-        
+
         request.setAttribute("priceList", listP);
         request.setAttribute("imgList", list);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        boolean isAdmin = (boolean) session.getAttribute("isAdmin");
+        if (isAdmin) {
+            request.getRequestDispatcher("admin/home.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("home.jsp").forward(request, response);
+        }
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
