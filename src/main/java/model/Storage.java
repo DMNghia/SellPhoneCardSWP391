@@ -18,9 +18,11 @@ public class Storage {
     private int productId;
     private boolean isUsed;
     private Timestamp createdAt;
-    private int createdBy;
+    private User createdBy;
     private Timestamp updatedAt;
-    private int updatedBy;
+    private User updatedBy;
     private Timestamp deletedAt;
-    private int deletedBy;
+    private User deletedBy;
+
+    private Product product;
 }

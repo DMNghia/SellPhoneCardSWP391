@@ -4,8 +4,8 @@
  */
 package controller;
 
-import functionUtils.Function;
 import dal.UserDAO;
+import functionUtils.Function;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -66,7 +66,15 @@ public class ChangeProfileController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
+        boolean isAdmin = false;
+        if (session.getAttribute("isAdmin") != null) {
+            isAdmin = (boolean) session.getAttribute("isAdmin");
+        }
+        if (isAdmin) {
+            request.getRequestDispatcher("admin/user.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+        }
     }
 
     /**

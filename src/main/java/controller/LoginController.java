@@ -104,6 +104,8 @@ public class LoginController extends HttpServlet {
             }
             if (user.getRole() == 1) {
                 session.setAttribute("isAdmin", true);
+            } else {
+                session.setAttribute("isAdmin", false);
             }
             session.setAttribute("user", user);
             response.sendRedirect("home");

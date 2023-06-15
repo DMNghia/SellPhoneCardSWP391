@@ -17,6 +17,8 @@ import model.Product;
  * @author hp
  */
 public class ProductDAO extends DBContext {
+    private UserDAO userDAO = new UserDAO();
+    private SupplierDAO supplierDAO = new SupplierDAO();
 
     public ArrayList<Product> getListPrice(int id) {
         ArrayList<Product> list = new ArrayList<>();
@@ -26,11 +28,32 @@ public class ProductDAO extends DBContext {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {                
-                double price = rs.getDouble(4);
-                list.add(new Product(price));
+                list.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getDouble("price"),
+                        supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")),
+                        rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getListPrice: " + e.getMessage());
         }return list;
+    }
+
+    public Product findProductById(int id) {
+        Product product = new Product();
+        try {
+            String str = "select * from product where id = ?";
+            PreparedStatement ps = connection.prepareStatement(str);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getDouble("price"),
+                        supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")),
+                        rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy")));
+            }
+        } catch (SQLException e) {
+            System.out.println("findProductById: " + e.getMessage());
+        }
+        return product;
     }
 }

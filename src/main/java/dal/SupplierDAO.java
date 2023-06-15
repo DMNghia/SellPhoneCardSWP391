@@ -18,6 +18,24 @@ import model.Supplier;
  */
 public class SupplierDAO extends DBContext {
 
+    public Supplier getSuppierById(int id) {
+        UserDAO userDAO = new UserDAO();
+        try {
+            String strSelect = "select * from supplier";
+            PreparedStatement ps = connection.prepareStatement(strSelect);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Supplier(rs.getInt("id"), rs.getString("name"), rs.getTimestamp("createdAt"),
+                        rs.getTimestamp("deletedAt"), rs.getTimestamp("updatedAt"), rs.getBoolean("isDelete"),
+                        rs.getString("image"),  userDAO.getUserById(rs.getInt("createdBy")),
+                        userDAO.getUserById(rs.getInt("deletedBy")), userDAO.getUserById(rs.getInt("createdBy")));
+            }
+        } catch (SQLException e) {
+            System.out.println("getSuppierById: " + e.getMessage());
+        }
+        return null;
+    }
+
     public ArrayList<Supplier> getListSupplier() {
         ArrayList<Supplier> list = new ArrayList<>();
         try {
