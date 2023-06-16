@@ -17,7 +17,7 @@ public class Product {
     private int id;
     private String name;
     private int quantity;
-    private double price;
+    private int price;
     private Supplier supplier;
     private Timestamp createdAt;
     private User createdBy;
@@ -27,7 +27,7 @@ public class Product {
     private Timestamp updatedAt;
     private User updatedBy;
 
-    public Product(double price) {
+    public Product(int price) {
 
         this.price = price;
     }

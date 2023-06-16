@@ -38,20 +38,109 @@ The above copyright notice and this permission notice shall be included in all c
     <!-- CSS Just for demo purpose, don't include it in your project -->
 
     <link href="${pageContext.request.contextPath}/admin/assets/css/demo.css" rel="stylesheet"/>
+    <style>
+        #updateDiv {
+            display: none;
+            position: fixed;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ebc8fa;
+            padding: 20px;
+            transition: top 0.3s;
+            z-index: 9999;
+            border-radius: 10px;
+            box-shadow: #464646 0 0 7px;
+        }
+        #deleteDiv{
+            display: none;
+            position: fixed;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ebc8fa;
+            padding: 20px;
+            transition: top 0.3s;
+            z-index: 9999;
+            border-radius: 10px;
+            box-shadow: #464646 0 0 7px;
+        }
+
+    </style>
 </head>
 
 <body>
+<div class="row col-6 text-center" id="deleteDiv">
+    <h4 style="text-align: center"><b>Bạn có chắc muốn xóa chứ</b></h4>
+    <form action="storage" method="post">
+        <input name="id" id="idInputDeleteDiv" class="d-none">
+        <input name="page" value='${request.getParameter("page")}' class="d-none">
+        <button class="btn" type="submit" name="option" value="delete" style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
+            Xóa
+        </button>
+        <button type="button" class="btn" id="closeButtonDelete" style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+            Hủy
+        </button>
+    </form>
+</div>
+<div class="row col-6" id="updateDiv">
+    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeButton"
+            style="cursor: pointer">
+        <i class="nc-icon nc-simple-remove"></i>
+    </button>
+    <form action="storage" method="post" class="">
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <input name="page" value='${param.page}' class="d-none">
+                    <label>Id</label>
+                    <input type="text" class="form-control" id="idInputUpdateDiv"
+                           readonly name="id">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Số seri</label>
+                    <input type="text" class="form-control" id="seriInputUpdateDiv"
+                           name="seri">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Số thẻ</label>
+                    <input type="text" class="form-control" id="cardNumberInputUpdateDiv"
+                           name="cardNumber">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Hạn sử dụng</label>
+                    <input type="text" class="form-control" id="expiredAtInputUpdateDiv"
+                           name="expiredAt">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="option" value="update" class="btn pr-1"
+                    style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+                Cập nhật
+            </button>
+        </div>
+    </form>
+</div>
 <div class="wrapper">
     <div class="sidebar" data-image="${pageContext.request.contextPath}/admin/assets/img/sidebar-5.jpg">
-        <!--
-    Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
-
-    Tip 2: you can also add an image using data-image tag
--->
+        -->
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
-                    Creative Tim
+                <a href="home" class="simple-text">
+                    SWP391 GROUP5
                 </a>
             </div>
             <ul class="nav">
@@ -202,6 +291,19 @@ The above copyright notice and this permission notice shall be included in all c
                                             <td>${storage.getProduct().getPrice()}</td>
                                             <td>${storage.getCreatedAt()}</td>
                                             <td>${storage.getCreatedBy().getAccount()}</td>
+                                            <td>
+                                                <button class="btn"
+                                                        style="background-color: #01b901;color: #ffffff;cursor: pointer;"
+                                                        onclick='showUpdateDiv(JSON.stringify(${storage.toJson()}))'>Thông tin
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button class="btn"
+                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"
+                                                        onclick="showDeleteAlert(${storage.getId()})">
+                                                    Xóa
+                                                </button>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -236,11 +338,102 @@ The above copyright notice and this permission notice shall be included in all c
         </footer>
     </div>
 </div>
-
+<!--   Core JS Files   -->
+<script src="${pageContext.request.contextPath}/admin/assets/js/core/jquery.3.2.1.min.js"
+        type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/admin/assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-switch.js"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-notify.js"></script>
+<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
+<script src="${pageContext.request.contextPath}/admin/assets/js/light-bootstrap-dashboard.js?v=2.0.0 "
+        type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/admin/assets/js/demo.js"></script>
+<c:if test="${message != null}">
+    <script type="text/javascript">
+        setTimeout(demo.showNotify("${message}"), 100);
+    </script>
+</c:if>
 </body>
 
 
 <script type="text/javascript">
+
+    function showDeleteAlert(id) {
+        const div = document.getElementById("deleteDiv");
+        const closeButton = document.getElementById("closeButtonDelete");
+        document.getElementById("idInputDeleteDiv").value = id;
+        const body = document.querySelector(".wrapper");
+
+        if (div.style.top === "-100%") {
+            div.style.display = "block";
+            body.style.overflow = "hidden"; // Prevent scrolling while the div is open
+            setTimeout(function () {
+                div.style.top = "0";
+                body.classList.add("blur"); // Add class to blur the background
+            }, 10);
+        } else {
+            div.style.top = "-100%";
+            setTimeout(function () {
+                div.style.display = "none";
+                body.style.overflow = ""; // Re-enable scrolling when the div is closed
+                body.classList.remove("blur"); // Remove class to remove the background blur
+            }, 500);
+        }
+
+        closeButton.addEventListener("click", function () {
+            div.style.top = "-100%";
+            setTimeout(function () {
+                div.style.display = "none";
+                body.style.overflow = ""; // Re-enable scrolling when the div is closed
+                body.classList.remove("blur"); // Remove class to remove the background blur
+            }, 500);
+        });
+    }
+
+    function showUpdateDiv(storage) {
+        console.log(storage);
+        const div = document.getElementById("updateDiv");
+        const closeButton = document.getElementById("closeButton");
+        const body = document.querySelector(".wrapper");
+        var json = JSON.parse(storage);
+        document.getElementById("idInputUpdateDiv").value = json.id;
+        document.getElementById("seriInputUpdateDiv").value = json.serialNumber;
+        document.getElementById("cardNumberInputUpdateDiv").value = json.cardNumber;
+        document.getElementById("expiredAtInputUpdateDiv").value = json.expiredAt;
+
+        if (div.style.top === "-100%") {
+            div.style.display = "block";
+            body.style.overflow = "hidden"; // Prevent scrolling while the div is open
+            setTimeout(function () {
+                div.style.top = "0";
+                body.classList.add("blur"); // Add class to blur the background
+            }, 10);
+        } else {
+            div.style.top = "-100%";
+            setTimeout(function () {
+                div.style.display = "none";
+                body.style.overflow = ""; // Re-enable scrolling when the div is closed
+                body.classList.remove("blur"); // Remove class to remove the background blur
+            }, 500);
+        }
+
+        closeButton.addEventListener("click", function () {
+            div.style.top = "-100%";
+            setTimeout(function () {
+                div.style.display = "none";
+                body.style.overflow = ""; // Re-enable scrolling when the div is closed
+                body.classList.remove("blur"); // Remove class to remove the background blur
+            }, 500);
+        });
+    }
+
     let pages = ${totalPageNumbers};
 
     document.getElementById('pagination').innerHTML = createPagination(pages, ${pageNumber});
@@ -258,7 +451,7 @@ The above copyright notice and this permission notice shall be included in all c
         if (pages < 6) {
             for (let p = 1; p <= pages; p++) {
                 active = page == p ? "active" : "";
-                str += '<li onclick="createPagination(pages, ' + p + ')" class="page__numbers ' + active + '"><a href="storage?page=' + p + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' +p +'</span></a></li>';
+                str += '<li onclick="createPagination(pages, ' + p + ')" class="page__numbers ' + active + '"><a href="storage?page=' + p + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + p + '</span></a></li>';
             }
         }
         // Use "..." to collapse pages outside of a certain range
@@ -315,25 +508,4 @@ The above copyright notice and this permission notice shall be included in all c
     }
 
 </script>
-
-<script src="${pageContext.request.contextPath}/admin/assets/js/app.js" type="text/javascript"/>
-<!--   Core JS Files   -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/jquery.3.2.1.min.js"
-        type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/popper.min.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js" type="text/javascript"></script>
-<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-switch.js"></script>
-<!--  Google Maps Plugin    -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-<!--  Chartist Plugin  -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/chartist.min.js"></script>
-<!--  Notifications Plugin    -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-notify.js"></script>
-<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/light-bootstrap-dashboard.js?v=2.0.0 "
-        type="text/javascript"></script>
-<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/demo.js"></script>
-
 </html>

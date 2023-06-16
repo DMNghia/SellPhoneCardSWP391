@@ -95,6 +95,7 @@ public class ChangeProfileController extends HttpServlet {
         String newPassword = request.getParameter("new-password");
         String rePassword = request.getParameter("re-type-password");
         String option = request.getParameter("option");
+        boolean isAdmin = false;
         UserDAO ud = new UserDAO();
         Function f = new Function();
         if (option.equals("changePassword")) {
@@ -105,6 +106,7 @@ public class ChangeProfileController extends HttpServlet {
                     user.setUpdatedBy(user.getId());
                     ud.update(user, user.getId());
                     session.setAttribute("user", user);
+                    request.setAttribute("message", "Cập nhật thành công!");
                 } else {
                     String rePasswordErr = "Mật khẩu không trùng khớp";
                     request.setAttribute("rePasswordErr", rePasswordErr);
@@ -120,8 +122,12 @@ public class ChangeProfileController extends HttpServlet {
             ud.update(user, user.getId());
             session.setAttribute("user", user);
         }
-        request.setAttribute("message", "Cập nhật thành công!");
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
+        if (session.getAttribute("isAdmin") != null) {
+            isAdmin = (boolean) session.getAttribute("isAdmin");
+            request.getRequestDispatcher("admin/user.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+        }
     }
 
     /**

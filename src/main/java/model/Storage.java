@@ -1,6 +1,7 @@
 package model;
 
 import lombok.*;
+import org.json.JSONObject;
 
 import java.sql.Timestamp;
 
@@ -15,8 +16,9 @@ public class Storage {
     private String serialNumber;
     private String cardNumber;
     private Timestamp expiredAt;
-    private int productId;
+    private Product product;
     private boolean isUsed;
+    private boolean isDelete;
     private Timestamp createdAt;
     private User createdBy;
     private Timestamp updatedAt;
@@ -24,5 +26,13 @@ public class Storage {
     private Timestamp deletedAt;
     private User deletedBy;
 
-    private Product product;
+    public String toJson() {
+        JSONObject json = new JSONObject();
+        json.put("id", id);
+        json.put("serialNumber", serialNumber);
+        json.put("cardNumber", cardNumber);
+        json.put("expiredAt", expiredAt);
+
+        return json.toString();
+    }
 }

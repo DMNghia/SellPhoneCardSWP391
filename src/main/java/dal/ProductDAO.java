@@ -28,7 +28,7 @@ public class ProductDAO extends DBContext {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {                
-                list.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getDouble("price"),
+                list.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getInt("price"),
                         supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")),
                         rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")),
                         rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy"))));
@@ -46,7 +46,7 @@ public class ProductDAO extends DBContext {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getDouble("price"),
+                return new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getInt("price"),
                         supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")),
                         rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")),
                         rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy")));
