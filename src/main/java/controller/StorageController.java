@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Product;
 import model.Storage;
 import model.User;
 
@@ -20,25 +21,57 @@ public class StorageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        boolean isAdmin = (boolean) session.getAttribute("isAdmin");
+        boolean isAdmin = false;
+        if (session.getAttribute("isAdmin") != null) {
+            isAdmin = (boolean) session.getAttribute("isAdmin");
+        } else {
+            response.sendRedirect("login");
+        }
         StorageDAO storageDAO = new StorageDAO();
-        String page = request.getParameter("page");
+        String page_raw = request.getParameter("page");
+        String supplier_raw = request.getParameter("supplier");
+        String price_raw = request.getParameter("price");
+        String search_raw = request.getParameter("search");
         if (isAdmin) {
+            List<Product> listProduct = storageDAO.getListDistinctProduct();
             Long totalStorage = storageDAO.getTotalStorage();
-            double totalPages = (double) totalStorage/10;
-            if (page == null) {
-                List<Storage> list = storageDAO.getListStorageForPage(0);
+            double totalPages = (double) totalStorage / 10;
+            List<Storage> list;
+            if (page_raw == null) {
+                list = storageDAO.getListStorageForPage(0);
                 request.setAttribute("listStorage", list);
                 request.setAttribute("totalPageNumbers", Math.ceil(totalPages));
                 request.setAttribute("pageNumber", 1);
-                request.getRequestDispatcher("admin/storage.jsp").forward(request, response);
+                request.setAttribute("listProduct", listProduct);
             } else {
-                List<Storage> list = storageDAO.getListStorageForPage((Integer.parseInt(page) * 10) - 10);
+                list = storageDAO.getListStorageForPage((Integer.parseInt(page_raw) * 10) - 10);
                 request.setAttribute("totalPageNumbers", Math.ceil(totalPages));
                 request.setAttribute("listStorage", list);
-                request.setAttribute("pageNumber", page);
-                request.getRequestDispatcher("admin/storage.jsp").forward(request, response);
+                request.setAttribute("pageNumber", page_raw);
+                request.setAttribute("listProduct", listProduct);
             }
+            if (search_raw != null || price_raw != null || supplier_raw != null) {
+                int price = -1;
+                int productId = -1;
+                String search = "%";
+                if (search_raw != null && !search_raw.isEmpty()) {
+                    search += (search_raw + "%");
+                }
+                if (price_raw != null && !price_raw.equals("all")) {
+                    price = Integer.parseInt(price_raw);
+                    totalPages = (double) totalStorage / 10;
+                }
+                if (supplier_raw != null && !supplier_raw.equals("all")) {
+                    productId = Integer.parseInt(supplier_raw);
+                }
+                list = storageDAO.searchStorage(price, productId, search);
+                totalStorage = (long) list.size();
+                totalPages = (double) totalStorage / 10;
+                request.setAttribute("pageNumber", 1);
+                request.setAttribute("listStorage", list);
+                request.setAttribute("totalPageNumbers", Math.ceil(totalPages));
+            }
+            request.getRequestDispatcher("admin/storage.jsp").forward(request, response);
         } else {
             response.sendRedirect("logout");
         }
@@ -92,7 +125,7 @@ public class StorageController extends HttpServlet {
             }
         }
         Long totalStorage = storageDAO.getTotalStorage();
-        double totalPages = (double) totalStorage/10;
+        double totalPages = (double) totalStorage / 10;
         if (page == null || page.isEmpty()) {
             List<Storage> list = storageDAO.getListStorageForPage(0);
             request.setAttribute("listStorage", list);

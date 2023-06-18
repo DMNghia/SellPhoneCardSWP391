@@ -306,8 +306,6 @@ The above copyright notice and this permission notice shall be included in all c
         </footer>
     </div>
 </div>
-
-</body>
 <!--   Core JS Files   -->
 <script src="${pageContext.request.contextPath}/admin/assets/js/core/jquery.3.2.1.min.js"
         type="text/javascript"></script>
@@ -332,4 +330,6 @@ The above copyright notice and this permission notice shall be included in all c
         setTimeout(demo.showNotify("${message}"), 100);
     </script>
 </c:if>
+</body>
+
 </html>

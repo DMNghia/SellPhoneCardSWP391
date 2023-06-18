@@ -21,8 +21,9 @@ public class SupplierDAO extends DBContext {
     public Supplier getSuppierById(int id) {
         UserDAO userDAO = new UserDAO();
         try {
-            String strSelect = "select * from supplier";
+            String strSelect = "select * from supplier where id =?";
             PreparedStatement ps = connection.prepareStatement(strSelect);
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Supplier(rs.getInt("id"), rs.getString("name"), rs.getTimestamp("createdAt"),

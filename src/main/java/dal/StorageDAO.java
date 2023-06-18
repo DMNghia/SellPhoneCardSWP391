@@ -1,5 +1,6 @@
 package dal;
 
+import model.Product;
 import model.Storage;
 
 import java.sql.PreparedStatement;
@@ -12,6 +13,53 @@ public class StorageDAO extends DBContext {
 
     private UserDAO userDAO = new UserDAO();
     private ProductDAO productDAO = new ProductDAO();
+
+    public List<Storage> searchStorage(int price, int productId, String search) {
+        List<Storage> list = new ArrayList<>();
+        try {
+            String query = "select s.* from storage s " +
+                    "left join product p on s.productId = p.id " +
+                    "where price" + (price > -1 ? " = ?" : "") +
+                    " and s.productId" + (productId > -1 ? " = ?" : "") +
+                    " and p.name like ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            int i = 1;
+            if (price > -1) {
+                ps.setInt(i, price);
+                i += 1;
+            }
+            if (productId > 1) {
+                ps.setInt(i, productId);
+                i += 1;
+            }
+            ps.setString(i, search);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
+                        rs.getTimestamp("expiredAt"), productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy"))));
+            }
+        } catch (SQLException e) {
+            System.err.println("searchStorage: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public List<Product> getListDistinctProduct() {
+        List<Product> list = new ArrayList<>();
+        try {
+            String query = "select distinct productId from storage;";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(productDAO.findProductById(rs.getInt("productId")));
+            }
+        } catch (SQLException e) {
+            System.err.println("getListDistinctProduct: " + e.getMessage());
+        }
+        return list;
+    }
 
     public void delete(Storage storage) {
         try {

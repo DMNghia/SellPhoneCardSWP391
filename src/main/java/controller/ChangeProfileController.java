@@ -121,6 +121,7 @@ public class ChangeProfileController extends HttpServlet {
             user.setUpdatedBy(user.getId());
             ud.update(user, user.getId());
             session.setAttribute("user", user);
+            request.setAttribute("message", "Cập nhật thành công!");
         }
         if (session.getAttribute("isAdmin") != null) {
             isAdmin = (boolean) session.getAttribute("isAdmin");
