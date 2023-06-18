@@ -72,7 +72,7 @@
                     <li>
                         <a class="nav-link" href="${pageContext.request.contextPath}/admin/typography.jsp">
                             <i class="nc-icon nc-paper-2"></i>
-                            <p>Typography</p>
+                            <p>Order</p>
                         </a>
                     </li>
                     <li>
