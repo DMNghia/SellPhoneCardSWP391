@@ -14,25 +14,28 @@ public class StorageDAO extends DBContext {
     private UserDAO userDAO = new UserDAO();
     private ProductDAO productDAO = new ProductDAO();
 
-    public List<Storage> searchStorage(int price, int productId, String search) {
+    public List<Storage> searchStorage(int price, int productId, String search, int page) {
         List<Storage> list = new ArrayList<>();
         try {
             String query = "select s.* from storage s " +
                     "left join product p on s.productId = p.id " +
                     "where price" + (price > -1 ? " = ?" : "") +
                     " and s.productId" + (productId > -1 ? " = ?" : "") +
-                    " and p.name like ?";
+                    " and p.name like ? and s.isUsed = false and s.isDelete = false" +
+                    " limit 10 offset ?";
             PreparedStatement ps = connection.prepareStatement(query);
             int i = 1;
             if (price > -1) {
                 ps.setInt(i, price);
                 i += 1;
             }
-            if (productId > 1) {
+            if (productId > -1) {
                 ps.setInt(i, productId);
                 i += 1;
             }
             ps.setString(i, search);
+            i += 1;
+            ps.setInt(i, page);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
