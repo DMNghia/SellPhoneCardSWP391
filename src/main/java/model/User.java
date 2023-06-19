@@ -37,4 +37,9 @@ public class User {
         this.isActive = isActive;
         this.createdAt = createdAt;
     }
+
+    public User(String account) {
+        this.account = account;
+    }
+    
 }
