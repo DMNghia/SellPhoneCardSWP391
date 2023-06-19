@@ -102,7 +102,7 @@ public class LoginController extends HttpServlet {
             if (!ud.isAccountActive(account)) {
                 request.getRequestDispatcher("isActive.jsp").forward(request, response);
             }
-            if (user.getRole() == 1) {
+            if (user.getRole() == 0) {
                 session.setAttribute("isAdmin", true);
             } else {
                 session.setAttribute("isAdmin", false);

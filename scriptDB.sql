@@ -104,7 +104,7 @@ VALUES (4, 'Mobifone', '2023-06-15 22:17:43', 1, 0, NULL, NULL, NULL, NULL, 'ima
 
 INSERT into user(account, password, email, role, isDelete, isActive) VALUE ('sys_admin',
                                                                             'af.$ac240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
-                                                                            'swp391grou5@gmail.com', 1, false, true);
+                                                                            'swp391grou5@gmail.com', 0, false, true);
 
 CREATE table storage
 (
