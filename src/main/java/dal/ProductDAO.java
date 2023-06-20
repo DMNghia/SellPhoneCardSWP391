@@ -31,7 +31,7 @@ public class ProductDAO extends DBContext {
                 list.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getInt("price"),
                         supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")),
                         rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")),
-                        rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy"))));
+                        rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy") )));
             }
         } catch (SQLException e) {
             System.out.println("getListPrice: " + e.getMessage());
@@ -56,4 +56,6 @@ public class ProductDAO extends DBContext {
         }
         return product;
     }
+
+
 }
