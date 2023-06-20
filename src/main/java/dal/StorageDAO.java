@@ -14,6 +14,34 @@ public class StorageDAO extends DBContext {
     private UserDAO userDAO = new UserDAO();
     private ProductDAO productDAO = new ProductDAO();
 
+    public List<Storage> getListStorageWithNearestExpiredAt(int size, String supplierName, int price) {
+        List<Storage> listStorage = new ArrayList<>();
+        try {
+            String query = "select s.* from storage s\n" +
+                    "left join product p on s.productId = p.id\n" +
+                    "left join supplier s2 on p.supplier = s2.id\n" +
+                    "where s2.name = ? and p.price = ? and s.isUsed = false and s.isDelete = false\n" +
+                    "and p.isDelete = false and s2.isDelete = false\n" +
+                    "order by s.expiredAt\n" +
+                    "limit ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, supplierName);
+            ps.setInt(2, price);
+            ps.setInt(3, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listStorage.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
+                        rs.getTimestamp("expiredAt"), productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy"))));
+            }
+        } catch (SQLException e) {
+            System.err.println("getStorageWithNearestExpiredAt: " + e.getMessage());
+        }
+
+        return listStorage;
+    }
+
     public List<Storage> searchStorage(int price, int productId, String search, int page) {
         List<Storage> list = new ArrayList<>();
         try {

@@ -18,7 +18,7 @@ header{
     align-items: center;
     justify-content: space-between;
 }
-nav{
+.nav-header{
     background-color: black;
     height: 60px;
     margin: 0;
@@ -27,7 +27,7 @@ nav{
     align-items: center;
     justify-content: space-between;
 }
-nav ul{
+.nav-header ul{
     margin: 0;
     float: left;
     margin-right: 30px;
@@ -37,14 +37,14 @@ nav ul{
     justify-content: space-evenly;
 
 }
-nav ul li {
+.nav-header ul li {
     background: black;
     position: relative;
     list-style: none;
     display: inline-block;
 }
 
-nav ul li a{
+.nav-header ul li a{
     display: block;
     padding: 0 15px;
     text-decoration: none;
@@ -54,31 +54,22 @@ nav ul li a{
 
 }
 
-nav ul li a:hover  {
+.nav-header ul li a:hover  {
     background: #23a6f7;
 }
-nav ul ul {
+.nav-header ul ul {
     position: absolute;
     top: 60px;
     display: none;
 }
-nav ul li:hover >ul{
+.nav-header ul li:hover >ul{
     display: block;
 }
-nav ul ul li{
+.nav-header ul ul li{
     width: 150px;
     float: none;
     display: list-item;
     position: relative;
-}
-.footer {
-    height: 6%;
-    justify-content: center;
-    background-color: #d5fae8;
-}
-.footer div {
-    margin-bottom: auto;
-    margin-top: auto;
 }
 .radio-inputs {
     display: flex;

@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,8 +10,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Order {
     private long id;
@@ -22,11 +23,11 @@ public class Order {
     private User createdBy;
     private Timestamp updatedAt;
     private User updatedBy;
-
     private Timestamp deletedAt;
     private User deletedBy;
-
     private List<Storage> listStorage;
 
-
+    public String toJson() {
+        return new Gson().toJson(this);
+    }
 }

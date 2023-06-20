@@ -1,7 +1,7 @@
 package model;
 
+import com.google.gson.Gson;
 import lombok.*;
-import org.json.JSONObject;
 
 import java.sql.Timestamp;
 
@@ -27,12 +27,6 @@ public class Storage {
     private User deletedBy;
 
     public String toJson() {
-        JSONObject json = new JSONObject();
-        json.put("id", id);
-        json.put("serialNumber", serialNumber);
-        json.put("cardNumber", cardNumber);
-        json.put("expiredAt", expiredAt);
-
-        return json.toString();
+        return new Gson().toJson(this);
     }
 }

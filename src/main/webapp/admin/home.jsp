@@ -63,8 +63,7 @@
 
 <div class="content">
     <form action="">
-        <p
-                style=" font-size:40px;margin:0px;line-height:29px;color:#06202D;font-weight:700;text-transform: uppercase">
+        <p style=" font-size:40px;margin:0px;line-height:29px;color:#06202D;font-weight:700;text-transform: uppercase">
             Mua thẻ điện thoại </p>
 
         <div class="supplier">

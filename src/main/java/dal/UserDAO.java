@@ -16,7 +16,7 @@ public class UserDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new User(rs.getInt("id"), rs.getString("account"), rs.getString("password"),
-                        rs.getString("email"), rs.getInt("role"), rs.getString("phoneNumber"), rs.getDouble("balance"),
+                        rs.getString("email"), rs.getInt("role"), rs.getString("phoneNumber"), rs.getInt("balance"),
                         rs.getBoolean("isDelete"), rs.getBoolean("isActive"), rs.getTimestamp("createdAt"),
                         rs.getInt("createdBy"), rs.getTimestamp("updatedAt"), rs.getInt("updatedBy"),
                         rs.getTimestamp("deletedAt"), rs.getInt("deletedBy"));
@@ -68,7 +68,7 @@ public class UserDAO extends DBContext {
                 return new User().builder().id(rs.getInt("id"))
                         .account(rs.getString("account")).password(rs.getString("password"))
                         .email(rs.getString("email")).role(rs.getInt("role"))
-                        .phoneNumber(rs.getString("phoneNumber")).balance(rs.getDouble("balance"))
+                        .phoneNumber(rs.getString("phoneNumber")).balance(rs.getInt("balance"))
                         .isActive(rs.getBoolean("isActive")).isDelete(rs.getBoolean("isDelete"))
                         .createdAt(rs.getTimestamp("createdAt")).createdBy(rs.getInt("createdBy"))
                         .deletedAt(rs.getTimestamp("deletedAt")).deletedBy(rs.getInt("deletedBy"))
@@ -92,7 +92,7 @@ public class UserDAO extends DBContext {
                 return new User().builder().id(rs.getInt("id"))
                         .account(rs.getString("account")).password(rs.getString("password"))
                         .email(rs.getString("email")).role(rs.getInt("role"))
-                        .phoneNumber(rs.getString("phoneNumber")).balance(rs.getDouble("balance"))
+                        .phoneNumber(rs.getString("phoneNumber")).balance(rs.getInt("balance"))
                         .isActive(rs.getBoolean("isActive")).isDelete(rs.getBoolean("isDelete"))
                         .createdAt(rs.getTimestamp("createdAt")).createdBy(rs.getInt("createdBy"))
                         .deletedAt(rs.getTimestamp("deletedAt")).deletedBy(rs.getInt("deletedBy"))

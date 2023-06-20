@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class OrderDetail {
+public class ProductStorage {
     private long id;
-    private Order order;
+    private Product product;
     private Storage storage;
 }
