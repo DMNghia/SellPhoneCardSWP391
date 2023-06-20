@@ -18,7 +18,7 @@ public class User {
     private String email;
     private int role;
     private String phoneNumber;
-    private double balance;
+    private int balance;
     private boolean isDelete;
     private boolean isActive;
     private Timestamp createdAt;
