@@ -1,9 +1,6 @@
 package dal;
 
-<<<<<<<HEAD
-        =======
 import model.Order;
->>>>>>>a4d8522c6687d44c55392be86b7549d4484dce87
 import model.Storage;
 
 import java.sql.PreparedStatement;
@@ -47,3 +44,4 @@ public class OrderDetailDAO extends DBContext {
             System.out.println("OrderDetailDAO-add: " + e.getMessage());
         }
     }
+}
