@@ -4,8 +4,8 @@
  */
 package controller;
 
-import functionUtils.Function;
 import dal.UserDAO;
+import functionUtils.Function;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -66,7 +66,15 @@ public class ChangeProfileController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
+        boolean isAdmin = false;
+        if (session.getAttribute("isAdmin") != null) {
+            isAdmin = (boolean) session.getAttribute("isAdmin");
+        }
+        if (isAdmin) {
+            request.getRequestDispatcher("admin/user.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -87,6 +95,7 @@ public class ChangeProfileController extends HttpServlet {
         String newPassword = request.getParameter("new-password");
         String rePassword = request.getParameter("re-type-password");
         String option = request.getParameter("option");
+        boolean isAdmin = false;
         UserDAO ud = new UserDAO();
         Function f = new Function();
         if (option.equals("changePassword")) {
@@ -97,6 +106,7 @@ public class ChangeProfileController extends HttpServlet {
                     user.setUpdatedBy(user.getId());
                     ud.update(user, user.getId());
                     session.setAttribute("user", user);
+                    request.setAttribute("message", "Cập nhật thành công!");
                 } else {
                     String rePasswordErr = "Mật khẩu không trùng khớp";
                     request.setAttribute("rePasswordErr", rePasswordErr);
@@ -111,9 +121,14 @@ public class ChangeProfileController extends HttpServlet {
             user.setUpdatedBy(user.getId());
             ud.update(user, user.getId());
             session.setAttribute("user", user);
+            request.setAttribute("message", "Cập nhật thành công!");
         }
-        request.setAttribute("message", "Cập nhật thành công!");
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
+        if (session.getAttribute("isAdmin") != null) {
+            isAdmin = (boolean) session.getAttribute("isAdmin");
+            request.getRequestDispatcher("admin/user.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+        }
     }
 
     /**

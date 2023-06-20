@@ -72,15 +72,14 @@ public class HomeController extends HttpServlet {
             id = Integer.parseInt(request.getParameter("id"));
         }
 
-        ArrayList<Product> listP = new ArrayList<>();
-        listP = (new ProductDAO()).getListPrice(id);
-
-        request.setAttribute("priceList", listP);
         request.setAttribute("imgList", list);
         HttpSession session = request.getSession();
-        boolean isAdmin = (boolean) session.getAttribute("isAdmin");
+        boolean isAdmin = false;
+        if (session.getAttribute("isAdmin") != null) {
+            isAdmin = (boolean) session.getAttribute("isAdmin");
+        }
         if (isAdmin) {
-            request.getRequestDispatcher("admin/home.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/dashboard.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("home.jsp").forward(request, response);
         }

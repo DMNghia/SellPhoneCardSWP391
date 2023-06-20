@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.Gson;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -15,12 +16,17 @@ public class Storage {
     private String serialNumber;
     private String cardNumber;
     private Timestamp expiredAt;
-    private int productId;
+    private Product product;
     private boolean isUsed;
+    private boolean isDelete;
     private Timestamp createdAt;
-    private int createdBy;
+    private User createdBy;
     private Timestamp updatedAt;
-    private int updatedBy;
+    private User updatedBy;
     private Timestamp deletedAt;
-    private int deletedBy;
+    private User deletedBy;
+
+    public String toJson() {
+        return new Gson().toJson(this);
+    }
 }

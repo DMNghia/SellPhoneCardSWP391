@@ -4,139 +4,31 @@
  */
 package model;
 
-import java.sql.Date;
+import lombok.*;
+
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
-
-/**
- *
- * @author hp
- */
+@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Product {
-    private int id,quantity,supplier,createdBy,deletedBy,updatedBy;
+    private int id;
     private String name;
-    private double price;
-    private Timestamp createdAt,deletedAt,updatedAt;
+    private int quantity;
+    private int price;
+    private Supplier supplier;
+    private Timestamp createdAt;
+    private User createdBy;
     private boolean isDelete;
-    
-    public Product() {
-    }
+    private Timestamp deletedAt;
+    private User deletedBy;
+    private Timestamp updatedAt;
+    private User updatedBy;
 
-    public Product(int id, int quantity, int supplier, int createdBy, int deletedBy, int updatedBy, String name, double price, Timestamp createdAt, Timestamp deletedAt, Timestamp updatedAt, boolean isDelete) {
-        this.id = id;
-        this.quantity = quantity;
-        this.supplier = supplier;
-        this.createdBy = createdBy;
-        this.deletedBy = deletedBy;
-        this.updatedBy = updatedBy;
-        this.name = name;
-        this.price = price;
-        this.createdAt = createdAt;
-        this.deletedAt = deletedAt;
-        this.updatedAt = updatedAt;
-        this.isDelete = isDelete;
-    }
+    public Product(int price) {
 
-    public Product(double price) {
-        
         this.price = price;
     }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(int supplier) {
-        this.supplier = supplier;
-    }
-
-    public int getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public int getDeletedBy() {
-        return deletedBy;
-    }
-
-    public void setDeletedBy(int deletedBy) {
-        this.deletedBy = deletedBy;
-    }
-
-    public int getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(int updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Timestamp deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public boolean isIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(boolean isDelete) {
-        this.isDelete = isDelete;
-    }
-    
-    
 }

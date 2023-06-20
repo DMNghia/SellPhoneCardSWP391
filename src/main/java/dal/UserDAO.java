@@ -8,6 +8,25 @@ import java.sql.SQLException;
 
 public class UserDAO extends DBContext {
 
+    public User getUserById(int id) {
+        try {
+            String query = "SELECT * from user where id = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new User(rs.getInt("id"), rs.getString("account"), rs.getString("password"),
+                        rs.getString("email"), rs.getInt("role"), rs.getString("phoneNumber"), rs.getInt("balance"),
+                        rs.getBoolean("isDelete"), rs.getBoolean("isActive"), rs.getTimestamp("createdAt"),
+                        rs.getInt("createdBy"), rs.getTimestamp("updatedAt"), rs.getInt("updatedBy"),
+                        rs.getTimestamp("deletedAt"), rs.getInt("deletedBy"));
+            }
+         } catch (SQLException e) {
+            System.out.println("getUserById: " + e.getMessage());
+        }
+        return null;
+    }
+
     public boolean isEmailAvailable(String email) {
         try {
             String query = "SELECT * from user where email = ?";
@@ -46,10 +65,15 @@ public class UserDAO extends DBContext {
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getInt(5), rs.getString(6),
-                        rs.getBoolean(7), rs.getBoolean(8), rs.getTimestamp(9), rs.getInt(10), rs.getTimestamp(11), rs.getInt(12),
-                        rs.getTimestamp(13), rs.getInt(14));
+                return new User().builder().id(rs.getInt("id"))
+                        .account(rs.getString("account")).password(rs.getString("password"))
+                        .email(rs.getString("email")).role(rs.getInt("role"))
+                        .phoneNumber(rs.getString("phoneNumber")).balance(rs.getInt("balance"))
+                        .isActive(rs.getBoolean("isActive")).isDelete(rs.getBoolean("isDelete"))
+                        .createdAt(rs.getTimestamp("createdAt")).createdBy(rs.getInt("createdBy"))
+                        .deletedAt(rs.getTimestamp("deletedAt")).deletedBy(rs.getInt("deletedBy"))
+                        .updatedAt(rs.getTimestamp("updatedAt")).updatedBy(rs.getInt("updatedBy"))
+                        .build();
             }
         } catch (SQLException e) {
             System.out.println("UserDao-isUserExist: " + e.getMessage());
@@ -65,10 +89,15 @@ public class UserDAO extends DBContext {
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getInt(5), rs.getString(6),
-                        rs.getBoolean(7), rs.getBoolean(8), rs.getTimestamp(9), rs.getInt(10), rs.getTimestamp(11), rs.getInt(12),
-                        rs.getTimestamp(13), rs.getInt(14));
+                return new User().builder().id(rs.getInt("id"))
+                        .account(rs.getString("account")).password(rs.getString("password"))
+                        .email(rs.getString("email")).role(rs.getInt("role"))
+                        .phoneNumber(rs.getString("phoneNumber")).balance(rs.getInt("balance"))
+                        .isActive(rs.getBoolean("isActive")).isDelete(rs.getBoolean("isDelete"))
+                        .createdAt(rs.getTimestamp("createdAt")).createdBy(rs.getInt("createdBy"))
+                        .deletedAt(rs.getTimestamp("deletedAt")).deletedBy(rs.getInt("deletedBy"))
+                        .updatedAt(rs.getTimestamp("updatedAt")).updatedBy(rs.getInt("updatedBy"))
+                        .build();
             }
         } catch (SQLException e) {
             System.out.println("UserDao-isUserExist: " + e.getMessage());
@@ -99,7 +128,7 @@ public class UserDAO extends DBContext {
     public void update(User user, int id) {
         try {
             String query = "UPDATE user SET account = ?, password = ?, email = ?, role = ?,"
-                    + "phoneNumber = ?, isDelete = ?, isActive = ?, createdAt = ?, createdBy = ?, updatedAt = ?, updatedBy = ?, "
+                    + "phoneNumber = ?, balance = ?, isDelete = ?, isActive = ?, createdAt = ?, createdBy = ?, updatedAt = ?, updatedBy = ?, "
                     + "deletedAt = ?, deletedBy = ? "
                     + "WHERE id = ?";
             PreparedStatement ps = connection.prepareStatement(query);
@@ -108,15 +137,16 @@ public class UserDAO extends DBContext {
             ps.setString(3, user.getEmail());
             ps.setInt(4, user.getRole());
             ps.setString(5, user.getPhoneNumber());
-            ps.setBoolean(6, user.isDelete());
-            ps.setBoolean(7, user.isActive());
-            ps.setInt(14, id);
-            ps.setTimestamp(8, user.getCreatedAt());
-            ps.setInt(9, user.getCreatedBy());
-            ps.setTimestamp(10, user.getUpdatedAt());
-            ps.setInt(11, user.getUpdatedBy());
-            ps.setTimestamp(12, user.getDeletedAt());
-            ps.setInt(13, user.getDeletedBy());
+            ps.setDouble(6, user.getBalance());
+            ps.setBoolean(7, user.isDelete());
+            ps.setBoolean(8, user.isActive());
+            ps.setInt(15, id);
+            ps.setTimestamp(9, user.getCreatedAt());
+            ps.setInt(10, user.getCreatedBy());
+            ps.setTimestamp(11, user.getUpdatedAt());
+            ps.setInt(12, user.getUpdatedBy());
+            ps.setTimestamp(13, user.getDeletedAt());
+            ps.setInt(14, user.getDeletedBy());
             ps.execute();
             System.out.println("Update user successfully!");
         } catch (SQLException e) {
