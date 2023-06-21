@@ -27,6 +27,20 @@ public class Order {
     private User deletedBy;
     private List<Storage> listStorage;
 
+    public Order(long id, User user, String status, int totalAmount, boolean isDelete, Timestamp createdAt, User createdBy, Timestamp updatedAt, User updatedBy, Timestamp deletedAt, User deletedBy) {
+        this.id = id;
+        this.user = user;
+        this.status = status;
+        this.totalAmount = totalAmount;
+        this.isDelete = isDelete;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.updatedAt = updatedAt;
+        this.updatedBy = updatedBy;
+        this.deletedAt = deletedAt;
+        this.deletedBy = deletedBy;
+    }
+
     public String toJson() {
         return new Gson().toJson(this);
     }

@@ -59,69 +59,93 @@
 <body>
 <div class="row col-6 text-center" id="deleteDiv">
     <h4 style="text-align: center"><b>Bạn có chắc muốn xóa chứ</b></h4>
-    <form action="storage" method="post">
+    <form action="order" method="post">
         <input name="id" id="idInputDeleteDiv" class="d-none">
         <input name="page" value='${request.getParameter("page")}' class="d-none">
-        <button class="btn" type="submit" name="option" value="delete"
-                style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
+        <button class="btn" type="submit" name="option" value="delete" style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
             Xóa
         </button>
-        <button type="button" class="btn" id="closeButtonDelete"
-                style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+        <button type="button" class="btn" id="closeButtonDelete" style="cursor: pointer;background-color: #01b901;color: #ffffff;">
             Hủy
         </button>
     </form>
 </div>
 <div class="row col-6" id="updateDiv">
-    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeButton"
-            style="cursor: pointer">
-        <i class="nc-icon nc-simple-remove"></i>
-    </button>
-    <form action="storage" method="post" class="">
-        <div class="row">
-            <div class="col-md-8 pr-1">
-                <div class="form-group">
-                    <input name="page" value='${param.page}' class="d-none">
-                    <label>Id</label>
-                    <input type="text" class="form-control" id="idInputUpdateDiv"
-                           readonly name="id">
-                </div>
+    <div class="row">
+        <div class="col-md-8 pr-1">
+            <div class="form-group">
+                <input name="page" value='${pageNumber}' class="d-none">
+                <label>Id</label>
+                <input type="text" class="form-control" id="idInputUpdateDiv"
+                       readonly name="id">
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8 pr-1">
-                <div class="form-group">
-                    <label>Số seri</label>
-                    <input type="text" class="form-control" id="seriInputUpdateDiv"
-                           name="seri">
-                </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 pr-1">
+            <div class="form-group">
+                <label>Sản phẩm đã mua</label>
+                <input type="text" class="form-control" id="productInputUpdateDiv"
+                       readonly name="id">
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8 pr-1">
-                <div class="form-group">
-                    <label>Số thẻ</label>
-                    <input type="text" class="form-control" id="cardNumberInputUpdateDiv"
-                           name="cardNumber">
-                </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 pr-1">
+            <div class="form-group">
+                <label>Trạng thái đơn hàng</label>
+                <input type="text" class="form-control" id="statusInputUpdateDiv"
+                       readonly name="id">
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8 pr-1">
-                <div class="form-group">
-                    <label>Hạn sử dụng</label>
-                    <input type="text" class="form-control" id="expiredAtInputUpdateDiv"
-                           name="expiredAt">
-                </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 pr-1">
+            <div class="form-group">
+                <label>Giá sản phẩm</label>
+                <input type="text" class="form-control" id="productPriceInputUpdateDiv"
+                       readonly name="id">
             </div>
         </div>
-        <div class="row">
-            <button type="submit" name="option" value="update" class="btn pr-1"
-                    style="cursor: pointer;background-color: #01b901;color: #ffffff;">
-                Cập nhật
-            </button>
+    </div>
+    <div class="row">
+        <div class="col-md-8 pr-1">
+            <div class="form-group">
+                <label>Số lượng</label>
+                <input type="text" class="form-control" id="quantityInputUpdateDiv"
+                       readonly name="id">
+            </div>
         </div>
-    </form>
+    </div>
+    <div class="row">
+        <div class="col-md-8 pr-1">
+            <div class="form-group">
+                <label>Thành tiền</label>
+                <input type="text" class="form-control" id="priceInputUpdateDiv"
+                       readonly name="id">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Số Seri</th>
+                <th>Sô thẻ</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <button type="button" name="option" id="closeButton" value="update" class="btn pr-1"
+                style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+            Dóng
+        </button>
+    </div>
 </div>
 <div class="wrapper">
     <div class="sidebar" data-image="${pageContext.request.contextPath}/admin/assets/img/sidebar-5.jpg">
@@ -190,30 +214,30 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="order"> Mua hàng </a>
                 <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                    <form method="get" action="storage">
+                    <form method="get" action="order">
                         <ul class="nav navbar-nav mr-auto">
                             <li class="dropdown nav-item" style="margin-left: 10px">
-                                <select name="price" class="h-100 border-0"
+                                <select id="statusSelect" name="status" class="h-100 border-0"
                                         style="background-color: transparent;color: #5e5e5e;cursor: pointer">
-                                    <option value="all">Mệnh giá</option>
-                                    <c:forEach var="product" items="${listProduct}">
-                                        <option class="dropdown-item" ${String.valueOf(product.getPrice()).equals(param.price) ? "selected" : ""}
-                                                value="${product.getPrice()}">${product.getPrice()}</option>
+                                    <option value="all">Trạng thái</option>
+                                    <c:forEach var="status" items="${listStatus}">
+                                        <option class="dropdown-item" ${(status).equals(param.status) ? "selected" : ""}
+                                                value="${status}">${status}</option>
                                     </c:forEach>
                                 </select>
                             </li>
-                            <li class="nav-item dropdown" style="margin-left: 10px">
-                                <select name="supplier" class="h-100 border-0"
-                                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">
-                                    <option value="all">Nhà phát hành</option>
-                                    <c:forEach var="product" items="${listProduct}">
-                                        <option class="dropdown-item" ${String.valueOf(product.getId()).equals(param.supplier) ? "selected" : ""}
-                                                value="${product.getId()}">${product.getSupplier().getName()}</option>
-                                    </c:forEach>
-                                </select>
-                            </li>
+                            <%--                            <li class="nav-item dropdown" style="margin-left: 10px">--%>
+                            <%--                                <select name="id" class="h-100 border-0"--%>
+                            <%--                                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">--%>
+                            <%--                                    <option value="all">Mã đơn hàng</option>--%>
+                            <%--                                    <c:forEach var="order" items="${listOrder}">--%>
+                            <%--                                        <option class="dropdown-item" ${String.valueOf(order.getId()).equals(param.id) ? "selected" : ""}--%>
+                            <%--                                                value="${order.getId()}">${order.getId()}</option>--%>
+                            <%--                                    </c:forEach>--%>
+                            <%--                                </select>--%>
+                            <%--                            </li>--%>
                             <li class="nav-item" style="margin-left: 10px">
-                                <input type="text" name="search" placeholder="Tìm tên sản phẩm" class="h-50 border-0"
+                                <input type="text" id="searchInput" name="search" placeholder="Tìm kiếm " class="h-50 border-0"
                                        value="${param.search}">
                                 <button type="submit" class="nav-link border-0" style="cursor: pointer">
                                     <i class="nc-icon nc-zoom-split"></i>
@@ -239,29 +263,54 @@
                     <div class="col-md-12">
                         <div class="card strpied-tabled-with-hover">
                             <div class="card-header ">
-                                <h4 class="card-title">Striped Table with Hover</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
+                                <h4 class="card-title">Mua hàng</h4>
+                                <p class="card-category">Chi tiết đơn đặt hàng</p>
                             </div>
                             <div class="card-body table-full-width table-responsive">
                                 <table class="table table-hover table-striped">
                                     <thead>
-                                        <th>ID</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Trạng thái đơn hàng</th>
-                                        <th>Số tiền</th>
-                                        <th>Thời gian tạo</th>
-                                        <th>Người tạo</th>
-                                        <th>Hành động</th>
+                                    <th>ID</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th>Trạng thái đơn hàng</th>
+                                    <th>Số tiền</th>
+                                    <th>Thời gian tạo đơn hàng</th>
+                                    <th>Người bán</th>
+                                    <th>Hành động</th>
                                     </thead>
                                     <tbody>
                                     <c:forEach var="order" items="${listOrder}">
                                         <tr>
                                             <td>${order.getId()}</td>
-                                            <td>
-                                                <c:forEach var="storage" items="${order.getListStorage()}">
-                                                    ${storage.getProduct().getName()}<br>
-                                                </c:forEach>
-                                            </td>
+                                            <c:set var="quantity" value="${1}"/>
+                                            <c:set var="index" value="${0}"/>
+                                            <c:forEach var="storage" items="${order.getListStorage()}">
+
+                                                <c:if test="${index == 0}">
+                                                    <td>
+                                                            ${storage.getProduct().getName()}
+                                                    </td>
+                                                </c:if>
+                                                <c:if test="${index >= 1 && !storage.getProduct().getName().equals(order.getListStorage().get(index - 1).getProduct().getName())}">
+
+                                                    <td>
+                                                            ${storage.getProduct().getName()}
+                                                    </td>
+                                                    <td>
+                                                            ${quantity}
+                                                    </td>
+                                                    <c:set var="quantity" value="${1}"/>
+                                                </c:if>
+                                                <c:if test="${index >= 1 && storage.getProduct().getName().equals(order.getListStorage().get(index - 1).getProduct().getName())}">
+                                                    <c:set var="quantity" value="${quantity + 1}"/>
+                                                </c:if>
+                                                <c:set var="index" value="${index + 1}"/>
+                                                <c:if test="${index == order.getListStorage().size()}">
+                                                    <td>
+                                                            ${quantity}
+                                                    </td>
+                                                </c:if>
+                                            </c:forEach>
                                             <td>${order.getStatus()}</td>
                                             <td>${order.getTotalAmount()}</td>
                                             <td>${order.getCreatedAt()}</td>
@@ -269,15 +318,15 @@
                                             <td>
                                                 <button class="btn"
                                                         style="background-color: #01b901;color: #ffffff;cursor: pointer;"
-                                                        onclick='showUpdateDiv(JSON.stringify(${storage.toJson()}))'>
-                                                    Thông tin
+                                                        onclick='showUpdateDiv(JSON.stringify(${order.toJson()}), "${order.getListStorage().get(0).getProduct().getName()}", ${order.getListStorage().get(0).getProduct().getPrice()})'>
+                                                    Chi tiết sản phẩm
                                                 </button>
                                             </td>
                                             <td>
-                                                <button class="btn"
-                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"
-                                                        onclick="showDeleteAlert(${storage.getId()})">
-                                                    Xóa
+                                                <button class="btn" type="button" class="btn" onclick="showDeleteAlert(${order.getId()})"
+                                                   style="background-color: #cc2127;color: #ffffff;cursor: pointer;"
+                                                >
+                                                    Xóa lịch sử
                                                 </button>
                                             </td>
                                         </tr>
@@ -373,16 +422,32 @@
         });
     }
 
-    function showUpdateDiv(storage) {
-        console.log(storage);
+    function showUpdateDiv(order, name, price) {
         const div = document.getElementById("updateDiv");
         const closeButton = document.getElementById("closeButton");
         const body = document.querySelector(".wrapper");
-        var json = JSON.parse(storage);
-        document.getElementById("idInputUpdateDiv").value = json.id;
-        document.getElementById("seriInputUpdateDiv").value = json.serialNumber;
-        document.getElementById("cardNumberInputUpdateDiv").value = json.cardNumber;
-        document.getElementById("expiredAtInputUpdateDiv").value = json.expiredAt;
+        var orderValue = JSON.parse(order);
+        console.log(orderValue);
+        var listStorage = JSON.parse(JSON.stringify((orderValue.listStorage)));
+        console.log(listStorage);
+        document.getElementById("idInputUpdateDiv").value = orderValue.id;
+        document.getElementById("productInputUpdateDiv").value = name;
+        document.getElementById("statusInputUpdateDiv").value = orderValue.status;
+        document.getElementById("productPriceInputUpdateDiv").value = price;
+        document.getElementById("quantityInputUpdateDiv").value = listStorage.length;
+        document.getElementById("priceInputUpdateDiv").value = parseInt(price) * parseInt(listStorage.length);
+        var tableContent = div.querySelector(".table");
+        var bodyContent = tableContent.querySelector("tbody");
+        var content = "";
+        for (var s in listStorage) {
+            var storage = JSON.parse(JSON.stringify(listStorage[s]));
+            content += "<tr>";
+            content += "<td>" + storage.id + "</td>";
+            content += "<td>" + storage.serialNumber + "</td>";
+            content += "<td>" + storage.cardNumber + "</td>";
+            content += "</tr>"
+        }
+        bodyContent.innerHTML = content;
 
         if (div.style.top === "-100%") {
             div.style.display = "block";
@@ -419,15 +484,17 @@
         let active;
         let pageCutLow = page - 1;
         let pageCutHigh = page + 1;
+        var statusSelect = document.getElementById("statusSelect").options[document.getElementById("statusSelect").selectedIndex].value;
+        var searchValue = document.getElementById("searchInput").value;
         // Show the Previous button only if you are on a page other than the first
         if (page > 1) {
-            str += '<li onclick="createPagination(pages, ' + (page - 1) + ')" class="page__btn"><a href="storage?page=' + (page - 1) + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>&laquo;</span></a></li>';
+            str += '<li onclick="createPagination(pages, ' + (page - 1) + ')" class="page__btn"><a href="order?page=' + (page - 1) + '&status=' + statusSelect + '&search=' + searchValue + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>&laquo;</span></a></li>';
         }
         // Show all the pagination elements if there are less than 6 pages total
         if (pages < 6) {
             for (let p = 1; p <= pages; p++) {
                 active = page == p ? "active" : "";
-                str += '<li onclick="createPagination(pages, ' + p + ')" class="page__numbers ' + active + '"><a href="storage?page=' + p + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + p + '</span></a></li>';
+                str += '<li onclick="createPagination(pages, ' + p + ')" class="page__numbers ' + active + '"><a href="order?page=' + p + '&status=' + statusSelect + '&search=' + searchValue + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + p + '</span></a></li>';
             }
         }
         // Use "..." to collapse pages outside of a certain range
@@ -435,7 +502,7 @@
             // Show the very first page followed by a "..." at the beginning of the
             // pagination section (after the Previous button)
             if (page > 2) {
-                str += `<li onclick="createPagination(pages, 1)" class="page__numbers"><a href="storage?page=1" class="w-100 h-100 d-flex text-justify justify-content-center"><span>1</span></a></li>`;
+                str += '<li onclick="createPagination(pages, 1)" class="page__numbers"><a href="order?page=1&status=' + statusSelect + '&search=' + searchValue + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>1</span></a></li>';
                 if (page > 3) {
                     str += `<li class="page__dots"><span>...</span></li>`;
                 }
@@ -462,7 +529,7 @@
                     continue
                 }
                 active = page == p ? "active" : "";
-                str += '<li onclick="createPagination(pages, ' + p + ')" class="page__numbers ' + active + '"><a href="storage?page=' + p + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + p + '</span></a></li>';
+                str += '<li onclick="createPagination(pages, ' + p + ')" class="page__numbers ' + active + '"><a href="order?page=' + p + '&status=' + statusSelect + '&search=' + searchValue + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + p + '</span></a></li>';
             }
             // Show the very last page preceded by a "..." at the end of the pagination
             // section (before the Next button)
@@ -470,12 +537,12 @@
                 if (page < pages - 2) {
                     str += '<li class="page__dots"><span>...</span></li>';
                 }
-                str += '<li onclick="createPagination(pages, pages)" class="page__numbers"><a href="storage?page=' + pages + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + pages + '</span></a></li>';
+                str += '<li onclick="createPagination(pages, pages)" class="page__numbers"><a href="order?page=' + pages + '&status=' + statusSelect + '&search=' + searchValue + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + pages + '</span></a></li>';
             }
         }
         // Show the Next button only if you are on a page other than the last
         if (page < pages) {
-            str += '<li onclick="createPagination(pages, ' + (page + 1) + ')" class="page__btn"><a href="storage?page=' + (page + 1) + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>&raquo;</span></a></li>';
+            str += '<li onclick="createPagination(pages, ' + (page + 1) + ')" class="page__btn"><a href="order?page=' + (page + 1) + '&status=' + statusSelect + '&search=' + searchValue + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>&raquo;</span></a></li>';
         }
         str += '</ul>';
         // Return the pagination string to be outputted in the pug templates

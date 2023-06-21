@@ -46,7 +46,7 @@
                     <li><a href="home">Trang chủ</a></li>
                     <li><a href="#">Mua hàng</a>
                         <ul>
-                            <li><a href="#">Đơn hàng</a></li>
+                            <li><a href="order">Đơn hàng</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Giao dịch</a>

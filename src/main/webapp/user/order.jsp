@@ -84,15 +84,10 @@ The above copyright notice and this permission notice shall be included in all c
     </form>
 </div>
 <div class="row col-6" id="updateDiv">
-    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeButton"
-            style="cursor: pointer">
-        <i class="nc-icon nc-simple-remove"></i>
-    </button>
-    <form action="order" method="post" class="">
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <input name="page" value='${param.page}' class="d-none">
+                    <input name="page" value='${pageNumber}' class="d-none">
                     <label>Id</label>
                     <input type="text" class="form-control" id="idInputUpdateDiv"
                            readonly name="id">
@@ -102,37 +97,68 @@ The above copyright notice and this permission notice shall be included in all c
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Số seri</label>
-                    <input type="text" class="form-control" id="seriInputUpdateDiv"
-                           name="seri">
+                    <label>Sản phẩm đã mua</label>
+                    <input type="text" class="form-control" id="productInputUpdateDiv"
+                           readonly name="id">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Số thẻ</label>
-                    <input type="text" class="form-control" id="cardNumberInputUpdateDiv"
-                           name="cardNumber">
+                    <label>Trạng thái đơn hàng</label>
+                    <input type="text" class="form-control" id="statusInputUpdateDiv"
+                           readonly name="id">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Hạn sử dụng</label>
-                    <input type="text" class="form-control" id="expiredAtInputUpdateDiv"
-                           name="expiredAt">
+                    <label>Giá sản phẩm</label>
+                    <input type="text" class="form-control" id="productPriceInputUpdateDiv"
+                           readonly name="id">
                 </div>
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="option" value="update" class="btn pr-1"
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Số lượng</label>
+                    <input type="text" class="form-control" id="quantityInputUpdateDiv"
+                           readonly name="id">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Thành tiền</label>
+                    <input type="text" class="form-control" id="priceInputUpdateDiv"
+                           readonly name="id">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Số Seri</th>
+                    <th>Sô thẻ</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <button type="button" name="option" id="closeButton" value="update" class="btn pr-1"
                     style="cursor: pointer;background-color: #01b901;color: #ffffff;">
-                Cập nhật
+                Dóng
             </button>
         </div>
-    </form>
 </div>
 <div class="wrapper">
     <div class="sidebar" data-image="${pageContext.request.contextPath}/admin/assets/img/sidebar-5.jpg">
@@ -397,16 +423,31 @@ The above copyright notice and this permission notice shall be included in all c
         });
     }
 
-    function showUpdateDiv(storage) {
-        console.log(storage);
+    function showUpdateDiv(order) {
+        console.log(order);
         const div = document.getElementById("updateDiv");
         const closeButton = document.getElementById("closeButton");
         const body = document.querySelector(".wrapper");
-        var json = JSON.parse(storage);
-        document.getElementById("idInputUpdateDiv").value = json.id;
-        document.getElementById("seriInputUpdateDiv").value = json.serialNumber;
-        document.getElementById("cardNumberInputUpdateDiv").value = json.cardNumber;
-        document.getElementById("expiredAtInputUpdateDiv").value = json.expiredAt;
+        var order = JSON.parse(order);
+        var product = JSON.parse(order.product);
+        var listStorage = JSON.parse(order.listStorage);
+        document.getElementById("idInputUpdateDiv").value = order.id;
+        document.getElementById("productInputUpdateDiv").value = product.name;
+        document.getElementById("statusInputUpdateDiv").value = order.status;
+        document.getElementById("productPriceInputUpdateDiv").value = product.price;
+        document.getElementById("quantityInputUpdateDiv").value = listStorage.length;
+        document.getElementById("priceInputUpdateDiv").value = parseInt(product.price) * parseInt(listStorage.length);
+        var tableContent = div.querySelector(".table");
+        var bodyContent = tableContent.querySelector("tbody");
+        var content = "";
+        listStorage.forEach( s => {
+            var storage = JSON.parse(s);
+            content += "<tr>";
+            content += "<td>" + storage.serialNumber + "</td>";
+            content += "<td>" + storage.cardNumber + "</td>";
+            content += "</tr>"
+        });
+        bodyContent.innerHTML = content;
 
         if (div.style.top === "-100%") {
             div.style.display = "block";

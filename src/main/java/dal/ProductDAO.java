@@ -20,6 +20,7 @@ public class ProductDAO extends DBContext {
     private UserDAO userDAO = new UserDAO();
     private SupplierDAO supplierDAO = new SupplierDAO();
 
+
     public ArrayList<Product> getListPrice(int id) {
         ArrayList<Product> list = new ArrayList<>();
         try {
