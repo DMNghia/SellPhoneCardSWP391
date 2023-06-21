@@ -155,9 +155,9 @@ public class TransactionsDAO extends DBContext {
         List<Transactions> list = new ArrayList<>();
         try {
             String query = "SELECT * FROM transactions "
-                    + "where user=? and type  " + (!type.isEmpty() ? "=?" : "")
-                    + " and status  " + (!status.isEmpty() ? "=?" : "")
-                    +" and note like ?";
+                    + "where user=? " + (!type.isEmpty() ? "and type= ?" : "")
+                    + (!status.isEmpty() ? " and status = ?" : "")
+                    + (!search.isEmpty() ? " and note like ?" : "");
 
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, id);
@@ -178,7 +178,9 @@ public class TransactionsDAO extends DBContext {
                 ps.setBoolean(i,x);
                 i++;
             }
-            ps.setString(i, "%"+search+"%");
+            if (!search.isEmpty()){
+                ps.setString(i, "%"+search+"%");
+            }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
