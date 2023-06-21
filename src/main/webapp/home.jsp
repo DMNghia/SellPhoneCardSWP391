@@ -54,7 +54,7 @@
                             <li><a href="#">Lịch sử</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Liên hệ</a></li>
+                    <li><a href="contact.jsp">Liên hệ</a></li>
                     <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     <c:if test="${user != null}">
                         <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span></li>
