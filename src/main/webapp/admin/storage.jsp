@@ -37,7 +37,8 @@
             border-radius: 10px;
             box-shadow: #464646 0 0 7px;
         }
-        #deleteDiv{
+
+        #deleteDiv {
             display: none;
             position: fixed;
             top: -100%;
@@ -59,11 +60,13 @@
     <h4 style="text-align: center"><b>Bạn có chắc muốn xóa chứ</b></h4>
     <form action="storage" method="post">
         <input name="id" id="idInputDeleteDiv" class="d-none">
-        <input name="page" value='${request.getParameter("page")}' class="d-none">
-        <button class="btn" type="submit" name="option" value="delete" style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
+        <input name="page" id="pageInputDeleteDiv" value='${request.getParameter("page")}' class="d-none">
+        <button class="btn" type="submit" name="option" value="delete"
+                style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
             Xóa
         </button>
-        <button type="button" class="btn" id="closeButtonDelete" style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+        <button type="button" class="btn" id="closeButtonDelete"
+                style="cursor: pointer;background-color: #01b901;color: #ffffff;">
             Hủy
         </button>
     </form>
@@ -77,7 +80,7 @@
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <input name="page" value='${param.page}' class="d-none">
+                    <input name="page" id="pageInputUpdateDiv" value='${param.page}' class="d-none">
                     <label>Id</label>
                     <input type="text" class="form-control" id="idInputUpdateDiv"
                            readonly name="id">
@@ -189,24 +192,29 @@
                     <form method="get" action="storage">
                         <ul class="nav navbar-nav mr-auto">
                             <li class="dropdown nav-item" style="margin-left: 10px">
-                                <select name="price" class="h-100 border-0" style="background-color: transparent;color: #5e5e5e;cursor: pointer">
+                                <select id="priceSelect" name="price" class="h-100 border-0"
+                                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">
                                     <option value="all">Mệnh giá</option>
                                     <c:forEach var="product" items="${listProduct}">
-                                        <option class="dropdown-item" ${String.valueOf(product.getPrice()).equals(param.price) ? "selected" : ""} value="${product.getPrice()}">${product.getPrice()}</option>
+                                        <option class="dropdown-item" ${String.valueOf(product.getPrice()).equals(param.price) ? "selected" : ""}
+                                                value="${product.getPrice()}">${product.getPrice()}</option>
                                     </c:forEach>
                                 </select>
                             </li>
                             <li class="nav-item dropdown" style="margin-left: 10px">
-                                <select name="supplier" class="h-100 border-0" style="background-color: transparent;color: #5e5e5e;cursor: pointer">
+                                <select id="supplierSelect" name="supplier" class="h-100 border-0"
+                                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">
                                     <option value="all">Nhà phát hành</option>
                                     <c:forEach var="product" items="${listProduct}">
-                                        <option class="dropdown-item" ${String.valueOf(product.getId()).equals(param.supplier) ? "selected" : ""} value="${product.getId()}">${product.getSupplier().getName()}</option>
+                                        <option class="dropdown-item" ${String.valueOf(product.getId()).equals(param.supplier) ? "selected" : ""}
+                                                value="${product.getId()}">${product.getSupplier().getName()}</option>
                                     </c:forEach>
                                 </select>
                             </li>
                             <li class="nav-item" style="margin-left: 10px">
-                                <input type="text" name="search" placeholder="Tìm tên sản phẩm" class="h-50 border-0" value="${param.search}">
-                                <button type="submit" class="nav-link border-0" style="cursor: pointer">
+                                <input id="searchInput" type="text" name="search" placeholder="Tìm tên sản phẩm" class="h-50 border-0"
+                                       value="${param.search}">
+                                <button type="button" onclick="getData(1)" class="nav-link border-0" style="cursor: pointer">
                                     <i class="nc-icon nc-zoom-split"></i>
                                     <span class="d-lg-block">&nbsp;Search</span>
                                 </button>
@@ -247,13 +255,14 @@
                                         <tr>
                                             <td>${storage.getId()}</td>
                                             <td>${storage.getProduct().getName()}</td>
-                                            <td class="price_storage">${storage.getProduct().getPrice()}</td>
+                                            <td>${storage.getProduct().getPrice()}</td>
                                             <td>${storage.getCreatedAt()}</td>
                                             <td>${storage.getCreatedBy().getAccount()}</td>
                                             <td>
                                                 <button class="btn"
                                                         style="background-color: #01b901;color: #ffffff;cursor: pointer;"
-                                                        onclick='showUpdateDiv(JSON.stringify(${storage.toJson()}))'>Thông tin
+                                                        onclick='showUpdateDiv(JSON.stringify(${storage.toJson()}))'>
+                                                    Thông tin
                                                 </button>
                                             </td>
                                             <td>
@@ -298,8 +307,7 @@
     </div>
 </div>
 <!--   Core JS Files   -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/jquery.3.2.1.min.js"
-        type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/admin/assets/js/core/popper.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js" type="text/javascript"></script>
 <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
@@ -316,15 +324,69 @@
 <script src="${pageContext.request.contextPath}/admin/assets/js/demo.js"></script>
 <c:if test="${message != null}">
     <script type="text/javascript">
-        setTimeout(demo.showNotify("${message}"), 100);
+        setTimeout(demo.showNotify('${message}'), 100);
     </script>
 </c:if>
 </body>
 
-
 <script type="text/javascript">
+
+    function getData(page) {
+        $.ajax({
+            url: "storage?page=" + page + "&supplier=" + $('#supplierSelect').val() + "&price=" + $('#priceSelect').val() + "&search=" + $('#searchInput').val(),
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                loadPagination(JSON.stringify(response.data2));
+                loadContentList(JSON.stringify(response.data1));
+            }
+        });
+    }
+
+    function loadPagination(data) {
+        var dataPage = JSON.parse(data);
+        var pageNumber = parseInt(dataPage.pageNumber);
+        var totalPage = parseInt(dataPage.totalPageNumbers);
+        document.getElementById("pageInputDeleteDiv").value = pageNumber;
+        document.getElementById("pageInputUpdateDiv").value = totalPage;
+        console.log(pageNumber);
+        console.log(document.getElementById("pageInputUpdateDiv").value);
+        document.getElementById('pagination').innerHTML = createPagination(totalPage, pageNumber);
+    }
+
+    function loadContentList(data) {
+        const tableInfo = document.querySelector(".table");
+        var tableBody = tableInfo.querySelector("tbody");
+        var list = JSON.parse(data);
+        var bodyContent = "";
+        list.forEach(item => {
+            var product = JSON.parse(JSON.stringify(item.product));
+            var createdBy = JSON.parse(JSON.stringify(item.createdBy));
+            var m = new Date(item.createdAt);
+            var time = m.getFullYear() + "-" +
+                ("0" + (m.getMonth()+1)).slice(-2) + "-" +
+                ("0" + m.getDate()).slice(-2) + " " +
+                ("0" + m.getHours()).slice(-2) + ":" +
+                ("0" + m.getMinutes()).slice(-2) + ":" +
+                ("0" + m.getSeconds()).slice(-2);
+            var expiredAt = new Date(item.expiredAt);
+            var storage = JSON.stringify(item);
+            bodyContent += "<tr>";
+            bodyContent += "<td>" + item.id + "</td>";
+            bodyContent += "<td>" + product.name + "</td>";
+            bodyContent += "<td>" + product.price + "</td>";
+            bodyContent += "<td>" + time + "</td>";
+            bodyContent += "<td>" + createdBy.account + "</td>";
+            bodyContent += `<td> <button class="btn" style="background-color: #01b901;color: #ffffff;cursor: pointer;"onclick='showUpdateDiv(JSON.stringify(` + storage +`))'>Thông tin </button> </td>`
+            bodyContent += `<td> <button class="btn" style="background-color: #cc2127;color: #ffffff;cursor: pointer;" onclick="showDeleteAlert(` + item.id + `)"> Xóa  </button>  </td>`
+            bodyContent += "</tr>";
+        });
+        tableBody.innerHTML = bodyContent;
+    }
+
+    // Convert price below format 1,000
     var priceStorage = document.querySelectorAll(".price_storage");
-    priceStorage.forEach( p => {
+    priceStorage.forEach(p => {
         p.innerText = parseInt(p.innerText).toLocaleString();
     });
 
@@ -361,11 +423,18 @@
     }
 
     function showUpdateDiv(storage) {
-        console.log(storage);
         const div = document.getElementById("updateDiv");
         const closeButton = document.getElementById("closeButton");
         const body = document.querySelector(".wrapper");
         var json = JSON.parse(storage);
+        var expiredAt = new Date(json.expiredAt);
+        var timeExpiredAt = expiredAt.getFullYear() + "-" +
+            ("0" + (expiredAt.getMonth()+1)).slice(-2) + "-" +
+            ("0" + expiredAt.getDate()).slice(-2) + " " +
+            ("0" + expiredAt.getHours()).slice(-2) + ":" +
+            ("0" + expiredAt.getMinutes()).slice(-2) + ":" +
+            ("0" + expiredAt.getSeconds()).slice(-2);
+        json.expiredAt = timeExpiredAt;
         document.getElementById("idInputUpdateDiv").value = json.id;
         document.getElementById("seriInputUpdateDiv").value = json.serialNumber;
         document.getElementById("cardNumberInputUpdateDiv").value = json.cardNumber;
@@ -408,13 +477,13 @@
         let pageCutHigh = page + 1;
         // Show the Previous button only if you are on a page other than the first
         if (page > 1) {
-            str += '<li onclick="createPagination(pages, ' + (page - 1) + ')" class="page__btn"><a href="storage?page=' + (page - 1) + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>&laquo;</span></a></li>';
+            str += '<li onclick="createPagination(pages, ' + (page - 1) + ');getData(' + (page - 1) + ')" class="page__btn paging"><span>&laquo;</span></li>';
         }
         // Show all the pagination elements if there are less than 6 pages total
         if (pages < 6) {
             for (let p = 1; p <= pages; p++) {
                 active = page == p ? "active" : "";
-                str += '<li onclick="createPagination(pages, ' + p + ')" class="page__numbers ' + active + '"><a href="storage?page=' + p + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + p + '</span></a></li>';
+                str += '<li onclick="createPagination(pages, ' + p + ');getData(' + p + ')" class="page__numbers paging ' + active + '"><span>' + p + '</span></li>';
             }
         }
         // Use "..." to collapse pages outside of a certain range
@@ -422,7 +491,7 @@
             // Show the very first page followed by a "..." at the beginning of the
             // pagination section (after the Previous button)
             if (page > 2) {
-                str += `<li onclick="createPagination(pages, 1)" class="page__numbers"><a href="storage?page=1" class="w-100 h-100 d-flex text-justify justify-content-center"><span>1</span></a></li>`;
+                str += `<li onclick="createPagination(pages, 1);getData(` + 1 + `)" class="page__numbers paging"><span>1</span></li>`;
                 if (page > 3) {
                     str += `<li class="page__dots"><span>...</span></li>`;
                 }
@@ -449,7 +518,7 @@
                     continue
                 }
                 active = page == p ? "active" : "";
-                str += '<li onclick="createPagination(pages, ' + p + ')" class="page__numbers ' + active + '"><a href="storage?page=' + p + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + p + '</span></a></li>';
+                str += '<li onclick="createPagination(pages, ' + p + ');getData(' + p + ')" class="page__numbers paging ' + active + '"><span>' + p + '</span></li>';
             }
             // Show the very last page preceded by a "..." at the end of the pagination
             // section (before the Next button)
@@ -457,18 +526,17 @@
                 if (page < pages - 2) {
                     str += '<li class="page__dots"><span>...</span></li>';
                 }
-                str += '<li onclick="createPagination(pages, pages)" class="page__numbers"><a href="storage?page=' + pages + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + pages + '</span></a></li>';
+                str += '<li onclick="createPagination(pages, pages);getData(' + pages + ')" class="page__numbers paging"><span>' + pages + '</span></li>';
             }
         }
         // Show the Next button only if you are on a page other than the last
         if (page < pages) {
-            str += '<li onclick="createPagination(pages, ' + (page + 1) + ')" class="page__btn"><a href="storage?page=' + (page + 1) + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>&raquo;</span></a></li>';
+            str += '<li onclick="createPagination(pages, ' + (page + 1) + ');getData(' + (page + 1) + ')" class="page__btn paging"><span>&raquo;</span></li>';
         }
         str += '</ul>';
         // Return the pagination string to be outputted in the pug templates
         document.getElementById('pagination').innerHTML = str;
         return str;
     }
-
 </script>
 </html>

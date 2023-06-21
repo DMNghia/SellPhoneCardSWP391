@@ -14,6 +14,25 @@ public class StorageDAO extends DBContext {
     private UserDAO userDAO = new UserDAO();
     private ProductDAO productDAO = new ProductDAO();
 
+
+
+    public List<Product> getListDistinctProductWithStorage() {
+        List<Product> list = new ArrayList<>();
+        try {
+            String query = "select distinct p.id from product p\n" +
+                    "left join storage s on p.id = s.productId\n" +
+                    "where s.isUsed = false and s.isDelete = false;";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(productDAO.findProductById(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            System.err.println("getListDistinctProductWithStorage: " + e.getMessage());
+        }
+        return list;
+    }
+
     public List<Storage> getListStorageWithNearestExpiredAt(int size, String supplierName, int price) {
         List<Storage> listStorage = new ArrayList<>();
         try {
@@ -77,21 +96,6 @@ public class StorageDAO extends DBContext {
         return list;
     }
 
-    public List<Product> getListDistinctProduct() {
-        List<Product> list = new ArrayList<>();
-        try {
-            String query = "select distinct productId from storage;";
-            PreparedStatement ps = connection.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(productDAO.findProductById(rs.getInt("productId")));
-            }
-        } catch (SQLException e) {
-            System.err.println("getListDistinctProduct: " + e.getMessage());
-        }
-        return list;
-    }
-
     public void delete(Storage storage) {
         try {
             String query = "update storage\n" +
@@ -149,18 +153,33 @@ public class StorageDAO extends DBContext {
         return null;
     }
 
-    public Long getTotalStorage() {
+    public Long getTotalStorage(int price, int productId, String search) {
         try {
-            String query = "select count(id) from storage where isUsed = false and isDelete = false;";
+            String query = "select count(s.id) from storage s " +
+                    "left join product p on s.productId = p.id " +
+                    "where price" + (price > -1 ? " = ?" : "") +
+                    " and s.productId" + (productId > -1 ? " = ?" : "") +
+                    " and p.name like ? and s.isUsed = false and s.isDelete = false;";
             PreparedStatement ps = connection.prepareStatement(query);
+            int i = 1;
+            if (price > -1) {
+                ps.setInt(i, price);
+                i += 1;
+            }
+            if (productId > -1) {
+                ps.setInt(i, productId);
+                i += 1;
+            }
+            ps.setString(i, search);
+            i += 1;
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getLong(1);
+            while (rs.next()) {
+                return rs.getLong("count(s.id)");
             }
         } catch (SQLException e) {
-            System.out.println("getTotalStorage: " + e.getMessage());
+            System.err.println("searchStorage: " + e.getMessage());
         }
-        return (long) -1;
+        return (long) 0;
     }
 
     public List<Storage> getListStorageForPage(int page) {

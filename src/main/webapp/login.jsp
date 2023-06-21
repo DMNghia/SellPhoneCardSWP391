@@ -141,6 +141,7 @@
                                         <div
                                                 class="flex justify-between"
                                         >
+
                                             <input
                                                     id="captcha-input"
                                                     type="text"
@@ -170,6 +171,12 @@
                                         class="text-red-600"
                                 >
                                     ${captchaMessageErr}
+                                </p>
+                                <p
+                                        id="passwordAccount-validate"
+                                        class="text-red-600"
+                                >
+                                    ${error}
                                 </p>
                             </div>
                             <button

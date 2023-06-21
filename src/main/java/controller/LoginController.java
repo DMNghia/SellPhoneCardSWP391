@@ -93,6 +93,8 @@ public class LoginController extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else if (!captchaInput.equals(captchaValue)) {
             error = "Captcha is not correct!";
+            request.setAttribute("account", account);
+            request.setAttribute("password", password);
             request.setAttribute("captchaMessageErr", error);
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
