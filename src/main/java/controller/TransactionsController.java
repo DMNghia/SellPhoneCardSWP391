@@ -74,23 +74,33 @@ public class TransactionsController extends HttpServlet {
             if (isAdmin) {
                 ArrayList<Transactions> listT = new ArrayList<>();
                 listT = (new TransactionsDAO()).getListTransactions();
-                
+
                 TransactionsDAO td = new TransactionsDAO();
 //                String account =(String) session.getAttribute("account");
-                User u = (User)session.getAttribute("user");
+                User u = (User) session.getAttribute("user");
                 List<Transactions> listTr = td.getListTransactionsById(u.getId());
                 int size = listTr.size();
-                int soTrang = (size%1==0)?(size/1):(size/1+1);
+                int soTrang = (size % 2 == 0) ? (size / 2) : (size / 2 + 1);
                 String xpage = request.getParameter("page");
                 int page;
-                if(xpage==null){
-                    page=1;
-                }else{
+                if (xpage == null) {
+                    page = 1;
+                } else {
                     page = Integer.parseInt(xpage);
                 }
-                int start = (page -1 )*1;
-                int end = Math.min(page*1,size);
-                listTr = td.getListTransactionsById(u.getId(),start,end);
+                int start = (page - 1) * 2;
+                int end = Math.min(page * 2, size);
+                listTr = td.getListTransactionsById(u.getId(), start, end);
+                
+                if(request.getParameter("searchSubmit")!=null){
+                    String type = request.getParameter("type"); 
+                    String status =request.getParameter("status"); 
+                    String search =request.getParameter("search");
+//                    boolean xtype = (type.isEmpty())?null:Boolean.parseBoolean(type);
+//                    boolean xstatus = (status.isEmpty())?null:Boolean.parseBoolean(status);
+                    
+                    listTr = td.searchTransactions(type, status, search,u.getId());
+                }
                 request.setAttribute("soTrang", soTrang);
                 request.setAttribute("list", listTr);
                 request.setAttribute("transactionsList", listT);
@@ -119,55 +129,66 @@ public class TransactionsController extends HttpServlet {
                 String type_raw = request.getParameter("type");
                 String search_raw = request.getParameter("search");
                 if (search_raw != null || type_raw != null || status_raw != null) {
-                boolean type ;
-                boolean status ;
-                String search = "%";
-                if (search_raw != null && !search_raw.isEmpty()) {
-                    search += (search_raw + "%");
-                }
-                if (type_raw != null && !type_raw.equals("all")) {
-                    type = Boolean.parseBoolean(type_raw);
-                   // totalPages = (double) totalStorage / 10;
-                }
-//                if (status_raw != null && !status_raw.equals("all")) {
-//                    productId = Integer.parseInt(status_raw);
-//                }
-                List<Transactions> list;
-                list = td.getListTransactions();
+                    String type = "";
+                    String status = "";
+                    String search = "%";
+                    if (search_raw != null && !search_raw.isEmpty()) {
+                        search += (search_raw + "%");
+                    }
+//                    if (type_raw != null && !type_raw.equals("all")) {
+//                        type = Boolean.parseBoolean(type_raw);
+//                    }
+//                    if (status_raw != null && !status_raw.equals("all")) {
+//                        status = Boolean.parseBoolean(status_raw);
+//                    }
+                    List<Transactions> listTrans;
+                    listTrans = td.searchTransactions(type, status, search, u.getId());
+                    List<Transactions> list;
+                    list = td.getListTransactions();
 //                totalStorage = (long) list.size();
 //                totalPages = (double) totalStorage / 10;
-                request.setAttribute("pageNumber", 1);
-                request.setAttribute("listTransactionSearch", list);
-                //request.setAttribute("totalPageNumbers", Math.ceil(totalPages));
-                request.getRequestDispatcher("transactions.jsp").forward(request, response);
+                    request.setAttribute("pageNumber", 1);
+                    request.setAttribute("transactionsList", list);
+                    request.setAttribute("searchList", listTrans);
+                    //request.setAttribute("totalPageNumbers", Math.ceil(totalPages));
+                    request.getRequestDispatcher("transactions.jsp").forward(request, response);
                 }
             } else {
                 ArrayList<Transactions> listTr1 = new ArrayList<>();
-                User u = (User)session.getAttribute("user");
+                User u = (User) session.getAttribute("user");
                 listTr1 = (new TransactionsDAO()).getListTransactionsById(u.getId());
-
+                
                 TransactionsDAO td = new TransactionsDAO();
 //                String account =(String) session.getAttribute("account");
                 List<Transactions> listTr = td.getListTransactionsById(u.getId());
-                int size = listTr.size();
-                int soTrang = (size%2==0)?(size/1):(size/2+1);
+                int size = listTr.size(); //count
+                int soTrang = (size % 2 == 0) ? (size / 2) : (size / 2 + 1);
                 String xpage = request.getParameter("page");
                 int page;
-                if(xpage==null){
-                    page=1;
-                }else{
+                if (xpage == null) {
+                    page = 1;
+                } else {
                     page = Integer.parseInt(xpage);
                 }
-                int start = (page -1 )*2;
-                int end = Math.min(page*2,size);
-                listTr = td.getListTransactionsById(u.getId(),start,end);
+                int start = (page - 1) * 2;
+                int end = Math.min(page * 2, size);
+                listTr = td.getListTransactionsById(u.getId(), start, end);
+                
+                if(request.getParameter("searchSubmit")!=null){
+                    String type = request.getParameter("type"); 
+                    String status = request.getParameter("status"); 
+                    String search = request.getParameter("search");
+//                    boolean xtype = (type.isEmpty())?null:Boolean.parseBoolean(type);
+//                    boolean xstatus = (status.isEmpty())?null:Boolean.parseBoolean(status);
+                    
+                    listTr = td.searchTransactions(type, status, search,u.getId());
+                }
                 request.setAttribute("soTrang", soTrang);
                 request.setAttribute("list", listTr);
                 request.setAttribute("transactionsList", listTr1);
                 request.getRequestDispatcher("transactions.jsp").forward(request, response);
             }
-            
-            
+
         }
 
     }
@@ -183,7 +204,12 @@ public class TransactionsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        TransactionsDAO td = new TransactionsDAO();
+//        Transactions tran = new Transactions();
+//        User u = new User();
+//        List<Transactions> listDetail = td.getDetailHistory(tran.getId());
+//        request.setAttribute("listDetail", listDetail);
+//        request.getRequestDispatcher("transactions").forward(request, response);
     }
 
     /**

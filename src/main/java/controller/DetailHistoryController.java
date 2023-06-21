@@ -4,12 +4,16 @@
  */
 package controller;
 
+import dal.TransactionsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Transactions;
+import model.User;
 
 /**
  *
@@ -55,7 +59,13 @@ public class DetailHistoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            request.getRequestDispatcher("detailHistory.jsp").forward(request, response);
+        TransactionsDAO td = new TransactionsDAO();
+        int id = Integer.parseInt((String)request.getParameter("id"));
+//        System.out.println(id);
+        List<Transactions> listDetail = td.getDetailHistory(id);
+        
+        request.setAttribute("listDetail", listDetail);
+        request.getRequestDispatcher("detailHistory.jsp").forward(request, response);
     }
 
     /**

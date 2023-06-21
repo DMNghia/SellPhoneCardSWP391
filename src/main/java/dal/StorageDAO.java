@@ -17,11 +17,13 @@ public class StorageDAO extends DBContext {
     public List<Storage> searchStorage(int price, int productId, String search) {
         List<Storage> list = new ArrayList<>();
         try {
+            
             String query = "select s.* from storage s " +
                     "left join product p on s.productId = p.id " +
                     "where price" + (price > -1 ? " = ?" : "") +
                     " and s.productId" + (productId > -1 ? " = ?" : "") +
                     " and p.name like ?";
+            
             PreparedStatement ps = connection.prepareStatement(query);
             int i = 1;
             if (price > -1) {
@@ -169,5 +171,6 @@ public class StorageDAO extends DBContext {
             System.out.println("getAllStorage: " + e.getMessage());
         }
         return list;
+        
     }
 }

@@ -7,6 +7,10 @@
 <html>
     <head>
         <meta charset="utf-8"/>
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
         <link href="${pageContext.request.contextPath}/admin/assets/css/pagination.css" rel="stylesheet">
         <link rel="apple-touch-icon" sizes="76x76"
               href="${pageContext.request.contextPath}/admin/assets/img/apple-icon.png">
@@ -39,15 +43,16 @@
                 </style>-->
         <style>
             table {
-                        border-collapse: collapse;
-                        width: 100%;
-                    }
-        
-                    th, td {
-                        border: 1px solid black;
-                        padding: 8px;
-                        text-align: left;
-                    }
+                border-collapse: collapse;
+                width: 100%;
+
+            }
+
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
             #updateDiv {
                 display: none;
                 position: fixed;
@@ -78,7 +83,45 @@
         </style>
     </head>
     <body>
-        <h1>Lịch sử giao dịch</h1>
+        <header >
+            <div class="menu" >
+                <nav >
+                    <div class="header1">
+                        <ul>
+                            <li><a href="home">Trang chủ</a></li>
+                            <li><a href="#">Mua hàng</a>
+                                <ul>
+                                    <li><a href="#">Sản phẩm</a></li>
+                                    <li><a href="#">Đơn hàng</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Giao dịch</a>
+                                <ul>
+                                    <li><a href="transactions">Lịch sử</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="#">Số dư</a></li>
+                            <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                                    <c:if test="${user != null}">
+                                <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
+                                    <ul>
+                                        <li><a href="changeProfile">Thông tin người dùng</a></li>
+                                        <li><a href="logout">Đăng xuất</a></li>
+                                    </ul>
+                                </li>
+                            </c:if>
+                            <c:if test="${user == null}">
+                                <li><a href="login">Đăng nhập</a></li>
+                                </c:if>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <h1 style="justify-content: center;
+            align-items: center;
+            text-align: center;color: rgb(52, 86, 142);">Lịch sử giao dịch</h1>
 
         <table>
             <tr>
@@ -93,7 +136,7 @@
                 <th>Hành động</th>   
             </tr>
 
-            <c:forEach var="at" items="${transactionsList}">
+            <c:forEach var="at" items="${list}">
                 <tr>
                     <th>${at.getId()}</th>
                     <th>${at.getMoney()}</th>
@@ -113,133 +156,56 @@
                     <th>${at.getUser().getAccount()}</th>
                     <th>${at.getCreateAt()}</th>
                     <th>${at.getUpdatedAt()}</th>
-                    <td>
-                        <button class="btn"
-                                style="background-color: #01b901;color: #ffffff;cursor: pointer;"
-                                onclick='showUpdateDiv(JSON.stringify(${storage.toJson()}))'>Thông tin
-                        </button>
-                    </td>
+                    <td><a href="detailHistory?id=${at.getId()}">Thông tin</a></td>
+                    <!--                        <button class="btn"
+                                                    style="background-color: #01b901;color: #ffffff;cursor: pointer;"
+                                                    onclick='showUpdateDiv(JSON.stringify(${storage.toJson()}))'>Thông tin
+                                            </button>-->
+
                 </tr>  
             </c:forEach>
 
             <c:forEach begin="${1}" end="${soTrang}" var="i">
                 <a class="${i==page?"active":""}" href="transactions?page=${i}">${i}</a>
             </c:forEach>
+
         </table>
-        <!--    <center>
-        
-                <div id="pagination">
-                </div>
-            </center>-->
+
         <div class="main-panel">
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="storage"> Sản phẩm </a>
+
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                        <form method="get" action="storage">
-                            <ul class="nav navbar-nav mr-auto">
-                                <li class="dropdown nav-item" style="margin-left: 10px">
-                                    <select name="price" class="h-100 border-0" style="background-color: transparent;color: #5e5e5e;cursor: pointer">
-                                        <option value="all">Loại giao dịch</option>
-                                        <c:forEach var="product" items="${listProduct}">
-                                            <option class="dropdown-item" ${String.valueOf(product.getPrice()).equals(param.price) ? "selected" : ""} value="${product.getPrice()}">${product.getPrice()}</option>
-                                        </c:forEach>
+                        <form method="get" action="transactions">
+                            <ul class="nav navbar-nav mr-auto" style="background-color: white">
+                                <li class="dropdown nav-item" style="margin-left: 10px; background-color:white ">
+                                    <select name="type" class="h-100 border-0" style="background-color: transparent;color: #5e5e5e;cursor: pointer">
+                                        <option value="">Loại giao dich</option>
+                                        <option value="true">Tiền vào </option>
+                                        <option value="false">Tiền ra</option>
                                     </select>
                                 </li>
-                                <li class="nav-item dropdown" style="margin-left: 10px">
-                                    <select name="supplier" class="h-100 border-0" style="background-color: transparent;color: #5e5e5e;cursor: pointer">
-                                        <option value="all">Xử lí</option>
-                                        <c:forEach var="product" items="${listProduct}">
-                                            <option class="dropdown-item" ${String.valueOf(product.getId()).equals(param.supplier) ? "selected" : ""} value="${product.getId()}">${product.getSupplier().getName()}</option>
-                                        </c:forEach>
+                                <li class="nav-item dropdown" style="margin-left: 10px;background-color:white ">
+                                    <select name="status" class="h-100 border-0" style="background-color: transparent;color: #5e5e5e;cursor: pointer">
+                                        <option value="">Xử lí</option>
+                                        <option value="true" >Đã xử lí</option>
+                                        <option value="false">Chưa xử lí</option>
                                     </select>
                                 </li>
-                                <li class="nav-item" style="margin-left: 10px">
-                                    <input type="text" name="search" placeholder="Tìm giao dịch" class="h-50 border-0" value="${param.search}">
-                                    <button type="submit" class="nav-link border-0" style="cursor: pointer">
-                                        <i class="nc-icon nc-zoom-split"></i>
-                                        <span class="d-lg-block">&nbsp;Search</span>
-                                    </button>
-                                </li>
+                                <form ation="transactions"  >
+                                    <li class="nav-item" style="margin-left: 10px;background-color:white ">
+                                        <input type="text" name="search" placeholder="Tìm giao dịch" class="h-50 border-0" value="${param.search}">
+                                        <button type="submit" name="searchSubmit" value="search" class="nav-link border-0" style="cursor: pointer">
+                                            <i class="nc-icon nc-zoom-split"></i>
+                                            <span class="d-lg-block">&nbsp;Search</span>
+                                        </button>
+                                    </li>
+                                </form>
                             </ul>
                         </form>
                     </div>
                 </div>
-                </body>
-                <!--<script>
-                    let pages = ${totalPageNumbers};
-                
-                //    document.getElementById('pagination').innerHTML = createPagination(pages,${1});
-                    document.getElementById('pagination').innerHTML = 1;
-                
-                    function createPagination(pages, page) {
-                        let str = '<ul class="page">';
-                        let active;
-                        let pageCutLow = page - 1;
-                        let pageCutHigh = page + 1;
-                        // Show the Previous button only if you are on a page other than the first
-                        if (page > 1) {
-                            str += '<li onclick="createPagination(pages, ' + (page - 1) + ')" class="page__btn"><a href="storage?page=' + (page - 1) + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>&laquo;</span></a></li>';
-                        }
-                        // Show all the pagination elements if there are less than 6 pages total
-                        if (pages < 6) {
-                            for (let p = 1; p <= pages; p++) {
-                                active = page == p ? "active" : "";
-                                str += '<li onclick="createPagination(pages, ' + p + ')" class="page__numbers ' + active + '"><a href="storage?page=' + p + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + p + '</span></a></li>';
-                            }
-                        }
-                        // Use "..." to collapse pages outside of a certain range
-                        else {
-                            // Show the very first page followed by a "..." at the beginning of the
-                            // pagination section (after the Previous button)
-                            if (page > 2) {
-                                str += `<li onclick="createPagination(pages, 1)" class="page__numbers"><a href="storage?page=1" class="w-100 h-100 d-flex text-justify justify-content-center"><span>1</span></a></li>`;
-                                if (page > 3) {
-                                    str += `<li class="page__dots"><span>...</span></li>`;
-                                }
-                            }
-                            // Determine how many pages to show after the current page index
-                            if (page === 1) {
-                                pageCutHigh += 2;
-                            } else if (page === 2) {
-                                pageCutHigh += 1;
-                            }
-                            // Determine how many pages to show before the current page index
-                            if (page === pages) {
-                                pageCutLow -= 2;
-                            } else if (page === pages - 1) {
-                                pageCutLow -= 1;
-                            }
-                            // Output the indexes for pages that fall inside the range of pageCutLow
-                            // and pageCutHigh
-                            for (let p = pageCutLow; p <= pageCutHigh; p++) {
-                                if (p === 0) {
-                                    p += 1;
-                                }
-                                if (p > pages) {
-                                    continue
-                                }
-                                active = page == p ? "active" : "";
-                                str += '<li onclick="createPagination(pages, ' + p + ')" class="page__numbers ' + active + '"><a href="storage?page=' + p + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + p + '</span></a></li>';
-                            }
-                            // Show the very last page preceded by a "..." at the end of the pagination
-                            // section (before the Next button)
-                            if (page < pages - 1) {
-                                if (page < pages - 2) {
-                                    str += '<li class="page__dots"><span>...</span></li>';
-                                }
-                                str += '<li onclick="createPagination(pages, pages)" class="page__numbers"><a href="storage?page=' + pages + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>' + pages + '</span></a></li>';
-                            }
-                        }
-                        // Show the Next button only if you are on a page other than the last
-                        if (page < pages) {
-                            str += '<li onclick="createPagination(pages, ' + (page + 1) + ')" class="page__btn"><a href="storage?page=' + (page + 1) + '" class="w-100 h-100 d-flex text-justify justify-content-center"><span>&raquo;</span></a></li>';
-                        }
-                        str += '</ul>';
-                        // Return the pagination string to be outputted in the pug templates
-                        document.getElementById('pagination').innerHTML = str;
-                        return str;
-                    }
-                </script>-->
-                </html>
+            </nav>
+    </body>
+</html>
