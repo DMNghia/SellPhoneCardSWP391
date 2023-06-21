@@ -44,13 +44,13 @@ The above copyright notice and this permission notice shall be included in all c
 -->
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
-                    Creative Tim
+                <a href="/" class="simple-text">
+                    SWP391 GROUP5
                 </a>
             </div>
             <ul class="nav">
                 <li>
-                    <a class="nav-link" href="home">
+                    <a class="nav-link" href="/">
                         <i class="nc-icon nc-chart-pie-35"></i>
                         <p>Dashboard</p>
                     </a>
@@ -68,7 +68,7 @@ The above copyright notice and this permission notice shall be included in all c
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="order.jsp">
+                    <a class="nav-link" href="order">
                         <i class="nc-icon nc-paper-2"></i>
                         <p>Order</p>
                     </a>
@@ -104,7 +104,7 @@ The above copyright notice and this permission notice shall be included in all c
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg " color-on-scroll="500">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#pablo"> User </a>
+                <a class="navbar-brand" href="changeProfile"> Thông tin </a>
                 <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-bar burger-lines"></span>
@@ -176,7 +176,7 @@ The above copyright notice and this permission notice shall be included in all c
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Edit Profile</h4>
+                                <h4 class="card-title">Chỉnh sửa thông tin</h4>
                             </div>
                             <div class="card-body">
                                 <form action="changeProfile" method="post">

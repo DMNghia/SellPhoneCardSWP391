@@ -57,7 +57,7 @@
 <body>
 <div class="row col-6 text-center" id="deleteDiv">
     <h4 style="text-align: center"><b>Bạn có chắc muốn xóa chứ</b></h4>
-    <form action="order" method="post">
+    <form action="storage" method="post">
         <input name="id" id="idInputDeleteDiv" class="d-none">
         <input name="page" value='${request.getParameter("page")}' class="d-none">
         <button class="btn" type="submit" name="option" value="delete" style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
@@ -73,7 +73,7 @@
             style="cursor: pointer">
         <i class="nc-icon nc-simple-remove"></i>
     </button>
-    <form action="order" method="post" class="">
+    <form action="storage" method="post" class="">
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
@@ -124,13 +124,13 @@
         -->
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="home" class="simple-text">
+                <a href="/" class="simple-text">
                     SWP391 GROUP5
                 </a>
             </div>
             <ul class="nav">
                 <li>
-                    <a class="nav-link" href="home">
+                    <a class="nav-link" href="/">
                         <i class="nc-icon nc-chart-pie-35"></i>
                         <p>Dashboard</p>
                     </a>
@@ -186,7 +186,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="storage"> Sản phẩm </a>
                 <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                    <form method="get" action="order">
+                    <form method="get" action="storage">
                         <ul class="nav navbar-nav mr-auto">
                             <li class="dropdown nav-item" style="margin-left: 10px">
                                 <select name="price" class="h-100 border-0" style="background-color: transparent;color: #5e5e5e;cursor: pointer">
@@ -247,7 +247,7 @@
                                         <tr>
                                             <td>${storage.getId()}</td>
                                             <td>${storage.getProduct().getName()}</td>
-                                            <td>${storage.getProduct().getPrice()}</td>
+                                            <td class="price_storage">${storage.getProduct().getPrice()}</td>
                                             <td>${storage.getCreatedAt()}</td>
                                             <td>${storage.getCreatedBy().getAccount()}</td>
                                             <td>
@@ -323,6 +323,10 @@
 
 
 <script type="text/javascript">
+    var priceStorage = document.querySelectorAll(".price_storage");
+    priceStorage.forEach( p => {
+        p.innerText = parseInt(p.innerText).toLocaleString();
+    });
 
     function showDeleteAlert(id) {
         const div = document.getElementById("deleteDiv");

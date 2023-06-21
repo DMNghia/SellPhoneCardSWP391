@@ -43,15 +43,15 @@
         <nav class="nav-header">
             <div class="header1">
                 <ul>
-                    <li><a href="home">Trang chủ</a></li>
+                    <li><a href="/">Trang chủ</a></li>
                     <li><a href="#">Mua hàng</a>
                         <ul>
-                            <li><a href="#">Đơn hàng</a></li>
+                            <li><a href="${(user != null ) ? "order" : "login"}">Đơn hàng</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Giao dịch</a>
                         <ul>
-                            <li><a href="#">Lịch sử</a></li>
+                            <li><a href="${(user != null ) ? "transaction" : "login"}">Lịch sử</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Liên hệ</a></li>
