@@ -1,8 +1,6 @@
 package controller;
 
-import com.oracle.wls.shaded.org.apache.xpath.operations.Or;
 import dal.OrderDAO;
-import dal.StorageDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,8 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Order;
-import model.Product;
-import model.Storage;
 import model.User;
 
 import java.io.IOException;
@@ -32,12 +28,12 @@ public class OrderController extends HttpServlet {
         String page_raw = request.getParameter("page");
         String status_raw = request.getParameter("status");
         String search_raw = request.getParameter("search");
-            //khởi tạo biến
-            int productId = -1;
-            String search = "%";
-            String status = "%";
-            int page = 1;
-            int id = -1;
+        //khởi tạo biến
+        int productId = -1;
+        String search = "%";
+        String status = "%";
+        int page = 1;
+        int id = -1;
         List<Order> list;
         if (page_raw != null && !page_raw.equals("1") && !page_raw.isEmpty()) {
             page = Integer.parseInt(page_raw);
@@ -54,14 +50,14 @@ public class OrderController extends HttpServlet {
         List<String> listStatus = new ArrayList<>();
         listStatus = orderDAO.getDistinctStatus();
         //getAllOrder
-        list = orderDAO.getAllOrder(status, search, (page-1) * 10);
+        list = orderDAO.getAllOrder(status, search, (page - 1) * 10);
         long totalOrder = orderDAO.totalOrder(status, search);
-        double totalPage = (double) totalOrder/10;
+        double totalPage = (double) totalOrder / 10;
         request.setAttribute("totalPageNumbers", Math.ceil(totalPage));
         request.setAttribute("pageNumber", page);
-        request.setAttribute("listStatus",listStatus);
-        request.setAttribute("listOrder",list);
-        request.getRequestDispatcher("admin/order.jsp").forward(request,response);
+        request.setAttribute("listStatus", listStatus);
+        request.setAttribute("listOrder", list);
+        request.getRequestDispatcher("admin/order.jsp").forward(request, response);
 
     }
 
@@ -71,9 +67,9 @@ public class OrderController extends HttpServlet {
         String option = request.getParameter("option");
         OrderDAO orderDAO = new OrderDAO();
         User user = (User) session.getAttribute("user");
-        if(option.equals("delete")){
+        if (option.equals("delete")) {
             String id_raw = request.getParameter("id");
-            try{
+            try {
                 Long id = Long.parseLong(id_raw);
                 Order order = orderDAO.getOrderById(id);
                 order.setDelete(true);
@@ -83,7 +79,7 @@ public class OrderController extends HttpServlet {
                 System.out.println("Delete order success");
                 request.setAttribute("message", "Xóa sản phẩm thành công ");
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 request.setAttribute("message", "Xóa sản phẩm thất bại ");
                 System.out.println(e.getMessage());
             }
@@ -116,13 +112,13 @@ public class OrderController extends HttpServlet {
         List<String> listStatus = new ArrayList<>();
         listStatus = orderDAO.getDistinctStatus();
         //getAllOrder
-        list = orderDAO.getAllOrder(status, search, (page-1) * 10);
+        list = orderDAO.getAllOrder(status, search, (page - 1) * 10);
         long totalOrder = orderDAO.totalOrder(status, search);
-        double totalPage = (double) totalOrder/10;
+        double totalPage = (double) totalOrder / 10;
         request.setAttribute("totalPageNumbers", Math.ceil(totalPage));
         request.setAttribute("pageNumber", page);
-        request.setAttribute("listStatus",listStatus);
-        request.setAttribute("listOrder",list);
-        request.getRequestDispatcher("admin/order.jsp").forward(request,response);
+        request.setAttribute("listStatus", listStatus);
+        request.setAttribute("listOrder", list);
+        request.getRequestDispatcher("admin/order.jsp").forward(request, response);
     }
 }

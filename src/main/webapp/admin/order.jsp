@@ -26,7 +26,9 @@
     <link href="${pageContext.request.contextPath}/admin/assets/css/demo.css" rel="stylesheet"/>
     <style>
         #updateDiv {
-            display: none;
+            /*display: none;*/
+            max-height: 80%;
+            overflow: scroll;
             position: fixed;
             top: -100%;
             left: 50%;
@@ -40,7 +42,7 @@
         }
 
         #deleteDiv {
-            display: none;
+            /*display: none;*/
             position: fixed;
             top: -100%;
             left: 50%;
@@ -288,7 +290,7 @@
 
                                                 <c:if test="${index == 0}">
                                                     <td>
-                                                            ${storage.getProduct().getName()}
+                                                            ${storage.getProduct().getName()}<br>
                                                     </td>
                                                 </c:if>
                                                 <c:if test="${index >= 1 && !storage.getProduct().getName().equals(order.getListStorage().get(index - 1).getProduct().getName())}">
@@ -307,7 +309,7 @@
                                                 <c:set var="index" value="${index + 1}"/>
                                                 <c:if test="${index == order.getListStorage().size()}">
                                                     <td>
-                                                            ${quantity}
+                                                            ${quantity}<br>
                                                     </td>
                                                 </c:if>
                                             </c:forEach>

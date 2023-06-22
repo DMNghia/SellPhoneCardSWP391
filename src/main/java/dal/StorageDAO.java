@@ -15,7 +15,6 @@ public class StorageDAO extends DBContext {
     private ProductDAO productDAO = new ProductDAO();
 
 
-
     public List<Product> getListDistinctProductWithStorage() {
         List<Product> list = new ArrayList<>();
         try {
@@ -238,21 +237,4 @@ public class StorageDAO extends DBContext {
         }
         return null;
     }
-    public List<Product> getListDistinctProductWithStorage() {
-        List<Product> list = new ArrayList<>();
-        try {
-            String query = "select distinct p.id from product p\n" +
-                    "left join storage s on p.id = s.productId\n" +
-                    "where s.isUsed = false and s.isDelete = false;";
-            PreparedStatement ps = connection.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(productDAO.findProductById(rs.getInt("id")));
-            }
-        } catch (SQLException e) {
-            System.err.println("getListDistinctProductWithStorage: " + e.getMessage());
-        }
-        return list;
-    }
-
 }

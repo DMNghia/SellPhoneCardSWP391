@@ -1,6 +1,8 @@
 package dal;
 
 import model.Order;
+import model.Storage;
+import model.Product;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,7 +57,6 @@ public class OrderDAO extends DBContext {
 
         return result;
     }
-
 
     public List<Order> getAllOrder(String status, String search, int page) {
         List<Order> listOrder = new ArrayList<>();
