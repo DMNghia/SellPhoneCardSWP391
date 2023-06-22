@@ -152,8 +152,8 @@ values ('98273561904', '3982061487513', '2023-12-15', 1, false, false, '2023-06-
 
 create table order_detail
 (
-    id        bigint AUTO_INCREMENT,
-    `order`   bigint,
+    id      bigint AUTO_INCREMENT,
+    `order` bigint,
     storage bigint,
     primary key (id)
 );
@@ -161,7 +161,7 @@ create table order_detail
 create table `order`
 (
     id          bigint AUTO_INCREMENT,
-    user      int,
+    user        int,
     status      nvarchar(255),
     totalAmount int,
     isDelete    boolean,
@@ -187,7 +187,7 @@ values (1, 21),
        (2, 29),
        (3, 22),
        (3, 26),
-       (3, 23),
+       (4, 23),
        (4, 27),
        (5, 24),
        (5, 28);
@@ -202,3 +202,36 @@ values ('98273561911', '3982061487511', '2023-12-15', 1, true, false, '2023-06-1
        ('20843796511', '5047392162822', '2023-12-15', 8, true, false, '2023-06-13 22:40:15', 1),
        ('96382514011', '8253160974622', '2023-12-15', 10, true, false, '2023-06-13 22:40:15', 1),
        ('43095628711', '1429785632022', '2023-12-15', 2, true, false, '2023-06-13 22:40:15', 1);
+
+CREATE TABLE IF NOT EXISTS sellphonecard.`transactions`
+(
+    id        INT        NOT NULL AUTO_INCREMENT,
+    user      INT        NULL DEFAULT NULL,
+    orderId   bigint     NULL DEFAULT NULL,
+    money     int        NULL DEFAULT NULL,
+    note      TEXT       NULL DEFAULT NULL,
+    type      TINYINT(1) NULL DEFAULT NULL,
+    status    TINYINT(1) NULL DEFAULT NULL,
+    updatedAt DATETIME   NULL DEFAULT NULL,
+    updatedBy INT        NULL DEFAULT NULL,
+    createdAt  DATETIME   NULL DEFAULT NULL,
+    createdBy  INT        NULL DEFAULT NULL,
+    PRIMARY KEY (id),
+    INDEX user (user ASC) VISIBLE,
+    INDEX orderId (orderId ASC) VISIBLE,
+    CONSTRAINT transactions_ibfk_1
+        FOREIGN KEY (user)
+            REFERENCES sellphonecard.`user` (id),
+    CONSTRAINT transactions_ibfk_2
+        FOREIGN KEY (orderId)
+            REFERENCES sellphonecard.`order` (id)
+);
+
+INSERT INTO `sellphonecard`.`transactions` (`id`, `user`, `orderId`, `money`, `note`, `type`, `status`, `createdAt`, `createdBy`)
+VALUES (1, 2, null, 1000000000, 'Nap tien', 1, 1, '2023-06-22 13:22:22', 2),
+       (2, 2, 1, 60000, 'mua the viettel 10k', 0, 1, '2023-06-22 13:22:22', 2),
+       (3, 2, 2, 20000, 'mua cho Vina 20k', 0, 1, '2023-06-22 13:22:22', 2),
+       (4, 2, 3, 40000, 'mua the Mobi 20k', 0, 0, '2023-06-22 13:22:22', 2),
+       (5, 2, 4, 200000, 'mua the Viettel 100k', 0, 0, '2023-06-22 13:22:22', 2),
+       (6, 2, 5, 200000, 'mua the Vina 100k', 0, 0, '2023-06-22 13:22:22', 2),
+       (7, 2, null, 10000, 'nap them tien', 1, 1, '2023-06-22 13:22:22', 1);
