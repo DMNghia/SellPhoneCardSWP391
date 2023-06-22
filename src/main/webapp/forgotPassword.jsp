@@ -15,7 +15,7 @@
 </head>
 <body class="bg-gradient-to-tr from-cyan-300 to-purple-600">
 <div class="root">
-    <header style="height: 60px">
+    <header style="height: 60px;">
         <div class="menu">
             <nav class="nav-header">
                 <div class="header1">
@@ -31,15 +31,13 @@
                                 <li><a href="${(user != null ) ? "transaction" : "login"}">Lịch sử</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Liên hệ</a></li>
+                        <li><a href="contact.jsp">Liên hệ</a></li>
                         <li><a href="#" style="height: 100%"><i style="margin-top: 20px" class="fa-solid fa-cart-shopping"></i></a></li>
                         <c:if test="${user != null}">
-                            <li><span
-                                    style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span>
-                            </li>
+                            <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span></li>
                         </c:if>
                         <c:if test="${user != null}">
-                            <li><a href="#""><i class="fa-solid fa-circle-user"></i></a>
+                            <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
                                 <ul>
                                     <li><a href="changeProfile">Thông tin người dùng</a></li>
                                     <li><a href="logout">Đăng xuất</a></li>

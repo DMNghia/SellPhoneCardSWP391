@@ -255,7 +255,7 @@
                                         <tr>
                                             <td>${storage.getId()}</td>
                                             <td>${storage.getProduct().getName()}</td>
-                                            <td>${storage.getProduct().getPrice()}</td>
+                                            <td class="price_storage">${storage.getProduct().getPrice()}</td>
                                             <td>${storage.getCreatedAt()}</td>
                                             <td>${storage.getCreatedBy().getAccount()}</td>
                                             <td>
@@ -349,8 +349,6 @@
         var totalPage = parseInt(dataPage.totalPageNumbers);
         document.getElementById("pageInputDeleteDiv").value = pageNumber;
         document.getElementById("pageInputUpdateDiv").value = totalPage;
-        console.log(pageNumber);
-        console.log(document.getElementById("pageInputUpdateDiv").value);
         document.getElementById('pagination').innerHTML = createPagination(totalPage, pageNumber);
     }
 
@@ -374,7 +372,7 @@
             bodyContent += "<tr>";
             bodyContent += "<td>" + item.id + "</td>";
             bodyContent += "<td>" + product.name + "</td>";
-            bodyContent += "<td>" + product.price + "</td>";
+            bodyContent += "<td class='price_storage'>" + product.price + "</td>";
             bodyContent += "<td>" + time + "</td>";
             bodyContent += "<td>" + createdBy.account + "</td>";
             bodyContent += `<td> <button class="btn" style="background-color: #01b901;color: #ffffff;cursor: pointer;"onclick='showUpdateDiv(JSON.stringify(` + storage +`))'>Thông tin </button> </td>`
@@ -382,6 +380,10 @@
             bodyContent += "</tr>";
         });
         tableBody.innerHTML = bodyContent;
+        var priceStorage = document.querySelectorAll(".price_storage");
+        priceStorage.forEach(p => {
+            p.innerText = parseInt(p.innerText).toLocaleString();
+        });
     }
 
     // Convert price below format 1,000

@@ -1,9 +1,6 @@
 package dal;
 
 import model.Order;
-import model.Product;
-import model.Storage;
-import model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

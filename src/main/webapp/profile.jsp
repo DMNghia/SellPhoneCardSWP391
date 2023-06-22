@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Thay đổi thông tin người dùng</title>
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -117,30 +117,36 @@
 <body>
 <header>
     <div class="menu">
-        <nav>
+        <nav class="nav-header">
             <div class="header1">
                 <ul>
-                    <li><a href="home">Trang chủ</a></li>
+                    <li><a href="/">Trang chủ</a></li>
                     <li><a href="#">Mua hàng</a>
                         <ul>
-                            <li><a href="#">Sản phẩm</a></li>
-                            <li><a href="#">Đơn hàng</a></li>
+                            <li><a href="${(user != null ) ? "order" : "login"}">Đơn hàng</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Giao dịch</a>
                         <ul>
-                            <li><a href="#">Lịch sử</a></li>
+                            <li><a href="${(user != null ) ? "transaction" : "login"}">Lịch sử</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Liên hệ</a></li>
-                    <li><a href="#">Số dư</a></li>
+                    <li><a href="contact.jsp">Liên hệ</a></li>
                     <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
-                        <ul>
-                            <li><a href="changeProfile">Thông tin người dùng</a></li>
-                            <li><a href="logout">Đăng xuất</a></li>
-                        </ul>
-                    </li>
+                    <c:if test="${user != null}">
+                        <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span></li>
+                    </c:if>
+                    <c:if test="${user != null}">
+                        <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
+                            <ul>
+                                <li><a href="changeProfile">Thông tin người dùng</a></li>
+                                <li><a href="logout">Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    </c:if>
+                    <c:if test="${user == null}">
+                        <li><a href="login">Đăng nhập</a></li>
+                    </c:if>
                 </ul>
             </div>
         </nav>
