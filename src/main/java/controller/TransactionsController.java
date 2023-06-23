@@ -96,35 +96,12 @@ public class TransactionsController extends HttpServlet {
                     String type = request.getParameter("type"); 
                     String status =request.getParameter("status"); 
                     String search =request.getParameter("search");
-//                    boolean xtype = (type.isEmpty())?null:Boolean.parseBoolean(type);
-//                    boolean xstatus = (status.isEmpty())?null:Boolean.parseBoolean(status);
-                    
                     listTr = td.searchTransactions(type, status, search,u.getId());
                 }
                 request.setAttribute("soTrang", soTrang);
                 request.setAttribute("list", listTr);
                 request.setAttribute("transactionsList", listT);
                 request.getRequestDispatcher("transactions.jsp").forward(request, response);
-//                TransactionsDAO transactionsDAO = new TransactionsDAO();
-//                String page_raw = request.getParameter("page");
-//                List<Transactions> listTransactions = transactionsDAO.getListDistinctTransactions();
-//                Long totalTransactions = transactionsDAO.getTotalTransactions();
-//                double totalPages = (double) totalTransactions / 1;
-//                List<Transactions> list;
-//                if (page_raw == null) {
-//                list = transactionsDAO.getListTransactionsForPage(0);
-//                request.setAttribute("transactionsList", listT);
-//                request.setAttribute("totalPageNumbers", Math.ceil(totalPages));
-//                request.setAttribute("pageNumber", 1);
-//                request.setAttribute("listTransactions", listT);
-//            } else {
-//                list = transactionsDAO.getListTransactionsForPage((Integer.parseInt(page_raw) * 1) - 1);
-//                request.setAttribute("totalPageNumbers", Math.ceil(totalPages));
-//                request.setAttribute("transactionsList", listT);
-//                request.setAttribute("pageNumber", page_raw);
-//                request.setAttribute("listTransactions", listT);
-//            }
-                //String page_raw = request.getParameter("page");
                 String status_raw = request.getParameter("status");
                 String type_raw = request.getParameter("type");
                 String search_raw = request.getParameter("search");
@@ -135,22 +112,13 @@ public class TransactionsController extends HttpServlet {
                     if (search_raw != null && !search_raw.isEmpty()) {
                         search += (search_raw + "%");
                     }
-//                    if (type_raw != null && !type_raw.equals("all")) {
-//                        type = Boolean.parseBoolean(type_raw);
-//                    }
-//                    if (status_raw != null && !status_raw.equals("all")) {
-//                        status = Boolean.parseBoolean(status_raw);
-//                    }
                     List<Transactions> listTrans;
                     listTrans = td.searchTransactions(type, status, search, u.getId());
                     List<Transactions> list;
                     list = td.getListTransactions();
-//                totalStorage = (long) list.size();
-//                totalPages = (double) totalStorage / 10;
                     request.setAttribute("pageNumber", 1);
                     request.setAttribute("transactionsList", list);
                     request.setAttribute("searchList", listTrans);
-                    //request.setAttribute("totalPageNumbers", Math.ceil(totalPages));
                     request.getRequestDispatcher("transactions.jsp").forward(request, response);
                 }
             } else {
@@ -159,7 +127,6 @@ public class TransactionsController extends HttpServlet {
                 listTr1 = (new TransactionsDAO()).getListTransactionsById(u.getId());
                 
                 TransactionsDAO td = new TransactionsDAO();
-//                String account =(String) session.getAttribute("account");
                 List<Transactions> listTr = td.getListTransactionsById(u.getId());
                 int size = listTr.size(); //count
                 int soTrang = (size % 2 == 0) ? (size / 2) : (size / 2 + 1);
@@ -178,9 +145,6 @@ public class TransactionsController extends HttpServlet {
                     String type = request.getParameter("type"); 
                     String status = request.getParameter("status"); 
                     String search = request.getParameter("search");
-//                    boolean xtype = (type.isEmpty())?null:Boolean.parseBoolean(type);
-//                    boolean xstatus = (status.isEmpty())?null:Boolean.parseBoolean(status);
-                    
                     listTr = td.searchTransactions(type, status, search,u.getId());
                 }
                 request.setAttribute("soTrang", soTrang);

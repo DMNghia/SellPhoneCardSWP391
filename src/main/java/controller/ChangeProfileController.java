@@ -95,7 +95,7 @@ public class ChangeProfileController extends HttpServlet {
         String newPassword = request.getParameter("new-password");
         String rePassword = request.getParameter("re-type-password");
         String option = request.getParameter("option");
-        boolean isAdmin = false;
+        boolean isAdmin = (session.getAttribute("isAdmin") != null) ? ((boolean) session.getAttribute("isAdmin")) : false;
         UserDAO ud = new UserDAO();
         Function f = new Function();
         if (option.equals("changePassword")) {
@@ -123,8 +123,7 @@ public class ChangeProfileController extends HttpServlet {
             session.setAttribute("user", user);
             request.setAttribute("message", "Cập nhật thành công!");
         }
-        if (session.getAttribute("isAdmin") != null) {
-            isAdmin = (boolean) session.getAttribute("isAdmin");
+        if (isAdmin) {
             request.getRequestDispatcher("admin/user.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("profile.jsp").forward(request, response);

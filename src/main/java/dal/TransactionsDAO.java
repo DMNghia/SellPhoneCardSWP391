@@ -35,7 +35,7 @@ public class TransactionsDAO extends DBContext {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
                         rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createAt"), userDAO.getUserById(rs.getInt("createBy"))));
+                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getAllStorage: " + e.getMessage());
@@ -56,7 +56,7 @@ public class TransactionsDAO extends DBContext {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
                         rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createAt"), userDAO.getUserById(rs.getInt("createBy"))));
+                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getListTransactions: " + e.getMessage());
@@ -75,7 +75,7 @@ public class TransactionsDAO extends DBContext {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
                         rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createAt"), userDAO.getUserById(rs.getInt("createBy"))));
+                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getListTransactions: " + e.getMessage());
@@ -112,33 +112,6 @@ public class TransactionsDAO extends DBContext {
         return list;
     }
 
-//    public List<Transactions> getAllByAccount(String account,int start,int end) {
-//        List<Transactions> list = new ArrayList<>();
-//        List<Transactions> list1 = new ArrayList<>();
-//        TransactionsDAO td = new TransactionsDAO();
-//        list = td.getAllByAccount(account);
-//        for (int i = start; i < end; i++) {
-//            list1.add(list.get(i));
-//        }
-//        return list1;
-//    }
-//    public List<Transactions> getAllByAccount(String account) {
-//        List<Transactions> list = new ArrayList<>();
-//        try {
-//            String str = "SELECT * FROM transactions where user = ?";
-//            PreparedStatement ps = connection.prepareStatement(str);
-//            ps.setString(1, account);
-//            ResultSet rs = ps.executeQuery();
-//            while (rs.next()) {                
-//                list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")), 
-//                        rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
-//                        rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"), 
-//                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createAt"), userDAO.getUserById(rs.getInt("createBy"))) );
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("getAllByAccount: " + e.getMessage());
-//        }return list;
-//    }
     public List<Transactions> getListTransactionsById(int id, int start, int end) {
         List<Transactions> list = new ArrayList<>();
         List<Transactions> list1 = new ArrayList<>();
@@ -186,7 +159,7 @@ public class TransactionsDAO extends DBContext {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
                         rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createAt"), userDAO.getUserById(rs.getInt("createBy"))));
+                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
             System.err.println("searchStorage: " + e.getMessage());
@@ -205,7 +178,7 @@ public class TransactionsDAO extends DBContext {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
                         rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createAt"), userDAO.getUserById(rs.getInt("createBy"))));
+                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getDetailHistory: " + e.getMessage());

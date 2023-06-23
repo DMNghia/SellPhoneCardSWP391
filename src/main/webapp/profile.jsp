@@ -11,9 +11,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Thay đổi thông tin người dùng</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}css/home.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="${pageContext.request.contextPath}/admin/assets/css/pagination.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="76x76"
+          href="${pageContext.request.contextPath}/admin/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/admin/assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Light Bootstrap Dashboard - Free Bootstrap 4 Admin Dashboard by Creative Tim</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
+    <!-- CSS Files -->
+    <link href="${pageContext.request.contextPath}/user/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/user/assets/css/light-bootstrap-dashboard.css?v=2.0.0 "
+          rel="stylesheet"/>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+
+    <link href="${pageContext.request.contextPath}/user/assets/css/demo.css" rel="stylesheet"/>
     <style>
         .profile {
             display: flex;
@@ -134,7 +153,9 @@
                     <li><a href="contact.jsp">Liên hệ</a></li>
                     <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     <c:if test="${user != null}">
-                        <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span></li>
+                        <li><span
+                                style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span>
+                        </li>
                     </c:if>
                     <c:if test="${user != null}">
                         <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
@@ -199,7 +220,26 @@
         </form>
     </div>
 </div>
-
-
+<!--   Core JS Files   -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="${pageContext.request.contextPath}/admin/assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-switch.js"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-notify.js"></script>
+<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
+<script src="${pageContext.request.contextPath}/admin/assets/js/light-bootstrap-dashboard.js?v=2.0.0 "
+        type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/admin/assets/js/demo.js"></script>
+<c:if test="${message != null}">
+    <script type="text/javascript">
+        setTimeout(demo.showNotify('${message}'), 100);
+    </script>
+</c:if>
 </body>
 </html>

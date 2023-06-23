@@ -171,29 +171,32 @@
                         </label>
                     </div>
                 </div>
-                <div id="infoOrder" class="content-product col-5 d-none" style="border: 15px solid #1ca799;border-radius: 10px;height: 500px;box-shadow: 0 5px 10px #5e5e5e">
+                <div id="infoOrder" class="content-product col-5 d-none" style="border: 15px solid #1ca799;border-radius: 10px;height: 550px;box-shadow: 0 5px 10px #5e5e5e">
                     <div class="row text-center justify-content-center" style="background-color: #55b3f7;padding: 30px 0;margin-bottom: 20px">
                         <h2 style="color: #ffffff;text-align: center;">Thông tin đơn hàng</h2>
                     </div>
-                    <div class="row pr-1 text-center justify-content-center" style="margin-bottom: 20px;">
+                    <div class="row pr-1 text-center justify-content-center" style="">
                         <label style="font-weight: 700;line-height: 30px;font-size: 17px">Nhà phát hành: </label>
                         <p style="font-weight: 700;line-height: 30px;font-size: 17px;margin-left: 20px;" id="supplierName"></p>
                     </div>
-                    <div class="row pr-1 justify-content-center" style="margin-bottom: 20px;">
+                    <div class="row pr-1 justify-content-center" style="">
                         <label style="font-weight: 700;line-height: 30px;font-size: 17px">Mệnh giá: </label>
                         <p style="font-weight: 700;line-height: 30px;font-size: 17px;margin-left: 20px;" id="priceValue"></p>
                     </div>
-                    <div class="row pr-1 justify-content-center" style="margin-bottom: 20px;">
+                    <div class="row pr-1 justify-content-center" style="">
                         <label style="font-weight: 700;line-height: 30px;font-size: 17px">Số lượng: </label>
                         <p style="font-weight: 700;line-height: 30px;font-size: 17px;margin-left: 20px;" id="quantityValue"></p>
                     </div>
-                    <div class="row pr-1 justify-content-center" style="margin-bottom: 20px;">
+                    <div class="row pr-1 justify-content-center" style="">
                         <label style="font-weight: 700;line-height: 30px;font-size: 17px;margin-right: 10px;">Email:</label>
                         <input name="email" id="emailValue" value="${user.getEmail()}" style="background-color: #ffffff;border-radius: 5px"
                             ${(user == null) ? "disabled placeholder='Đăng nhập để thanh toán'" : ""}>
                     </div>
-                    <div class="row d-flex flex-wrap justify-content-center" style="margin-top: 60px;" >
-                        <button name="option" value="buy" type="submit" class="btn" style="cursor: pointer;background-color: #25597b;border-radius: 10px; color: #ffffff;font-weight: 700;line-height:20px;margin: 0px 20px 0px 0px;padding: 10px 23px;text-align: center">
+                    <div class="row pr-1 justify-content-center" style="margin-top: 20px;">
+                        <textarea class="w-75 form-control" id="noteValue" placeholder="Ghi chú cho đơn hàng" style="max-height: 150px;height: 100px;"></textarea>
+                    </div>
+                    <div class="row d-flex flex-wrap justify-content-around form-outline w-100" style="position: absolute;bottom: 10px;" >
+                        <button name="option" value="buy" type="submit" class="btn" style="cursor: pointer;background-color: #25597b;border-radius: 10px; color: #ffffff;font-weight: 700;line-height:20px;padding: 10px 23px;text-align: center">
                             Thanh toán ngay
                         </button>
                         <button type="button" id="cancelOrder" class="btn" style="cursor: pointer;align-items: flex-start;background-color: #ffffff;border-radius: 10px;color: #ff8c00;font-weight: 700;line-height: 20px;font-size: 17px;padding: 10px 23px;text-align: center;border: 1px solid #ff8c00;">
