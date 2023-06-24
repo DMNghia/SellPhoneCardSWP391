@@ -27,7 +27,10 @@ public class OrderController extends HttpServlet {
         HttpSession session = request.getSession();
 
         OrderDAO orderDAO = new OrderDAO();
-        boolean isAdmin = (boolean) session.getAttribute("isAdmin");
+        boolean isAdmin = false;
+        if (session.getAttribute("isAdmin") != null)
+            isAdmin = (boolean) session.getAttribute("isAdmin");
+
         //Information
         String page_raw = request.getParameter("page");
         String status_raw = request.getParameter("status");
@@ -61,6 +64,7 @@ public class OrderController extends HttpServlet {
         request.setAttribute("pageNumber", page);
         request.setAttribute("listStatus",listStatus);
         request.setAttribute("listOrder",list);
+//
         request.getRequestDispatcher("admin/order.jsp").forward(request,response);
 
     }

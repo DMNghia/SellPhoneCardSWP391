@@ -63,16 +63,16 @@
                             <p>Thông tin</p>
                         </a>
                     </li>
-                    <li>
-                        <a class="nav-link" href="storage">
-                            <i class="nc-icon nc-notes"></i>
-                            <p>Sản phẩm</p>
-                        </a>
-                    </li>
+<%--                    <li>--%>
+<%--                        <a class="nav-link" href="storage">--%>
+<%--                            <i class="nc-icon nc-notes"></i>--%>
+<%--                            <p>Sản phẩm</p>--%>
+<%--                        </a>--%>
+<%--                    </li>--%>
                     <li>
                         <a class="nav-link" href="order">
                             <i class="nc-icon nc-paper-2"></i>
-                            <p>Order</p>
+                            <p>Mua hàng</p>
                         </a>
                     </li>
                     <li>

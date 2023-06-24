@@ -70,7 +70,7 @@ The above copyright notice and this permission notice shall be included in all c
                 <li>
                     <a class="nav-link" href="order.jsp">
                         <i class="nc-icon nc-paper-2"></i>
-                        <p>Order</p>
+                        <p>Mua hàng</p>
                     </a>
                 </li>
                 <li>

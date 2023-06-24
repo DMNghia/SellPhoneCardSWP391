@@ -46,7 +46,9 @@
                     <li><a href="home">Trang chủ</a></li>
                     <li><a href="#">Mua hàng</a>
                         <ul>
-                            <li><a href="order">Đơn hàng</a></li>
+                            <c:if test="${user != null || admin != null}">
+                                <li><a href="order">Đơn hàng</a></li>
+                            </c:if>
                         </ul>
                     </li>
                     <li><a href="#">Giao dịch</a>
@@ -57,7 +59,9 @@
                     <li><a href="#">Liên hệ</a></li>
                     <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     <c:if test="${user != null}">
-                        <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span></li>
+                        <li><span
+                                style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span>
+                        </li>
                     </c:if>
                     <c:if test="${user != null}">
                         <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
@@ -76,17 +80,18 @@
     </div>
 </header>
 <div class="main" style="margin-top: 80px;">
-        <div class="content-header container-fluid text-center" style="margin-bottom: 50px;">
-            <p style="color: #8a8a8a">[ DỊCH VỤ ]</p>
-            <h1 style="color: #000000">MUA THẺ ĐIỆN THOẠI ONLINE</h1>
-            <h2 style="color: #000000">MUA THẺ ĐIỆN THOẠI, MUA THẺ CÀO ONLINE GIÁ ĐÚNG</h2>
-        </div>
+    <div class="content-header container-fluid text-center" style="margin-bottom: 50px;">
+        <p style="color: #8a8a8a">[ DỊCH VỤ ]</p>
+        <h1 style="color: #000000">MUA THẺ ĐIỆN THOẠI ONLINE</h1>
+        <h2 style="color: #000000">MUA THẺ ĐIỆN THOẠI, MUA THẺ CÀO ONLINE GIÁ ĐÚNG</h2>
+    </div>
     <form action="buyCard" method="post" id="frm">
         <div class="container">
             <div class="radio-inputs container justify-content-between" style="margin-bottom: 100px;">
                 <c:forEach var="s" items="${imgList}">
                     <label style="height: 130px;width: 24%" class="d-flex justify-content-center">
-                        <input class="radio-input" type="radio" name="supplier" ${(s.getId() == 1 ? "checked" : "")} value="${s.getName()}">
+                        <input class="radio-input" type="radio" name="supplier" ${(s.getId() == 1 ? "checked" : "")}
+                               value="${s.getName()}">
                         <span class="radio-tile w-100" style="border-radius: 10px;">
                                 <span class="radio-icon">
                                     <img style="max-width: 98%;height: auto;object-fit: cover" src="${s.getImage()}"
@@ -171,32 +176,40 @@
                         </label>
                     </div>
                 </div>
-                <div id="infoOrder" class="content-product col-5 d-none" style="border: 15px solid #1ca799;border-radius: 10px;height: 500px;box-shadow: 0 5px 10px #5e5e5e">
-                    <div class="row text-center justify-content-center" style="background-color: #55b3f7;padding: 30px 0;margin-bottom: 20px">
+                <div id="infoOrder" class="content-product col-5 d-none"
+                     style="border: 15px solid #1ca799;border-radius: 10px;height: 500px;box-shadow: 0 5px 10px #5e5e5e">
+                    <div class="row text-center justify-content-center"
+                         style="background-color: #55b3f7;padding: 30px 0;margin-bottom: 20px">
                         <h2 style="color: #ffffff;text-align: center;">Thông tin đơn hàng</h2>
                     </div>
                     <div class="row pr-1 text-center justify-content-center" style="margin-bottom: 20px;">
                         <label style="font-weight: 700;line-height: 30px;font-size: 17px">Nhà phát hành: </label>
-                        <p style="font-weight: 700;line-height: 30px;font-size: 17px;margin-left: 20px;" id="supplierName"></p>
+                        <p style="font-weight: 700;line-height: 30px;font-size: 17px;margin-left: 20px;"
+                           id="supplierName"></p>
                     </div>
                     <div class="row pr-1 justify-content-center" style="margin-bottom: 20px;">
                         <label style="font-weight: 700;line-height: 30px;font-size: 17px">Mệnh giá: </label>
-                        <p style="font-weight: 700;line-height: 30px;font-size: 17px;margin-left: 20px;" id="priceValue"></p>
+                        <p style="font-weight: 700;line-height: 30px;font-size: 17px;margin-left: 20px;"
+                           id="priceValue"></p>
                     </div>
                     <div class="row pr-1 justify-content-center" style="margin-bottom: 20px;">
                         <label style="font-weight: 700;line-height: 30px;font-size: 17px">Số lượng: </label>
-                        <p style="font-weight: 700;line-height: 30px;font-size: 17px;margin-left: 20px;" id="quantityValue"></p>
+                        <p style="font-weight: 700;line-height: 30px;font-size: 17px;margin-left: 20px;"
+                           id="quantityValue"></p>
                     </div>
                     <div class="row pr-1 justify-content-center" style="margin-bottom: 20px;">
                         <label style="font-weight: 700;line-height: 30px;font-size: 17px;margin-right: 10px;">Email:</label>
-                        <input name="email" id="emailValue" value="${user.getEmail()}" style="background-color: #ffffff;border-radius: 5px"
-                            ${(user == null) ? "disabled placeholder='Đăng nhập để thanh toán'" : ""}>
+                        <input name="email" id="emailValue" value="${user.getEmail()}"
+                               style="background-color: #ffffff;border-radius: 5px"
+                        ${(user == null) ? "disabled placeholder='Đăng nhập để thanh toán'" : ""}>
                     </div>
-                    <div class="row d-flex flex-wrap justify-content-center" style="margin-top: 60px;" >
-                        <button name="option" value="buy" type="submit" class="btn" style="cursor: pointer;background-color: #25597b;border-radius: 10px; color: #ffffff;font-weight: 700;line-height:20px;margin: 0px 20px 0px 0px;padding: 10px 23px;text-align: center">
+                    <div class="row d-flex flex-wrap justify-content-center" style="margin-top: 60px;">
+                        <button name="option" value="buy" type="submit" class="btn"
+                                style="cursor: pointer;background-color: #25597b;border-radius: 10px; color: #ffffff;font-weight: 700;line-height:20px;margin: 0px 20px 0px 0px;padding: 10px 23px;text-align: center">
                             Thanh toán ngay
                         </button>
-                        <button type="button" id="cancelOrder" class="btn" style="cursor: pointer;align-items: flex-start;background-color: #ffffff;border-radius: 10px;color: #ff8c00;font-weight: 700;line-height: 20px;font-size: 17px;padding: 10px 23px;text-align: center;border: 1px solid #ff8c00;">
+                        <button type="button" id="cancelOrder" class="btn"
+                                style="cursor: pointer;align-items: flex-start;background-color: #ffffff;border-radius: 10px;color: #ff8c00;font-weight: 700;line-height: 20px;font-size: 17px;padding: 10px 23px;text-align: center;border: 1px solid #ff8c00;">
                             Hủy giao dịch
                         </button>
                     </div>
@@ -232,10 +245,12 @@
             </div>
         </div>
         <div class="row justify-content-center d-flex" style="margin-top: 20px;">
-            <button id="buyNow-btn" name="option" value="buy" type="button" class="btn" style="cursor: pointer;background-color: #1ca799;border-radius: 10px; color: #ffffff;font-weight: 500;line-height:;36px;margin: 0px 20px 0px 0px;padding: 9px 31px;text-align: center">
+            <button id="buyNow-btn" name="option" value="buy" type="button" class="btn"
+                    style="cursor: pointer;background-color: #1ca799;border-radius: 10px; color: #ffffff;font-weight: 500;line-height:;36px;margin: 0px 20px 0px 0px;padding: 9px 31px;text-align: center">
                 Mua ngay
             </button>
-            <button name="option" type="submit" value="addToCart" class="btn" style="cursor: pointer;align-items: flex-start;background-color: #25597b;border-radius: 10px;color: #ffffff;font-weight: 500;line-height: 36px;padding: 9px 31px;text-align: center">
+            <button name="option" type="submit" value="addToCart" class="btn"
+                    style="cursor: pointer;align-items: flex-start;background-color: #25597b;border-radius: 10px;color: #ffffff;font-weight: 500;line-height: 36px;padding: 9px 31px;text-align: center">
                 Thêm vào giỏ hàng
             </button>
         </div>
