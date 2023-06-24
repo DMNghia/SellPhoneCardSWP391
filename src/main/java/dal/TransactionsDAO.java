@@ -24,6 +24,25 @@ public class TransactionsDAO extends DBContext {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public void insert(Transactions transactions) {
+        try {
+            String query = "insert into transactions(user, orderId, money, note, type, status, createdAt, createdBy)\n" +
+                    "value (?, ?, ?, ?, ?, ?, ?, ?);";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, transactions.getUser().getId());
+            ps.setLong(2, transactions.getOrderId());
+            ps.setInt(3, transactions.getMoney());
+            ps.setString(4, transactions.getNote());
+            ps.setBoolean(5, transactions.isType());
+            ps.setBoolean(6, transactions.isStatus());
+            ps.setTimestamp(7, transactions.getCreateAt());
+            ps.setInt(8, transactions.getCreateBy().getId());
+            ps.execute();
+        } catch (SQLException e) {
+            System.err.println("Transactions-insert: " + e.getMessage());
+        }
+    }
+
     public List<Transactions> getListTransactionsForPage(int page) {
         List<Transactions> list = new ArrayList<>();
         try {
@@ -33,7 +52,7 @@ public class TransactionsDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
-                        rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
+                        rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
                         userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
             }
@@ -54,7 +73,7 @@ public class TransactionsDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
-                        rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
+                        rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
                         userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
             }
@@ -73,7 +92,7 @@ public class TransactionsDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
-                        rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
+                        rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
                         userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
             }
@@ -157,7 +176,7 @@ public class TransactionsDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
-                        rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
+                        rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
                         userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
             }
@@ -176,7 +195,7 @@ public class TransactionsDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
-                        rs.getInt("orderId"), rs.getDouble("money"), rs.getString("note"),
+                        rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
                         userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
             }

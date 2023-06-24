@@ -104,7 +104,7 @@ public class OrderController extends HttpServlet {
                 request.setAttribute("pageNumber", page);
                 request.setAttribute("listStatus", listStatus);
                 request.setAttribute("listOrder", list);
-                request.getRequestDispatcher("user/order.jsp").forward(request, response);
+                request.getRequestDispatcher("order.jsp").forward(request, response);
             }
         } else {
             response.sendRedirect("logout");

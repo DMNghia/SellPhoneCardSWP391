@@ -154,7 +154,7 @@
     </c:forEach>
 
     <c:forEach begin="${1}" end="${soTrang}" var="i">
-        <a class="${i==page?"active":""}" href="transactions?page=${i}">${i}</a>
+        <a class="${i==page?"active":""}" href="transaction?page=${i}">${i}</a>
     </c:forEach>
 
 </table>
@@ -165,7 +165,7 @@
         <div class="container-fluid">
 
             <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                <form method="get" action="transactions">
+                <form method="get" action="transaction">
                     <ul class="nav navbar-nav mr-auto" style="background-color: white">
                         <li class="dropdown nav-item" style="margin-left: 10px; background-color:white ">
                             <select name="type" class="h-100 border-0"

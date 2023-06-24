@@ -24,6 +24,7 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
 
     <link href="${pageContext.request.contextPath}/admin/assets/css/demo.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
     <style>
         #updateDiv {
             display: none;
@@ -37,6 +38,8 @@
             z-index: 9999;
             border-radius: 10px;
             box-shadow: #464646 0 0 7px;
+            max-height: 80%;
+            overflow: scroll;
         }
 
         #deleteDiv {
@@ -57,6 +60,45 @@
 </head>
 
 <body>
+<header>
+    <div class="menu">
+        <nav class="nav-header">
+            <div class="header1">
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="#">Mua hàng</a>
+                        <ul>
+                            <li><a href="${(user != null ) ? "order" : "login"}">Đơn hàng</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Giao dịch</a>
+                        <ul>
+                            <li><a href="${(user != null ) ? "transaction" : "login"}">Lịch sử</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contact.jsp">Liên hệ</a></li>
+                    <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <c:if test="${user != null}">
+                        <li><span
+                                style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span>
+                        </li>
+                    </c:if>
+                    <c:if test="${user != null}">
+                        <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
+                            <ul>
+                                <li><a href="changeProfile">Thông tin người dùng</a></li>
+                                <li><a href="logout">Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    </c:if>
+                    <c:if test="${user == null}">
+                        <li><a href="login">Đăng nhập</a></li>
+                    </c:if>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
 <div class="row col-6 text-center" id="deleteDiv">
     <h4 style="text-align: center"><b>Bạn có chắc muốn xóa chứ</b></h4>
     <form action="order" method="post">
@@ -150,81 +192,10 @@
     </div>
 </div>
 <div class="wrapper">
-    <%--    <div class="sidebar" data-image="${pageContext.request.contextPath}/admin/assets/img/sidebar-5.jpg">--%>
-    <%--        -->--%>
-    <%--        <div class="sidebar-wrapper">--%>
-    <%--            <div class="logo">--%>
-    <%--                <a href="home" class="simple-text">--%>
-    <%--                    SWP391 GROUP5--%>
-    <%--                </a>--%>
-    <%--            </div>--%>
-    <%--            <ul class="nav">--%>
-    <%--                <li>--%>
-    <%--                    <a class="nav-link" href="home">--%>
-    <%--                        <i class="nc-icon nc-chart-pie-35"></i>--%>
-    <%--                        <p>Dashboard</p>--%>
-    <%--                    </a>--%>
-    <%--                </li>--%>
-    <%--                <li>--%>
-    <%--                    <a class="nav-link" href="changeProfile">--%>
-    <%--                        <i class="nc-icon nc-circle-09"></i>--%>
-    <%--                        <p>Thông tin</p>--%>
-    <%--                    </a>--%>
-    <%--                </li>--%>
-    <%--&lt;%&ndash;                <c:if test="${admin != null }">&ndash;%&gt;--%>
-    <%--&lt;%&ndash;                    <li class="nav-item">&ndash;%&gt;--%>
-    <%--&lt;%&ndash;                        <a class="nav-link" href="storage">&ndash;%&gt;--%>
-    <%--&lt;%&ndash;                            <i class="nc-icon nc-notes"></i>&ndash;%&gt;--%>
-    <%--&lt;%&ndash;                            <p>Sản phẩm</p>&ndash;%&gt;--%>
-    <%--&lt;%&ndash;                        </a>&ndash;%&gt;--%>
-    <%--&lt;%&ndash;                    </li>&ndash;%&gt;--%>
-    <%--&lt;%&ndash;                </c:if>&ndash;%&gt;--%>
-    <%--                <li class="nav-item active">--%>
-    <%--                    <a class="nav-link" href="order">--%>
-    <%--                        <i class="nc-icon nc-notes"></i>--%>
-    <%--                        <p>Mua hàng</p>--%>
-    <%--                    </a>--%>
-    <%--                </li>--%>
-    <%--                <li>--%>
-    <%--                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/icons.jsp">--%>
-    <%--                        <i class="nc-icon nc-atom"></i>--%>
-    <%--                        <p>Icons</p>--%>
-    <%--                    </a>--%>
-    <%--                </li>--%>
-    <%--                <li>--%>
-    <%--                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/maps.jsp">--%>
-    <%--                        <i class="nc-icon nc-pin-3"></i>--%>
-    <%--                        <p>Maps</p>--%>
-    <%--                    </a>--%>
-    <%--                </li>--%>
-    <%--                <li>--%>
-    <%--                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/notifications.jsp">--%>
-    <%--                        <i class="nc-icon nc-bell-55"></i>--%>
-    <%--                        <p>Notifications</p>--%>
-    <%--                    </a>--%>
-    <%--                </li>--%>
-    <%--                <li class="nav-item active active-pro">--%>
-    <%--                    <a class="nav-link active" href="${pageContext.request.contextPath}/admin/upgrade.jsp">--%>
-    <%--                        <i class="nc-icon nc-alien-33"></i>--%>
-    <%--                        <p>Upgrade to PRO</p>--%>
-    <%--                    </a>--%>
-    <%--                </li>--%>
-    <%--            </ul>--%>
-    <%--        </div>--%>
-    <%--    </div>--%>
-    <%--    <div class="main-panel">--%>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg col-sm-" color-on-scroll="100">
         <div class="container-fluid">
-            <%--            <ul class="footer-menu">--%>
-            <%--                <li>--%>
-            <%--                    <a href="home">--%>
-            <%--                        Home--%>
-            <%--                    </a>--%>
-            <%--                </li>--%>
-            <%--            </ul>--%>
-
-            <a class="navbar-brand" href="home"> HOME 🌐  </a>
+            <a class="navbar-brand" href="/"> HOME 🌐  </a>
             <div class="collapse navbar-collapse justify-content-end" id="navigation">
                 <form method="get" action="order">
                     <ul class="nav navbar-nav mr-auto">

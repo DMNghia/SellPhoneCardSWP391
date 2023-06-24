@@ -17,6 +17,23 @@ public class OrderDetailDAO extends DBContext {
     private SupplierDAO supplierDAO = new SupplierDAO();
     private UserDAO userDAO = new UserDAO();
 
+    public Long findOrderByListStorage(List<Storage> listStorage) {
+        try {
+            for (Storage s : listStorage) {
+                String query = "select * from order_detail where storage = ?";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setLong(1, s.getId());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getLong("order");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("findOrderByListStorage: " + e.getMessage());
+        }
+        return (long) 0;
+    }
+
     public List<Storage> getListStorageBySearchProduct(long oid, String name) {
         List<Storage> list = new ArrayList<>();
         try {

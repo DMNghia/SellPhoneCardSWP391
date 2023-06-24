@@ -1,5 +1,6 @@
 package dal;
 
+import com.oracle.wls.shaded.org.apache.bcel.generic.Select;
 import model.Order;
 import model.Storage;
 import model.Product;
@@ -7,6 +8,7 @@ import model.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,28 @@ public class OrderDAO extends DBContext {
     private OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 
     private ProductDAO productDAO = new ProductDAO();
+
+    public Order findOrderByTimeAndUser(int userId, String time) {
+
+        try {
+            String query = "select * from `order` where user = ? and createdAt = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, userId);
+            ps.setString(2, time);
+            ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                List<Storage> listStorage = orderDetailDAO.getListStorageBySearchProduct(rs.getLong("id"), "%");
+                return new Order(rs.getLong("id"), userDAO.getUserById(rs.getInt("user")), rs.getString("status"), rs.getInt("totalAmount"),
+                        rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")), listStorage);
+            }
+        } catch (SQLException e) {
+            System.err.println("findOrderByTimeAndUser: " + e.getMessage());
+        }
+
+        return null;
+    }
 
     public void add(Order order) {
         try {

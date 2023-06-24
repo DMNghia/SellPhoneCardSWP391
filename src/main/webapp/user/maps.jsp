@@ -66,7 +66,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="order.jsp">
+                        <a class="nav-link" href="../order.jsp">
                             <i class="nc-icon nc-paper-2"></i>
                             <p>Order</p>
                         </a>

@@ -218,13 +218,7 @@ CREATE TABLE IF NOT EXISTS sellphonecard.`transactions`
     createdBy  INT        NULL DEFAULT NULL,
     PRIMARY KEY (id),
     INDEX user (user ASC) VISIBLE,
-    INDEX orderId (orderId ASC) VISIBLE,
-    CONSTRAINT transactions_ibfk_1
-        FOREIGN KEY (user)
-            REFERENCES sellphonecard.`user` (id),
-    CONSTRAINT transactions_ibfk_2
-        FOREIGN KEY (orderId)
-            REFERENCES sellphonecard.`order` (id)
+    INDEX orderId (orderId ASC) VISIBLE
 );
 
 INSERT INTO `sellphonecard`.`transactions` (`id`, `user`, `orderId`, `money`, `note`, `type`, `status`, `createdAt`, `createdBy`)

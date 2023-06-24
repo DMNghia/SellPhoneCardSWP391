@@ -18,8 +18,8 @@ import lombok.*;
 public class Transactions {
     private int id ;
     private User user ;
-    private int orderId ;
-    private double money ;
+    private long orderId ;
+    private int money ;
     private String note ;
     private boolean type ;
     private boolean status ;
@@ -27,6 +27,4 @@ public class Transactions {
     private User updatedBy ;
     private Timestamp createAt ;
     private User createBy ;
-
-    
 }
