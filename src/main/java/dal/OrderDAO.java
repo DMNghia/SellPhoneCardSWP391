@@ -63,7 +63,7 @@ public class OrderDAO extends DBContext {
     public List<Order> getAllOrder(String status, String search, int page) {
         List<Order> listOrder = new ArrayList<>();
         try {
-            String sql = "select * from `order` where status like ? and isDelete = false\n" +
+            String sql = "select * from `order` where status like ? and isDelete = false \n" +
                     "limit 10 offset ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, status);
@@ -174,6 +174,33 @@ public class OrderDAO extends DBContext {
         }
         return list;
     }
+    public List<Order> getAllOrderWithUser(String status, String search, int page,int userId) {
+        List<Order> listOrder = new ArrayList<>();
+        try {
+            String sql = "select * from `order` where status like ? and isDelete = false and user = ?  \n" +
+                    "limit 10 offset ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, userId);
+            ps.setInt(3, page);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                List<Storage> listStorage = orderDetailDAO.getListStorageBySearchProduct(rs.getLong("id"), search);
+                if (listStorage.size() > 0) {
+                    listOrder.add(new Order(rs.getLong("id"), userDAO.getUserById(rs.getInt("user")), rs.getString("status"), rs.getInt("totalAmount"),
+                            rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                            userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")), listStorage));
+
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("getAllOrder " + e.getMessage());
+        }
+        return listOrder;
+    }
+
 
 
 }

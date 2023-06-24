@@ -60,7 +60,7 @@
                     <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     <c:if test="${user != null}">
                         <li><span
-                                style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span>
+                                style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${(user.getBalance())}</span>
                         </li>
                     </c:if>
                     <c:if test="${user != null}">

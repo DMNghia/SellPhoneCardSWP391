@@ -171,14 +171,14 @@
                         <p>Thông tin</p>
                     </a>
                 </li>
-                <c:if test="${admin != null }">
+<%--                <c:if test="${admin != null }">--%>
                     <li class="nav-item">
                         <a class="nav-link" href="storage">
                             <i class="nc-icon nc-notes"></i>
                             <p>Sản phẩm</p>
                         </a>
                     </li>
-                </c:if>
+<%--                </c:if>--%>
                 <li class="nav-item active">
                     <a class="nav-link" href="order">
                         <i class="nc-icon nc-notes"></i>
@@ -274,7 +274,7 @@
                             <div class="card-body table-full-width table-responsive">
                                 <table class="table table-hover table-striped">
                                     <thead>
-                                    <th>ID</th>
+                                    <th>OrderId</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Số lượng</th>
                                     <th>Trạng thái đơn hàng</th>

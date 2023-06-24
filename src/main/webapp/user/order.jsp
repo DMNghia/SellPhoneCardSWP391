@@ -62,10 +62,12 @@
     <form action="order" method="post">
         <input name="id" id="idInputDeleteDiv" class="d-none">
         <input name="page" value='${request.getParameter("page")}' class="d-none">
-        <button class="btn" type="submit" name="option" value="delete" style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
+        <button class="btn" type="submit" name="option" value="delete"
+                style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
             Xóa
         </button>
-        <button type="button" class="btn" id="closeButtonDelete" style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+        <button type="button" class="btn" id="closeButtonDelete"
+                style="cursor: pointer;background-color: #01b901;color: #ffffff;">
             Hủy
         </button>
     </form>
@@ -148,209 +150,219 @@
     </div>
 </div>
 <div class="wrapper">
-    <div class="sidebar" data-image="${pageContext.request.contextPath}/admin/assets/img/sidebar-5.jpg">
-        -->
-        <div class="sidebar-wrapper">
-            <div class="logo">
-                <a href="home" class="simple-text">
-                    SWP391 GROUP5
-                </a>
-            </div>
-            <ul class="nav">
-                <li>
-                    <a class="nav-link" href="home">
-                        <i class="nc-icon nc-chart-pie-35"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link" href="changeProfile">
-                        <i class="nc-icon nc-circle-09"></i>
-                        <p>Thông tin</p>
-                    </a>
-                </li>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="storage">--%>
-<%--                        <i class="nc-icon nc-notes"></i>--%>
-<%--                        <p>Sản phẩm</p>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-                <li class="nav-item active">
-                    <a class="nav-link" href="order">
-                        <i class="nc-icon nc-notes"></i>
-                        <p>Mua hàng</p>
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/icons.jsp">
-                        <i class="nc-icon nc-atom"></i>
-                        <p>Icons</p>
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/maps.jsp">
-                        <i class="nc-icon nc-pin-3"></i>
-                        <p>Maps</p>
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/notifications.jsp">
-                        <i class="nc-icon nc-bell-55"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
-                <li class="nav-item active active-pro">
-                    <a class="nav-link active" href="${pageContext.request.contextPath}/admin/upgrade.jsp">
-                        <i class="nc-icon nc-alien-33"></i>
-                        <p>Upgrade to PRO</p>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="main-panel">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg " color-on-scroll="500">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="order"> Mua hàng </a>
-                <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                    <form method="get" action="order">
-                        <ul class="nav navbar-nav mr-auto">
-                            <li class="dropdown nav-item" style="margin-left: 10px">
-                                <select id="statusSelect" name="status" class="h-100 border-0"
-                                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">
-                                    <option value="all">Trạng thái</option>
-                                    <c:forEach var="status" items="${listStatus}">
-                                        <option class="dropdown-item" ${(status).equals(param.status) ? "selected" : ""}
-                                                value="${status}">${status}</option>
-                                    </c:forEach>
-                                </select>
-                            </li>
-                            <%--                            <li class="nav-item dropdown" style="margin-left: 10px">--%>
-                            <%--                                <select name="id" class="h-100 border-0"--%>
-                            <%--                                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">--%>
-                            <%--                                    <option value="all">Mã đơn hàng</option>--%>
-                            <%--                                    <c:forEach var="order" items="${listOrder}">--%>
-                            <%--                                        <option class="dropdown-item" ${String.valueOf(order.getId()).equals(param.id) ? "selected" : ""}--%>
-                            <%--                                                value="${order.getId()}">${order.getId()}</option>--%>
-                            <%--                                    </c:forEach>--%>
-                            <%--                                </select>--%>
-                            <%--                            </li>--%>
-                            <li class="nav-item" style="margin-left: 10px">
-                                <input type="text" id="searchInput" name="search" placeholder="Tìm kiếm " class="h-50 border-0"
-                                       value="${param.search}">
-                                <button type="submit" class="nav-link border-0" style="cursor: pointer">
-                                    <i class="nc-icon nc-zoom-split"></i>
-                                    <span class="d-lg-block">&nbsp;Search</span>
-                                </button>
-                            </li>
-                        </ul>
-                    </form>
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="logout">
-                                <span class="no-icon">Log out</span>
-                            </a>
+    <%--    <div class="sidebar" data-image="${pageContext.request.contextPath}/admin/assets/img/sidebar-5.jpg">--%>
+    <%--        -->--%>
+    <%--        <div class="sidebar-wrapper">--%>
+    <%--            <div class="logo">--%>
+    <%--                <a href="home" class="simple-text">--%>
+    <%--                    SWP391 GROUP5--%>
+    <%--                </a>--%>
+    <%--            </div>--%>
+    <%--            <ul class="nav">--%>
+    <%--                <li>--%>
+    <%--                    <a class="nav-link" href="home">--%>
+    <%--                        <i class="nc-icon nc-chart-pie-35"></i>--%>
+    <%--                        <p>Dashboard</p>--%>
+    <%--                    </a>--%>
+    <%--                </li>--%>
+    <%--                <li>--%>
+    <%--                    <a class="nav-link" href="changeProfile">--%>
+    <%--                        <i class="nc-icon nc-circle-09"></i>--%>
+    <%--                        <p>Thông tin</p>--%>
+    <%--                    </a>--%>
+    <%--                </li>--%>
+    <%--&lt;%&ndash;                <c:if test="${admin != null }">&ndash;%&gt;--%>
+    <%--&lt;%&ndash;                    <li class="nav-item">&ndash;%&gt;--%>
+    <%--&lt;%&ndash;                        <a class="nav-link" href="storage">&ndash;%&gt;--%>
+    <%--&lt;%&ndash;                            <i class="nc-icon nc-notes"></i>&ndash;%&gt;--%>
+    <%--&lt;%&ndash;                            <p>Sản phẩm</p>&ndash;%&gt;--%>
+    <%--&lt;%&ndash;                        </a>&ndash;%&gt;--%>
+    <%--&lt;%&ndash;                    </li>&ndash;%&gt;--%>
+    <%--&lt;%&ndash;                </c:if>&ndash;%&gt;--%>
+    <%--                <li class="nav-item active">--%>
+    <%--                    <a class="nav-link" href="order">--%>
+    <%--                        <i class="nc-icon nc-notes"></i>--%>
+    <%--                        <p>Mua hàng</p>--%>
+    <%--                    </a>--%>
+    <%--                </li>--%>
+    <%--                <li>--%>
+    <%--                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/icons.jsp">--%>
+    <%--                        <i class="nc-icon nc-atom"></i>--%>
+    <%--                        <p>Icons</p>--%>
+    <%--                    </a>--%>
+    <%--                </li>--%>
+    <%--                <li>--%>
+    <%--                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/maps.jsp">--%>
+    <%--                        <i class="nc-icon nc-pin-3"></i>--%>
+    <%--                        <p>Maps</p>--%>
+    <%--                    </a>--%>
+    <%--                </li>--%>
+    <%--                <li>--%>
+    <%--                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/notifications.jsp">--%>
+    <%--                        <i class="nc-icon nc-bell-55"></i>--%>
+    <%--                        <p>Notifications</p>--%>
+    <%--                    </a>--%>
+    <%--                </li>--%>
+    <%--                <li class="nav-item active active-pro">--%>
+    <%--                    <a class="nav-link active" href="${pageContext.request.contextPath}/admin/upgrade.jsp">--%>
+    <%--                        <i class="nc-icon nc-alien-33"></i>--%>
+    <%--                        <p>Upgrade to PRO</p>--%>
+    <%--                    </a>--%>
+    <%--                </li>--%>
+    <%--            </ul>--%>
+    <%--        </div>--%>
+    <%--    </div>--%>
+    <%--    <div class="main-panel">--%>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg col-sm-" color-on-scroll="100">
+        <div class="container-fluid">
+            <%--            <ul class="footer-menu">--%>
+            <%--                <li>--%>
+            <%--                    <a href="home">--%>
+            <%--                        Home--%>
+            <%--                    </a>--%>
+            <%--                </li>--%>
+            <%--            </ul>--%>
+
+            <a class="navbar-brand" href="home"> HOME 🌐  </a>
+            <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                <form method="get" action="order">
+                    <ul class="nav navbar-nav mr-auto">
+                        <li class="dropdown nav-item" style="margin-left: 10px">
+                            <select id="statusSelect" name="status" class="h-100 border-0"
+                                    style="background-color: transparent;color: #5e5e5e;cursor: pointer">
+                                <option value="all">Trạng thái</option>
+                                <c:forEach var="status" items="${listStatus}">
+                                    <option class="dropdown-item" ${(status).equals(param.status) ? "selected" : ""}
+                                            value="${status}">${status}</option>
+                                </c:forEach>
+                            </select>
+                        </li>
+                        <%--                            <li class="nav-item dropdown" style="margin-left: 10px">--%>
+                        <%--                                <select name="id" class="h-100 border-0"--%>
+                        <%--                                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">--%>
+                        <%--                                    <option value="all">Mã đơn hàng</option>--%>
+                        <%--                                    <c:forEach var="order" items="${listOrder}">--%>
+                        <%--                                        <option class="dropdown-item" ${String.valueOf(order.getId()).equals(param.id) ? "selected" : ""}--%>
+                        <%--                                                value="${order.getId()}">${order.getId()}</option>--%>
+                        <%--                                    </c:forEach>--%>
+                        <%--                                </select>--%>
+                        <%--                            </li>--%>
+                        <li class="nav-item" style="margin-left: 10px">
+                            <input type="text" id="searchInput" name="search" placeholder="Tìm kiếm "
+                                   class="h-50 border-0"
+                                   value="${param.search}">
+                            <button type="submit" class="nav-link border-0" style="cursor: pointer">
+                                <i class="nc-icon nc-zoom-split"></i>
+                                <span class="d-lg-block">&nbsp;Search</span>
+                            </button>
                         </li>
                     </ul>
-                </div>
+                </form>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout">
+                            <span class="no-icon">Log out</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
-        </nav>
-        <!-- End Navbar -->
-        <div class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card strpied-tabled-with-hover">
-                            <div class="card-header ">
-                                <h4 class="card-title">Mua hàng</h4>
-                                <p class="card-category">Chi tiết đơn đặt hàng</p>
-                            </div>
-                            <div class="card-body table-full-width table-responsive">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                    <th>ID</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Số lượng</th>
-                                    <th>Trạng thái đơn hàng</th>
-                                    <th>Số tiền</th>
-                                    <th>Thời gian tạo đơn hàng</th>
-                                    <th>Người bán</th>
-                                    <th>Hành động</th>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach var="order" items="${listOrder}">
-                                        <tr>
-                                            <td>${order.getId()}</td>
-                                            <c:set var="quantity" value="${1}"/>
-                                            <c:set var="index" value="${0}"/>
-                                            <c:forEach var="storage" items="${order.getListStorage()}">
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="content">
 
-                                                <c:if test="${index == 0}">
-                                                    <td>
-                                                            ${storage.getProduct().getName()}
-                                                    </td>
-                                                </c:if>
-                                                <c:if test="${index >= 1 && !storage.getProduct().getName().equals(order.getListStorage().get(index - 1).getProduct().getName())}">
+        <div class="container-fluid">
 
-                                                    <td>
-                                                            ${storage.getProduct().getName()}
-                                                    </td>
-                                                    <td>
-                                                            ${quantity}
-                                                    </td>
-                                                    <c:set var="quantity" value="${1}"/>
-                                                </c:if>
-                                                <c:if test="${index >= 1 && storage.getProduct().getName().equals(order.getListStorage().get(index - 1).getProduct().getName())}">
-                                                    <c:set var="quantity" value="${quantity + 1}"/>
-                                                </c:if>
-                                                <c:set var="index" value="${index + 1}"/>
-                                                <c:if test="${index == order.getListStorage().size()}">
-                                                    <td>
-                                                            ${quantity}
-                                                    </td>
-                                                </c:if>
-                                            </c:forEach>
-                                            <td>${order.getStatus()}</td>
-                                            <td>${order.getTotalAmount()}</td>
-                                            <td>${order.getCreatedAt()}</td>
-                                            <td>${order.getCreatedBy().getAccount()}</td>
-                                            <td>
-                                                <button class="btn"
-                                                        style="background-color: #01b901;color: #ffffff;cursor: pointer;"
-                                                        onclick='showUpdateDiv(JSON.stringify(${order.toJson()}), "${order.getListStorage().get(0).getProduct().getName()}", ${order.getListStorage().get(0).getProduct().getPrice()})'>
-                                                    Chi tiết sản phẩm
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button class="btn" type="button" class="btn" onclick="showDeleteAlert(${order.getId()})"
-                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"
-                                                >
-                                                    Xóa lịch sử
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
+            <div class="row">
+                <div class=" col-md-12">
+                    <div class="card strpied-tabled-with-hover">
+                        <div class="card-header ">
+                            <h4 class="card-title">Đơn hàng</h4>
+                            <p class="card-category">Chi tiết đơn đặt hàng</p>
+                        </div>
+                        <div class="card-body table-full-width table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <th>Mã đơn hàng</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Trạng thái đơn hàng</th>
+                                <th>Số tiền</th>
+                                <th>Tổng thanh toán</th>
+                                <th>Thời gian tạo đơn hàng</th>
+                                <th>Người bán</th>
+                                <th>Hành động</th>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="order" items="${listOrder}">
+                                    <tr>
+                                        <td>${order.getId()}</td>
+                                        <c:set var="quantity" value="${1}"/>
+                                        <c:set var="index" value="${0}"/>
+                                        <c:forEach var="storage" items="${order.getListStorage()}">
+
+                                            <c:if test="${index == 0}">
+                                                <td>
+                                                        ${storage.getProduct().getName()}
+                                                </td>
+                                            </c:if>
+                                            <c:if test="${index >= 1 && !storage.getProduct().getName().equals(order.getListStorage().get(index - 1).getProduct().getName())}">
+
+                                                <td>
+                                                        ${storage.getProduct().getName()}
+                                                </td>
+                                                <td>
+                                                        ${quantity}
+                                                </td>
+                                                <c:set var="quantity" value="${1}"/>
+                                            </c:if>
+                                            <c:if test="${index >= 1 && storage.getProduct().getName().equals(order.getListStorage().get(index - 1).getProduct().getName())}">
+                                                <c:set var="quantity" value="${quantity + 1}"/>
+                                            </c:if>
+                                            <c:set var="index" value="${index + 1}"/>
+                                            <c:if test="${index == order.getListStorage().size()}">
+                                                <td>
+                                                        ${quantity}
+                                                </td>
+                                            </c:if>
+                                        </c:forEach>
+                                        <td>${order.getStatus()}</td>
+                                        <td>${order.getTotalAmount()}</td>
+                                        <td>${order.getTotalAmount() * quantity}</td>
+                                        <td>${order.getCreatedAt()}</td>
+                                        <td>${order.getCreatedBy().getAccount()}</td>
+                                        <td>
+                                            <button class="btn"
+                                                    style="background-color: #6188e2;color: #ffffff;cursor: pointer;"
+                                                    onclick='showUpdateDiv(JSON.stringify(${order.toJson()}), "${order.getListStorage().get(0).getProduct().getName()}", ${order.getListStorage().get(0).getProduct().getPrice()})'>
+                                                Chi tiết sản phẩm
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn" type="button" class="btn"
+                                                    onclick="showDeleteAlert(${order.getId()})"
+                                                    style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
+
+                                                Xóa lịch sử
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="pagination">
-            </div>
         </div>
-        <footer class="footer">
+        <div id="pagination">
+        </div>
+
+        <footer class="footer" style=" position: fixed;bottom: 0;">
             <div class="container-fluid">
                 <nav>
-                    <ul class="footer-menu">
-                        <li>
-                            <a href="home">
-                                Home
-                            </a>
-                        </li>
-                    </ul>
+
                     <p class="copyright text-center">
                         ©
                         <script>
@@ -367,7 +379,8 @@
 <script src="${pageContext.request.contextPath}/admin/assets/js/core/jquery.3.2.1.min.js"
         type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/admin/assets/js/core/popper.min.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js"
+        type="text/javascript"></script>
 <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
 <script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-switch.js"></script>
 <!--  Google Maps Plugin    -->
@@ -385,6 +398,7 @@
         setTimeout(demo.showNotify("${message}"), 100);
     </script>
 </c:if>
+</div>
 </body>
 
 
