@@ -64,10 +64,12 @@
     <form action="order" method="post">
         <input name="id" id="idInputDeleteDiv" class="d-none">
         <input name="page" value='${request.getParameter("page")}' class="d-none">
-        <button class="btn" type="submit" name="option" value="delete" style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
+        <button class="btn" type="submit" name="option" value="delete"
+                style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
             Xóa
         </button>
-        <button type="button" class="btn" id="closeButtonDelete" style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+        <button type="button" class="btn" id="closeButtonDelete"
+                style="cursor: pointer;background-color: #01b901;color: #ffffff;">
             Hủy
         </button>
     </form>
@@ -145,7 +147,7 @@
     <div class="row">
         <button type="button" name="option" id="closeButton" value="update" class="btn pr-1"
                 style="cursor: pointer;background-color: #01b901;color: #ffffff;">
-            Dóng
+            Đóng
         </button>
     </div>
 </div>
@@ -171,12 +173,14 @@
                         <p>Thông tin</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="storage">
-                        <i class="nc-icon nc-notes"></i>
-                        <p>Sản phẩm</p>
-                    </a>
-                </li>
+<%--                <c:if test="${admin != null }">--%>
+                    <li class="nav-item">
+                        <a class="nav-link" href="storage">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Sản phẩm</p>
+                        </a>
+                    </li>
+<%--                </c:if>--%>
                 <li class="nav-item active">
                     <a class="nav-link" href="order">
                         <i class="nc-icon nc-notes"></i>
@@ -239,7 +243,8 @@
                             <%--                                </select>--%>
                             <%--                            </li>--%>
                             <li class="nav-item" style="margin-left: 10px">
-                                <input type="text" id="searchInput" name="search" placeholder="Tìm kiếm " class="h-50 border-0"
+                                <input type="text" id="searchInput" name="search" placeholder="Tìm kiếm "
+                                       class="h-50 border-0"
                                        value="${param.search}">
                                 <button type="submit" class="nav-link border-0" style="cursor: pointer">
                                     <i class="nc-icon nc-zoom-split"></i>
@@ -271,7 +276,7 @@
                             <div class="card-body table-full-width table-responsive">
                                 <table class="table table-hover table-striped">
                                     <thead>
-                                    <th>ID</th>
+                                    <th>OrderId</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Số lượng</th>
                                     <th>Trạng thái đơn hàng</th>
@@ -325,8 +330,9 @@
                                                 </button>
                                             </td>
                                             <td>
-                                                <button class="btn" type="button" class="btn" onclick="showDeleteAlert(${order.getId()})"
-                                                   style="background-color: #cc2127;color: #ffffff;cursor: pointer;"
+                                                <button class="btn" type="button" class="btn"
+                                                        onclick="showDeleteAlert(${order.getId()})"
+                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"
                                                 >
                                                     Xóa lịch sử
                                                 </button>

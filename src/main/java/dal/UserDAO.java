@@ -21,7 +21,7 @@ public class UserDAO extends DBContext {
                         rs.getInt("createdBy"), rs.getTimestamp("updatedAt"), rs.getInt("updatedBy"),
                         rs.getTimestamp("deletedAt"), rs.getInt("deletedBy"));
             }
-         } catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("getUserById: " + e.getMessage());
         }
         return null;

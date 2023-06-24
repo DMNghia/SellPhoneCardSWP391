@@ -110,6 +110,7 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("isAdmin", false);
             }
             session.setAttribute("user", user);
+
             response.sendRedirect("home");
         }
     }
