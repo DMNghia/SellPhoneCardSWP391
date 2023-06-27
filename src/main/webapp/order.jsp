@@ -79,9 +79,7 @@
                     <li><a href="contact.jsp">Liên hệ</a></li>
                     <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     <c:if test="${user != null}">
-                        <li><span
-                                style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: ${user.getBalance()}</span>
-                        </li>
+                        <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: <span id="balanceValue">${user.getBalance()}</span></span></li>
                     </c:if>
                     <c:if test="${user != null}">
                         <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
@@ -374,6 +372,7 @@
 
 
 <script type="text/javascript">
+    document.getElementById("balanceValue").innerText = parseInt(document.getElementById("balanceValue").innerText).toLocaleString();
 
     function showDeleteAlert(id) {
         const div = document.getElementById("deleteDiv");

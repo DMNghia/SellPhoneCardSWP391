@@ -52,7 +52,7 @@ public class BuyCardController extends HttpServlet {
                 request.setAttribute("message", "Số dư trong tài khoản không đủ để thực hiện giao dịch vui lòng nạp tiền thêm!");
             } else {
                 // Create subject and content to send mail
-                String subject = "Thông tin các thẻ điện thoại mà bạn đã mua";
+                String subject = "[THÔNG BÁO] Thông tin các thẻ điện thoại mà bạn đã mua";
                 String content = "Cảm ơn bạn đã mua thẻ của chúng tôi dưới đây là tên nhà phát hành, các số seri và mã thẻ cũng như ngày hêt hạn của chúng:\n";
                 for (int i = 0; i < listStorage.size(); i++) {
 
