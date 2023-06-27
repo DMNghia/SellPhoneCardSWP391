@@ -57,7 +57,7 @@ alter table supplier
     add image varchar(255);
 INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
                      `deletedBy`, `updatedAt`, `updatedBy`)
-VALUES (1, 'Thẻ Viettel 10.000', 10, 30000, 1, '2023-06-15 22:17:43', 1, 0, NULL, NULL, NULL, NULL);
+VALUES (1, 'Thẻ Viettel 30.000', 10, 30000, 1, '2023-06-15 22:17:43', 1, 0, NULL, NULL, NULL, NULL);
 INSERT INTO product (`id`, `name`, `quantity`, `price`, `supplier`, `createdAt`, `createdBy`, `isDelete`, `deletedAt`,
                      `deletedBy`, `updatedAt`, `updatedBy`)
 VALUES (2, 'Thẻ Vinaphone 20.000', 5, 20000, 2, '2023-06-15 22:17:43', 1, 0, NULL, NULL, NULL, NULL);

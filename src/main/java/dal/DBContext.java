@@ -5,24 +5,24 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBContext {
-    protected Connection connection;
+    // Create static field
+    protected static Connection connection;
+    private final static String user = "root";
+    private final static String pass = "nghia";
+    private final static String url = "jdbc:mysql://localhost:3306/sellphonecard";
 
-
+    private static Connection getConnection() {
+        if (connection == null) {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(url, user, pass);
+            } catch (ClassNotFoundException | SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return connection;
+    }
     public DBContext() {
-        connection = DbContext1.getConnection();
-//        try {
-//            String user = "root";
-//            String pass = "nghia";
-//            String url = "jdbc:mysql://localhost:3306/sellphonecard";
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            connection = DriverManager.getConnection(url, user, pass);
-//        } catch (ClassNotFoundException | SQLException ex) {
-//            System.out.println("Connect fail!" + ex.getMessage());
-//        }
-//        finally {
-//            if (connection != null) {
-//                connection.close();
-//            }
-//        }
+        connection = getConnection();
     }
 }

@@ -1,6 +1,5 @@
 package dal;
 
-import com.oracle.wls.shaded.org.apache.bcel.generic.Select;
 import model.Order;
 import model.Storage;
 import model.Product;
@@ -8,17 +7,16 @@ import model.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAO extends DBContext {
 
-    private UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO = new UserDAO();
 
-    private OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 
-    private ProductDAO productDAO = new ProductDAO();
+    private final ProductDAO productDAO = new ProductDAO();
 
     public Order findOrderByTimeAndUser(int userId, String time) {
 
@@ -127,7 +125,7 @@ public class OrderDAO extends DBContext {
 
     public void delete(Order order) {
         try {
-            String query = "update `order`\n" +
+            String query = "update `order` " +
                     "set deletedAt = ?, deletedBy = ?, isDelete = ?\n" +
                     "where id = ?;";
             PreparedStatement ps = connection.prepareStatement(query);
