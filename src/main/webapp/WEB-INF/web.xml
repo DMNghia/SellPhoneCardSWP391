@@ -9,9 +9,19 @@
     <!--    <servlet-name>home</servlet-name>-->
     <!--    <url-pattern>/</url-pattern>-->
     <!--  </servlet-mapping>-->
+<!--    <filter>-->
+<!--        <filter-name>BuyCardController</filter-name>-->
+<!--        <filter-class>controller.BuyCardController</filter-class>-->
+<!--        <async-supported>true</async-supported>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>BuyCardController</filter-name>-->
+<!--        <url-pattern>/buyCard</url-pattern>-->
+<!--    </filter-mapping>-->
     <servlet>
         <servlet-name>TransactionsController</servlet-name>
         <servlet-class>controller.TransactionsController</servlet-class>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet>
         <servlet-name>DetailHistoryController</servlet-name>

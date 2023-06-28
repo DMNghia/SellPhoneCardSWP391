@@ -11,7 +11,7 @@ public class DBContext {
     private final static String pass = "nghia";
     private final static String url = "jdbc:mysql://localhost:3306/sellphonecard";
 
-    private static Connection getConnection() {
+    protected static Connection getConnection() {
         if (connection == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");

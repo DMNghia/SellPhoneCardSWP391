@@ -9,11 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StorageDAO extends DBContext {
-
-    private UserDAO userDAO = new UserDAO();
-    private ProductDAO productDAO = new ProductDAO();
-
+public class StorageDAO extends DAO {
 
     public List<Product> getListDistinctProductWithStorage() {
         List<Product> list = new ArrayList<>();

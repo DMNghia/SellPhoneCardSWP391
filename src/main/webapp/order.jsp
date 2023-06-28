@@ -21,98 +21,51 @@
     <link href="${pageContext.request.contextPath}/admin/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/admin/assets/css/light-bootstrap-dashboard.css?v=2.0.0 "
           rel="stylesheet"/>
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="${pageContext.request.contextPath}/admin/assets/css/demo.css" rel="stylesheet"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
     <style>
-        #updateDiv {
-            display: none;
+        #blur.activete {
+            filter: blur(20px);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        #popup {
             position: fixed;
-            top: -100%;
+            top: 40%;
             left: 50%;
-            transform: translateX(-50%);
-            background-color: #ebc8fa;
-            padding: 20px;
-            transition: top 0.3s;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            padding: 50px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
+            background: #fff;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.5s;
             z-index: 9999;
-            border-radius: 10px;
-            box-shadow: #464646 0 0 7px;
-            max-height: 80%;
+            max-height: 600px;
             overflow: scroll;
         }
 
-        #deleteDiv {
-            display: none;
-            position: fixed;
-            top: -100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #ebc8fa;
-            padding: 20px;
-            transition: top 0.3s;
-            z-index: 9999;
-            border-radius: 10px;
-            box-shadow: #464646 0 0 7px;
+        #popup.activete {
+            top: 50%;
+            visibility: visible;
+            opacity: 1;
+            transform: 0.5s;
         }
-
     </style>
 </head>
 
 <body>
-<header>
-    <div class="menu">
-        <nav class="nav-header">
-            <div class="header1">
-                <ul>
-                    <li><a href="/">Trang chủ</a></li>
-                    <li><a href="#">Mua hàng</a>
-                        <ul>
-                            <li><a href="${(user != null ) ? "order" : "login"}">Đơn hàng</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Giao dịch</a>
-                        <ul>
-                            <li><a href="${(user != null ) ? "transaction" : "login"}">Lịch sử</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="contact.jsp">Liên hệ</a></li>
-                    <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <c:if test="${user != null}">
-                        <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: <span id="balanceValue">${user.getBalance()}</span></span></li>
-                    </c:if>
-                    <c:if test="${user != null}">
-                        <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
-                            <ul>
-                                <li><a href="changeProfile">Thông tin người dùng</a></li>
-                                <li><a href="logout">Đăng xuất</a></li>
-                            </ul>
-                        </li>
-                    </c:if>
-                    <c:if test="${user == null}">
-                        <li><a href="login">Đăng nhập</a></li>
-                    </c:if>
-                </ul>
-            </div>
-        </nav>
+<div id="popup">
+    <div class="row pl-1" style="width: fit-content;margin-left: auto">
+        <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+                style="cursor: pointer" onclick="showUpdateDiv('', '', '')">
+            <i class="nc-icon nc-simple-remove" style="font-size: 25px;font-weight: bold;"></i>
+        </button>
     </div>
-</header>
-<div class="row col-6 text-center" id="deleteDiv">
-    <h4 style="text-align: center"><b>Bạn có chắc muốn xóa chứ</b></h4>
-    <form action="order" method="post">
-        <input name="id" id="idInputDeleteDiv" class="d-none">
-        <input name="page" value='${request.getParameter("page")}' class="d-none">
-        <button class="btn" type="submit" name="option" value="delete"
-                style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
-            Xóa
-        </button>
-        <button type="button" class="btn" id="closeButtonDelete"
-                style="cursor: pointer;background-color: #01b901;color: #ffffff;">
-            Hủy
-        </button>
-    </form>
-</div>
-<div class="row col-6" id="updateDiv">
     <div class="row">
         <div class="col-md-8 pr-1">
             <div class="form-group">
@@ -183,13 +136,53 @@
         </table>
     </div>
     <div class="row">
-        <button type="button" name="option" id="closeButton" value="update" class="btn pr-1"
-                style="cursor: pointer;background-color: #01b901;color: #ffffff;">
-            Đóng
-        </button>
+        <div class="pr-1">
+            <button onclick="showUpdateDiv('', '', '')" type="button" name="option" id="closeButton" value="update"
+                    class="btn"
+                    style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+                Đóng
+            </button>
+        </div>
     </div>
 </div>
-<div class="wrapper">
+<div class="wrapper" id="blur">
+    <header style="height: 60px;">
+        <div class="menu">
+            <nav class="nav-header">
+                <div class="header1">
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="#">Mua hàng</a>
+                            <ul>
+                                <li><a href="${(user != null ) ? "order" : "login"}">Đơn hàng</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Giao dịch</a>
+                            <ul>
+                                <li><a href="${(user != null ) ? "transaction" : "login"}">Lịch sử</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="contact.jsp">Liên hệ</a></li>
+                        <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                        <c:if test="${user != null}">
+                            <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: <span id="balanceValue">${user.getBalance()}</span></span></li>
+                        </c:if>
+                        <c:if test="${user != null}">
+                            <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
+                                <ul>
+                                    <li><a href="changeProfile">Thông tin người dùng</a></li>
+                                    <li><a href="logout">Đăng xuất</a></li>
+                                </ul>
+                            </li>
+                        </c:if>
+                        <c:if test="${user == null}">
+                            <li><a href="login">Đăng nhập</a></li>
+                        </c:if>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg col-sm-" color-on-scroll="100">
         <div class="container-fluid">
@@ -308,14 +301,6 @@
                                                 Chi tiết sản phẩm
                                             </button>
                                         </td>
-                                        <td>
-                                            <button class="btn" type="button" class="btn"
-                                                    onclick="showDeleteAlert(${order.getId()})"
-                                                    style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
-
-                                                Xóa lịch sử
-                                            </button>
-                                        </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -374,89 +359,36 @@
 <script type="text/javascript">
     document.getElementById("balanceValue").innerText = parseInt(document.getElementById("balanceValue").innerText).toLocaleString();
 
-    function showDeleteAlert(id) {
-        const div = document.getElementById("deleteDiv");
-        const closeButton = document.getElementById("closeButtonDelete");
-        document.getElementById("idInputDeleteDiv").value = id;
-        const body = document.querySelector(".wrapper");
-
-        if (div.style.top === "-100%") {
-            div.style.display = "block";
-            body.style.overflow = "hidden"; // Prevent scrolling while the div is open
-            setTimeout(function () {
-                div.style.top = "0";
-                body.classList.add("blur"); // Add class to blur the background
-            }, 10);
-        } else {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
-        }
-
-        closeButton.addEventListener("click", function () {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
-        });
-    }
-
     function showUpdateDiv(order, name, price) {
-        const div = document.getElementById("updateDiv");
-        const closeButton = document.getElementById("closeButton");
-        const body = document.querySelector(".wrapper");
-        var orderValue = JSON.parse(order);
-        console.log(orderValue);
-        var listStorage = JSON.parse(JSON.stringify((orderValue.listStorage)));
-        console.log(listStorage);
-        document.getElementById("idInputUpdateDiv").value = orderValue.id;
-        document.getElementById("productInputUpdateDiv").value = name;
-        document.getElementById("statusInputUpdateDiv").value = orderValue.status;
-        document.getElementById("productPriceInputUpdateDiv").value = price;
-        document.getElementById("quantityInputUpdateDiv").value = listStorage.length;
-        document.getElementById("priceInputUpdateDiv").value = parseInt(price) * parseInt(listStorage.length);
-        var tableContent = div.querySelector(".table");
-        var bodyContent = tableContent.querySelector("tbody");
-        var content = "";
-        for (var s in listStorage) {
-            var storage = JSON.parse(JSON.stringify(listStorage[s]));
-            content += "<tr>";
-            content += "<td>" + storage.id + "</td>";
-            content += "<td>" + storage.serialNumber + "</td>";
-            content += "<td>" + storage.cardNumber + "</td>";
-            content += "</tr>"
+        if (order !== '' && name !== '' && price !== '') {
+            const div = document.getElementById("popup");
+            var orderValue = JSON.parse(order);
+            console.log(orderValue);
+            var listStorage = JSON.parse(JSON.stringify((orderValue.listStorage)));
+            console.log(listStorage);
+            document.getElementById("idInputUpdateDiv").value = orderValue.id;
+            document.getElementById("productInputUpdateDiv").value = name;
+            document.getElementById("statusInputUpdateDiv").value = orderValue.status;
+            document.getElementById("productPriceInputUpdateDiv").value = price;
+            document.getElementById("quantityInputUpdateDiv").value = listStorage.length;
+            document.getElementById("priceInputUpdateDiv").value = parseInt(price) * parseInt(listStorage.length);
+            var tableContent = div.querySelector(".table");
+            var bodyContent = tableContent.querySelector("tbody");
+            var content = "";
+            for (var s in listStorage) {
+                var storage = JSON.parse(JSON.stringify(listStorage[s]));
+                content += "<tr>";
+                content += "<td>" + storage.id + "</td>";
+                content += "<td>" + storage.serialNumber + "</td>";
+                content += "<td>" + storage.cardNumber + "</td>";
+                content += "</tr>"
+            }
+            bodyContent.innerHTML = content;
         }
-        bodyContent.innerHTML = content;
-
-        if (div.style.top === "-100%") {
-            div.style.display = "block";
-            body.style.overflow = "hidden"; // Prevent scrolling while the div is open
-            setTimeout(function () {
-                div.style.top = "0";
-                body.classList.add("blur"); // Add class to blur the background
-            }, 10);
-        } else {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
-        }
-
-        closeButton.addEventListener("click", function () {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
-        });
+        var blur = document.getElementById('blur');
+        blur.classList.toggle('activete');
+        var popup = document.getElementById('popup');
+        popup.classList.toggle('activete');
     }
 
     let pages = ${totalPageNumbers};

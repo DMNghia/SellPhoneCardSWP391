@@ -23,16 +23,8 @@
                 <div class="header1">
                     <ul>
                         <li><a href="/">Trang chủ</a></li>
-                        <li><a href="#">Mua hàng</a>
-                            <ul>
-                                <li><a href="${(user != null ) ? "order" : "login"}">Đơn hàng</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Giao dịch</a>
-                            <ul>
-                                <li><a href="${(user != null ) ? "transaction" : "login"}">Lịch sử</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="${(user != null ) ? "order" : "login"}">Đơn hàng</a></li>
+                        <li><a href="${(user != null ) ? "transaction" : "login"}">Giao dịch</a></li>
                         <li><a href="contact.jsp">Liên hệ</a></li>
                         <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
                         <c:if test="${user != null}">

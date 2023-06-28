@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.DAO;
 import functionUtils.Function;
 import dal.UserDAO;
 import jakarta.servlet.ServletException;
@@ -82,10 +83,10 @@ public class LoginController extends HttpServlet {
         String captchaValue = (String) session.getAttribute("captchaValue");
         String captchaInput = request.getParameter("captcha");
 
-        UserDAO ud = new UserDAO();
+//        UserDAO ud = new UserDAO();
         Function f = new Function();
         String error = "";
-        if (!ud.checkUser(account, f.hash(password))) {
+        if (! DAO.userDAO.checkUser(account, f.hash(password))) {
             error = "Sai thông tin đăng nhập";
             request.setAttribute("account", account);
             request.setAttribute("password", password);
@@ -100,8 +101,8 @@ public class LoginController extends HttpServlet {
         } else {
             request.setAttribute("account", account);
             request.setAttribute("password", password);
-            User user = ud.getUser(account, f.hash(password));
-            if (!ud.isAccountActive(account)) {
+            User user =  DAO.userDAO.getUser(account, f.hash(password));
+            if (! DAO.userDAO.isAccountActive(account)) {
                 request.getRequestDispatcher("isActive.jsp").forward(request, response);
             }
             if (user.getRole() == 0) {

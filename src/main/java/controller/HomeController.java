@@ -5,6 +5,7 @@
 package controller;
 
 import dal.SupplierDAO;
+import dal.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Supplier;
+import model.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -62,15 +64,18 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Supplier> list = new ArrayList<>();
-        list = (new SupplierDAO()).getListSupplier();
-        int id = 0;
-        if (request.getParameter("id") != null) {
-            id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("user");
+        if (u != null) {
+            User user = new UserDAO().getUser(u.getAccount(), u.getPassword());
+            session.setAttribute("user", user);
         }
 
-        request.setAttribute("imgList", list);
-        HttpSession session = request.getSession();
+        if (session.getAttribute("imgList") == null) {
+            ArrayList<Supplier> list = new ArrayList<>();
+            list = (new SupplierDAO()).getListSupplier();
+            session.setAttribute("imgList", list);
+        }
         boolean isAdmin = false;
         if (session.getAttribute("isAdmin") != null) {
             isAdmin = (boolean) session.getAttribute("isAdmin");
@@ -94,6 +99,11 @@ public class HomeController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
     }
 
     /**

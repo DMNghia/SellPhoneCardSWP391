@@ -24,58 +24,81 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="${pageContext.request.contextPath}/admin/assets/css/demo.css" rel="stylesheet"/>
     <style>
-        #updateDiv {
-            display: none;
-            position: fixed;
-            top: -100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #ebc8fa;
-            padding: 20px;
-            transition: top 0.3s;
-            z-index: 9999;
-            border-radius: 10px;
-            box-shadow: #464646 0 0 7px;
+        #blur.activete {
+            filter: blur(20px);
+            pointer-events: none;
+            user-select: none;
         }
 
-        #deleteDiv {
-            display: none;
+        #popup {
             position: fixed;
-            top: -100%;
+            top: 40%;
             left: 50%;
-            transform: translateX(-50%);
-            background-color: #ebc8fa;
-            padding: 20px;
-            transition: top 0.3s;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            padding: 50px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
+            background: #fff;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.5s;
             z-index: 9999;
-            border-radius: 10px;
-            box-shadow: #464646 0 0 7px;
         }
 
+        #popup.activete {
+            top: 50%;
+            visibility: visible;
+            opacity: 1;
+            transform: 0.5s;
+        }
+
+        #popupDelete {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            padding: 50px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
+            background: #fff;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.5s;
+            z-index: 9999;
+        }
+
+        #popupDelete.activete {
+            top: 50%;
+            visibility: visible;
+            opacity: 1;
+            transform: 0.5s;
+        }
     </style>
 </head>
 
 <body>
-<div class="row col-6 text-center" id="deleteDiv">
+<div id="popupDelete">
     <h4 style="text-align: center"><b>Bạn có chắc muốn xóa chứ</b></h4>
-    <form action="storage" method="post">
+    <form action="storage" method="post" class="justify-content-around d-flex">
         <input name="id" id="idInputDeleteDiv" class="d-none">
         <input name="page" id="pageInputDeleteDiv" value='${request.getParameter("page")}' class="d-none">
         <button class="btn" type="submit" name="option" value="delete"
                 style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
             Xóa
         </button>
-        <button type="button" class="btn" id="closeButtonDelete"
+        <button type="button" class="btn" id="closeButtonDelete" onclick="showDeleteAlert(-1)"
                 style="cursor: pointer;background-color: #01b901;color: #ffffff;">
             Hủy
         </button>
     </form>
 </div>
-<div class="row col-6" id="updateDiv">
-    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeButton"
-            style="cursor: pointer">
-        <i class="nc-icon nc-simple-remove"></i>
-    </button>
+<div id="popup">
+    <div class="row pl-1" style="width: fit-content;margin-left: auto">
+        <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeButton"
+                style="cursor: pointer" onclick="showUpdateDiv('')">
+            <i class="nc-icon nc-simple-remove" style="font-size: 25px;font-weight: bold;"></i>
+        </button>
+    </div>
     <form action="storage" method="post" class="">
         <div class="row">
             <div class="col-md-8 pr-1">
@@ -115,14 +138,16 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="option" value="update" class="btn pr-1"
-                    style="cursor: pointer;background-color: #01b901;color: #ffffff;">
-                Cập nhật
-            </button>
+            <div class="col-md-8 pr-1">
+                <button type="submit" name="option" value="update" class="btn"
+                        style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+                    Cập nhật
+                </button>
+            </div>
         </div>
     </form>
 </div>
-<div class="wrapper">
+<div class="wrapper" id="blur">
     <div class="sidebar" data-image="${pageContext.request.contextPath}/admin/assets/img/sidebar-5.jpg">
         -->
         <div class="sidebar-wrapper">
@@ -153,7 +178,7 @@
                 <li>
                     <a class="nav-link" href="order">
                         <i class="nc-icon nc-paper-2"></i>
-                        <p>Mua hàng</p>
+                        <p>Đơn hàng</p>
                     </a>
                 </li>
                 <li>
@@ -191,40 +216,34 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navigation">
                     <form method="get" action="storage">
                         <ul class="nav navbar-nav mr-auto">
-                            <li class="dropdown nav-item" style="margin-left: 10px">
+                            <li class="dropdown nav-item" style="margin-left: 20px">
                                 <select id="priceSelect" name="price" class="h-100 border-0"
                                         style="background-color: transparent;color: #5e5e5e;cursor: pointer">
                                     <option value="all">Mệnh giá</option>
-                                    <c:forEach var="product" items="${listProduct}">
-                                        <option class="dropdown-item" ${String.valueOf(product.getPrice()).equals(param.price) ? "selected" : ""}
-                                                value="${product.getPrice()}">${product.getPrice()}</option>
-                                    </c:forEach>
                                 </select>
                             </li>
-                            <li class="nav-item dropdown" style="margin-left: 10px">
+                            <li class="nav-item dropdown" style="margin-left: 20px">
                                 <select id="supplierSelect" name="supplier" class="h-100 border-0"
                                         style="background-color: transparent;color: #5e5e5e;cursor: pointer">
                                     <option value="all">Nhà phát hành</option>
-                                    <c:forEach var="product" items="${listProduct}">
-                                        <option class="dropdown-item" ${String.valueOf(product.getId()).equals(param.supplier) ? "selected" : ""}
-                                                value="${product.getId()}">${product.getSupplier().getName()}</option>
-                                    </c:forEach>
                                 </select>
                             </li>
-                            <li class="nav-item" style="margin-left: 10px">
-                                <input id="searchInput" type="text" name="search" placeholder="Tìm tên sản phẩm" class="h-50 border-0"
-                                       value="${param.search}">
-                                <button type="button" onclick="getData(1)" class="nav-link border-0" style="cursor: pointer">
-                                    <i class="nc-icon nc-zoom-split"></i>
-                                    <span class="d-lg-block">&nbsp;Search</span>
-                                </button>
+                            <li class="nav-item" style="margin-left: 20px">
+                                <input id="searchInput" type="text" name="search" placeholder="Tìm tên sản phẩm"
+                                       class="h-100 border-0"
+                                       >
+<%--                                <button type="button" onclick="getData(1)" class="nav-link border-0"--%>
+<%--                                        style="cursor: pointer">--%>
+<%--                                    <i class="nc-icon nc-zoom-split"></i>--%>
+<%--                                    <span class="d-lg-block">&nbsp;Tìm</span>--%>
+<%--                                </button>--%>
                             </li>
                         </ul>
                     </form>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="logout">
-                                <span class="no-icon">Log out</span>
+                                <span class="no-icon">Đăng xuất</span>
                             </a>
                         </li>
                     </ul>
@@ -331,14 +350,28 @@
 
 <script type="text/javascript">
 
-    function getData(page) {
+    $(document).ready( function (){
         $.ajax({
-            url: "storage?page=" + page + "&supplier=" + $('#supplierSelect').val() + "&price=" + $('#priceSelect').val() + "&search=" + $('#searchInput').val(),
+            url: "api/v1/storage",
             type: "GET",
             dataType: "json",
             success: function (response) {
-                loadPagination(JSON.stringify(response.data2));
-                loadContentList(JSON.stringify(response.data1));
+                loadPagination(JSON.stringify(response.pagination));
+                loadContentList(JSON.stringify(response.listStorage));
+                loadlistProduct(JSON.stringify(response.listProduct));
+                loadListSupplier(JSON.stringify(response.listSupplier));
+            }
+        });
+    });
+
+    function getData(page) {
+        $.ajax({
+            url: "api/v1/storage?page=" + page + "&supplier=" + $('#supplierSelect').val() + "&price=" + $('#priceSelect').val() + "&search=" + $('#searchInput').val(),
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                loadPagination(JSON.stringify(response.pagination));
+                loadContentList(JSON.stringify(response.listStorage));
             }
         });
     }
@@ -348,8 +381,23 @@
         var pageNumber = parseInt(dataPage.pageNumber);
         var totalPage = parseInt(dataPage.totalPageNumbers);
         document.getElementById("pageInputDeleteDiv").value = pageNumber;
-        document.getElementById("pageInputUpdateDiv").value = totalPage;
+        document.getElementById("pageInputUpdateDiv").value = pageNumber;
         document.getElementById('pagination').innerHTML = createPagination(totalPage, pageNumber);
+    }
+
+    function loadlistProduct(data) {
+        var listProduct = JSON.parse(data);
+        $.each(listProduct, function (i, product) {
+            $('#priceSelect').append($('<option>').val(product.price)
+                .text(parseInt(product.price).toLocaleString()));
+        });
+    }
+    function loadListSupplier(data) {
+        var listProduct = JSON.parse(data);
+        $.each(listProduct, function (i, supplier) {
+            $('#supplierSelect').append($('<option>').val(supplier.id)
+                .text(supplier.name));
+        });
     }
 
     function loadContentList(data) {
@@ -362,7 +410,7 @@
             var createdBy = JSON.parse(JSON.stringify(item.createdBy));
             var m = new Date(item.createdAt);
             var time = m.getFullYear() + "-" +
-                ("0" + (m.getMonth()+1)).slice(-2) + "-" +
+                ("0" + (m.getMonth() + 1)).slice(-2) + "-" +
                 ("0" + m.getDate()).slice(-2) + " " +
                 ("0" + m.getHours()).slice(-2) + ":" +
                 ("0" + m.getMinutes()).slice(-2) + ":" +
@@ -375,7 +423,7 @@
             bodyContent += "<td class='price_storage'>" + product.price + "</td>";
             bodyContent += "<td>" + time + "</td>";
             bodyContent += "<td>" + createdBy.account + "</td>";
-            bodyContent += `<td> <button class="btn" style="background-color: #01b901;color: #ffffff;cursor: pointer;"onclick='showUpdateDiv(JSON.stringify(` + storage +`))'>Thông tin </button> </td>`
+            bodyContent += `<td> <button class="btn" style="background-color: #01b901;color: #ffffff;cursor: pointer;"onclick='showUpdateDiv(JSON.stringify(` + storage + `))'>Thông tin </button> </td>`
             bodyContent += `<td> <button class="btn" style="background-color: #cc2127;color: #ffffff;cursor: pointer;" onclick="showDeleteAlert(` + item.id + `)"> Xóa  </button>  </td>`
             bodyContent += "</tr>";
         });
@@ -386,6 +434,16 @@
         });
     }
 
+    $('#priceSelect').change(() => {
+        getData(1);
+    });
+    $('#supplierSelect').change(() => {
+        getData(1);
+    })
+    $('#searchInput').on('input', () => {
+        getData(1);
+    })
+
     // Convert price below format 1,000
     var priceStorage = document.querySelectorAll(".price_storage");
     priceStorage.forEach(p => {
@@ -393,84 +451,43 @@
     });
 
     function showDeleteAlert(id) {
-        const div = document.getElementById("deleteDiv");
-        const closeButton = document.getElementById("closeButtonDelete");
-        document.getElementById("idInputDeleteDiv").value = id;
-        const body = document.querySelector(".wrapper");
-
-        if (div.style.top === "-100%") {
-            div.style.display = "block";
-            body.style.overflow = "hidden"; // Prevent scrolling while the div is open
-            setTimeout(function () {
-                div.style.top = "0";
-                body.classList.add("blur"); // Add class to blur the background
-            }, 10);
-        } else {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
+        if (parseInt(id) > 0) {
+            document.getElementById("idInputDeleteDiv").value = id;
         }
-
-        closeButton.addEventListener("click", function () {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
-        });
+        var blur = document.getElementById('blur');
+        blur.classList.toggle('activete');
+        var popup = document.getElementById('popupDelete');
+        popup.classList.toggle('activete');
     }
 
     function showUpdateDiv(storage) {
-        const div = document.getElementById("updateDiv");
-        const closeButton = document.getElementById("closeButton");
-        const body = document.querySelector(".wrapper");
-        var json = JSON.parse(storage);
-        var expiredAt = new Date(json.expiredAt);
-        var timeExpiredAt = expiredAt.getFullYear() + "-" +
-            ("0" + (expiredAt.getMonth()+1)).slice(-2) + "-" +
-            ("0" + expiredAt.getDate()).slice(-2) + " " +
-            ("0" + expiredAt.getHours()).slice(-2) + ":" +
-            ("0" + expiredAt.getMinutes()).slice(-2) + ":" +
-            ("0" + expiredAt.getSeconds()).slice(-2);
-        json.expiredAt = timeExpiredAt;
-        document.getElementById("idInputUpdateDiv").value = json.id;
-        document.getElementById("seriInputUpdateDiv").value = json.serialNumber;
-        document.getElementById("cardNumberInputUpdateDiv").value = json.cardNumber;
-        document.getElementById("expiredAtInputUpdateDiv").value = json.expiredAt;
-
-        if (div.style.top === "-100%") {
-            div.style.display = "block";
-            body.style.overflow = "hidden"; // Prevent scrolling while the div is open
-            setTimeout(function () {
-                div.style.top = "0";
-                body.classList.add("blur"); // Add class to blur the background
-            }, 10);
-        } else {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
+        if (storage !== '') {
+            const div = document.getElementById("updateDiv");
+            const closeButton = document.getElementById("closeButton");
+            const body = document.querySelector(".wrapper");
+            var json = JSON.parse(storage);
+            var expiredAt = new Date(json.expiredAt);
+            var timeExpiredAt = expiredAt.getFullYear() + "-" +
+                ("0" + (expiredAt.getMonth() + 1)).slice(-2) + "-" +
+                ("0" + expiredAt.getDate()).slice(-2) + " " +
+                ("0" + expiredAt.getHours()).slice(-2) + ":" +
+                ("0" + expiredAt.getMinutes()).slice(-2) + ":" +
+                ("0" + expiredAt.getSeconds()).slice(-2);
+            json.expiredAt = timeExpiredAt;
+            document.getElementById("idInputUpdateDiv").value = json.id;
+            document.getElementById("seriInputUpdateDiv").value = json.serialNumber;
+            document.getElementById("cardNumberInputUpdateDiv").value = json.cardNumber;
+            document.getElementById("expiredAtInputUpdateDiv").value = json.expiredAt;
         }
-
-        closeButton.addEventListener("click", function () {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
-        });
+        var blur = document.getElementById('blur');
+        blur.classList.toggle('activete');
+        var popup = document.getElementById('popup');
+        popup.classList.toggle('activete');
     }
 
-    let pages = ${totalPageNumbers};
+    <%--let pages = ${totalPageNumbers};--%>
 
-    document.getElementById('pagination').innerHTML = createPagination(pages, ${pageNumber});
+    <%--document.getElementById('pagination').innerHTML = createPagination(pages, ${pageNumber});--%>
 
     function createPagination(pages, page) {
         let str = '<ul class="page">';
@@ -479,13 +496,13 @@
         let pageCutHigh = page + 1;
         // Show the Previous button only if you are on a page other than the first
         if (page > 1) {
-            str += '<li onclick="createPagination(pages, ' + (page - 1) + ');getData(' + (page - 1) + ')" class="page__btn paging"><span>&laquo;</span></li>';
+            str += '<li onclick="createPagination(' + pages + ', ' + (page - 1) + ');getData(' + (page - 1) + ')" class="page__btn paging"><span>&laquo;</span></li>';
         }
         // Show all the pagination elements if there are less than 6 pages total
         if (pages < 6) {
             for (let p = 1; p <= pages; p++) {
                 active = page == p ? "active" : "";
-                str += '<li onclick="createPagination(pages, ' + p + ');getData(' + p + ')" class="page__numbers paging ' + active + '"><span>' + p + '</span></li>';
+                str += '<li onclick="createPagination(' + pages + ', ' + p + ');getData(' + p + ')" class="page__numbers paging ' + active + '"><span>' + p + '</span></li>';
             }
         }
         // Use "..." to collapse pages outside of a certain range
@@ -493,7 +510,7 @@
             // Show the very first page followed by a "..." at the beginning of the
             // pagination section (after the Previous button)
             if (page > 2) {
-                str += `<li onclick="createPagination(pages, 1);getData(` + 1 + `)" class="page__numbers paging"><span>1</span></li>`;
+                str += `<li onclick="createPagination(` + pages + `, 1);getData(` + 1 + `)" class="page__numbers paging"><span>1</span></li>`;
                 if (page > 3) {
                     str += `<li class="page__dots"><span>...</span></li>`;
                 }
@@ -520,7 +537,7 @@
                     continue
                 }
                 active = page == p ? "active" : "";
-                str += '<li onclick="createPagination(pages, ' + p + ');getData(' + p + ')" class="page__numbers paging ' + active + '"><span>' + p + '</span></li>';
+                str += '<li onclick="createPagination(' + pages + ', ' + p + ');getData(' + p + ')" class="page__numbers paging ' + active + '"><span>' + p + '</span></li>';
             }
             // Show the very last page preceded by a "..." at the end of the pagination
             // section (before the Next button)
@@ -528,12 +545,12 @@
                 if (page < pages - 2) {
                     str += '<li class="page__dots"><span>...</span></li>';
                 }
-                str += '<li onclick="createPagination(pages, pages);getData(' + pages + ')" class="page__numbers paging"><span>' + pages + '</span></li>';
+                str += '<li onclick="createPagination(' + pages + ', ' + pages + ');getData(' + pages + ')" class="page__numbers paging"><span>' + pages + '</span></li>';
             }
         }
         // Show the Next button only if you are on a page other than the last
         if (page < pages) {
-            str += '<li onclick="createPagination(pages, ' + (page + 1) + ');getData(' + (page + 1) + ')" class="page__btn paging"><span>&raquo;</span></li>';
+            str += '<li onclick="createPagination(' + pages + ', ' + (page + 1) + ');getData(' + (page + 1) + ')" class="page__btn paging"><span>&raquo;</span></li>';
         }
         str += '</ul>';
         // Return the pagination string to be outputted in the pug templates

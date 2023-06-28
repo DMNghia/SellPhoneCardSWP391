@@ -18,12 +18,9 @@ import model.Product;
  *
  * @author hp
  */
-public class ProductDAO extends DBContext {
-    private UserDAO userDAO = new UserDAO();
-    private SupplierDAO supplierDAO = new SupplierDAO();
+public class ProductDAO extends DAO {
 
-
-    public ArrayList<Product> getListPrice(int id) {
+    public ArrayList<Product> getListProductBySupplier(int id) {
         ArrayList<Product> list = new ArrayList<>();
         try {
             String str = "select * from product where supplier = ?";
@@ -37,7 +34,7 @@ public class ProductDAO extends DBContext {
                         rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy") )));
             }
         } catch (SQLException e) {
-            System.out.println("getListPrice: " + e.getMessage());
+            System.out.println("getListProductBySupplier: " + e.getMessage());
         }return list;
     }
 

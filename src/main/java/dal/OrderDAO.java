@@ -10,13 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDAO extends DBContext {
-
-    private final UserDAO userDAO = new UserDAO();
-
-    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
-
-    private final ProductDAO productDAO = new ProductDAO();
+public class OrderDAO extends DAO {
 
     public Order findOrderByTimeAndUser(int userId, String time) {
 

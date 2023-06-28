@@ -18,7 +18,7 @@ import model.User;
  *
  * @author hp
  */
-public class TransactionsDAO extends DBContext {
+public class TransactionsDAO extends DAO {
 
     private static Transactions findTransactionsById(int aInt) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

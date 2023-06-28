@@ -14,9 +14,7 @@ import java.util.ArrayList;
 /**
  * @author hp
  */
-public class SupplierDAO extends DBContext {
-
-    private UserDAO userDAO = new UserDAO();
+public class SupplierDAO extends DAO {
 
     public Supplier getSuppierById(int id) {
         try {

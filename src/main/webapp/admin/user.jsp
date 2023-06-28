@@ -70,7 +70,7 @@ The above copyright notice and this permission notice shall be included in all c
                 <li>
                     <a class="nav-link" href="order">
                         <i class="nc-icon nc-paper-2"></i>
-                        <p>Order</p>
+                        <p>Đơn hàng</p>
                     </a>
                 </li>
                 <li>
@@ -105,64 +105,11 @@ The above copyright notice and this permission notice shall be included in all c
         <nav class="navbar navbar-expand-lg " color-on-scroll="500">
             <div class="container-fluid">
                 <a class="navbar-brand" href="changeProfile"> Thông tin </a>
-                <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-bar burger-lines"></span>
-                    <span class="navbar-toggler-bar burger-lines"></span>
-                    <span class="navbar-toggler-bar burger-lines"></span>
-                </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                    <ul class="nav navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="dropdown">
-                                <i class="nc-icon nc-palette"></i>
-                                <span class="d-lg-none">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="dropdown nav-item">
-                            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                <i class="nc-icon nc-planet"></i>
-                                <span class="notification">5</span>
-                                <span class="d-lg-none">Notification</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Notification 1</a>
-                                <a class="dropdown-item" href="#">Notification 2</a>
-                                <a class="dropdown-item" href="#">Notification 3</a>
-                                <a class="dropdown-item" href="#">Notification 4</a>
-                                <a class="dropdown-item" href="#">Another notification</a>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nc-icon nc-zoom-split"></i>
-                                <span class="d-lg-block">&nbsp;Search</span>
-                            </a>
-                        </li>
-                    </ul>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#pablo">
-                                <span class="no-icon">Account</span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="no-icon">Dropdown</span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                                <div class="divider"></div>
-                                <a class="dropdown-item" href="#">Separated link</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="logout">
-                                <span class="no-icon">Log out</span>
+                                <span class="no-icon">Đăng xuất</span>
                             </a>
                         </li>
                     </ul>
@@ -211,7 +158,7 @@ The above copyright notice and this permission notice shall be included in all c
                                         </div>
                                     </div>
                                     <button type="submit" name="option" value="changeProfile"
-                                            class="btn btn-info btn-fill pull-right">Cập nhật
+                                            class="btn btn-info btn-fill pull-right" style="cursor: pointer">Cập nhật
                                     </button>
                                     <div class="clearfix"></div>
                                 </form>
@@ -221,7 +168,7 @@ The above copyright notice and this permission notice shall be included in all c
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Edit Profile</h4>
+                                <h4 class="card-title">Chỉnh sửa thông tin</h4>
                             </div>
                             <div class="card-body">
                                 <form action="changeProfile" method="post">
@@ -259,7 +206,7 @@ The above copyright notice and this permission notice shall be included in all c
                                         </div>
                                     </div>
                                     <button type="submit" name="option" value="changePassword"
-                                            class="btn btn-info btn-fill pull-right">Cập nhật
+                                            class="btn btn-info btn-fill pull-right" style="cursor: pointer">Cập nhật
                                     </button>
                                     <div class="clearfix"></div>
                                 </form>
@@ -274,23 +221,8 @@ The above copyright notice and this permission notice shall be included in all c
                 <nav>
                     <ul class="footer-menu">
                         <li>
-                            <a href="#">
+                            <a href="/">
                                 Home
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Company
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Portfolio
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Blog
                             </a>
                         </li>
                     </ul>
@@ -299,7 +231,7 @@ The above copyright notice and this permission notice shall be included in all c
                         <script>
                             document.write(new Date().getFullYear())
                         </script>
-                        <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                        SWP391 Group5, made with love for a better web
                     </p>
                 </nav>
             </div>

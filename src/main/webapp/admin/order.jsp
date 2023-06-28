@@ -25,56 +25,46 @@
 
     <link href="${pageContext.request.contextPath}/admin/assets/css/demo.css" rel="stylesheet"/>
     <style>
-        #updateDiv {
-            /*display: none;*/
-            max-height: 80%;
+        #blur.activete {
+            filter: blur(20px);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        #popup {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            padding: 50px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
+            background: #fff;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.5s;
+            z-index: 9999;
+            max-height: 600px;
             overflow: scroll;
-            position: fixed;
-            top: -100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #ebc8fa;
-            padding: 20px;
-            transition: top 0.3s;
-            z-index: 9999;
-            border-radius: 10px;
-            box-shadow: #464646 0 0 7px;
         }
 
-        #deleteDiv {
-            /*display: none;*/
-            position: fixed;
-            top: -100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #ebc8fa;
-            padding: 20px;
-            transition: top 0.3s;
-            z-index: 9999;
-            border-radius: 10px;
-            box-shadow: #464646 0 0 7px;
+        #popup.activete {
+            top: 50%;
+            visibility: visible;
+            opacity: 1;
+            transform: 0.5s;
         }
-
     </style>
 </head>
 
 <body>
-<div class="row col-6 text-center" id="deleteDiv">
-    <h4 style="text-align: center"><b>Bạn có chắc muốn xóa chứ</b></h4>
-    <form action="order" method="post">
-        <input name="id" id="idInputDeleteDiv" class="d-none">
-        <input name="page" value='${request.getParameter("page")}' class="d-none">
-        <button class="btn" type="submit" name="option" value="delete"
-                style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
-            Xóa
+<div id="popup">
+    <div class="row pl-1" style="width: fit-content;margin-left: auto">
+        <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+                style="cursor: pointer" onclick="showUpdateDiv('', '', '')">
+            <i class="nc-icon nc-simple-remove" style="font-size: 25px;font-weight: bold;"></i>
         </button>
-        <button type="button" class="btn" id="closeButtonDelete"
-                style="cursor: pointer;background-color: #01b901;color: #ffffff;">
-            Hủy
-        </button>
-    </form>
-</div>
-<div class="row col-6" id="updateDiv">
+    </div>
     <div class="row">
         <div class="col-md-8 pr-1">
             <div class="form-group">
@@ -145,24 +135,27 @@
         </table>
     </div>
     <div class="row">
-        <button type="button" name="option" id="closeButton" value="update" class="btn pr-1"
-                style="cursor: pointer;background-color: #01b901;color: #ffffff;">
-            Đóng
-        </button>
+        <div class="pr-1">
+            <button onclick="showUpdateDiv('', '', '')" type="button" name="option" id="closeButton" value="update"
+                    class="btn"
+                    style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+                Đóng
+            </button>
+        </div>
     </div>
 </div>
-<div class="wrapper">
+<div class="wrapper" id="blur">
     <div class="sidebar" data-image="${pageContext.request.contextPath}/admin/assets/img/sidebar-5.jpg">
         -->
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="home" class="simple-text">
+                <a href="/" class="simple-text">
                     SWP391 GROUP5
                 </a>
             </div>
             <ul class="nav">
                 <li>
-                    <a class="nav-link" href="home">
+                    <a class="nav-link" href="/">
                         <i class="nc-icon nc-chart-pie-35"></i>
                         <p>Dashboard</p>
                     </a>
@@ -173,18 +166,18 @@
                         <p>Thông tin</p>
                     </a>
                 </li>
-<%--                <c:if test="${admin != null }">--%>
-                    <li class="nav-item">
-                        <a class="nav-link" href="storage">
-                            <i class="nc-icon nc-notes"></i>
-                            <p>Sản phẩm</p>
-                        </a>
-                    </li>
-<%--                </c:if>--%>
+                <%--                <c:if test="${admin != null }">--%>
+                <li class="nav-item">
+                    <a class="nav-link" href="storage">
+                        <i class="nc-icon nc-notes"></i>
+                        <p>Sản phẩm</p>
+                    </a>
+                </li>
+                <%--                </c:if>--%>
                 <li class="nav-item active">
                     <a class="nav-link" href="order">
                         <i class="nc-icon nc-notes"></i>
-                        <p>Mua hàng</p>
+                        <p>Đơn hàng</p>
                     </a>
                 </li>
                 <li>
@@ -218,7 +211,7 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg " color-on-scroll="500">
             <div class="container-fluid">
-                <a class="navbar-brand" href="order"> Mua hàng </a>
+                <a class="navbar-brand" href="order"> Đơn hàng </a>
                 <div class="collapse navbar-collapse justify-content-end" id="navigation">
                     <form method="get" action="order">
                         <ul class="nav navbar-nav mr-auto">
@@ -232,23 +225,13 @@
                                     </c:forEach>
                                 </select>
                             </li>
-                            <%--                            <li class="nav-item dropdown" style="margin-left: 10px">--%>
-                            <%--                                <select name="id" class="h-100 border-0"--%>
-                            <%--                                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">--%>
-                            <%--                                    <option value="all">Mã đơn hàng</option>--%>
-                            <%--                                    <c:forEach var="order" items="${listOrder}">--%>
-                            <%--                                        <option class="dropdown-item" ${String.valueOf(order.getId()).equals(param.id) ? "selected" : ""}--%>
-                            <%--                                                value="${order.getId()}">${order.getId()}</option>--%>
-                            <%--                                    </c:forEach>--%>
-                            <%--                                </select>--%>
-                            <%--                            </li>--%>
                             <li class="nav-item" style="margin-left: 10px">
                                 <input type="text" id="searchInput" name="search" placeholder="Tìm kiếm "
                                        class="h-50 border-0"
                                        value="${param.search}">
                                 <button type="submit" class="nav-link border-0" style="cursor: pointer">
                                     <i class="nc-icon nc-zoom-split"></i>
-                                    <span class="d-lg-block">&nbsp;Search</span>
+                                    <span class="d-lg-block">&nbsp;Tìm</span>
                                 </button>
                             </li>
                         </ul>
@@ -256,7 +239,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="logout">
-                                <span class="no-icon">Log out</span>
+                                <span class="no-icon">Đăng xuất</span>
                             </a>
                         </li>
                     </ul>
@@ -329,14 +312,14 @@
                                                     Chi tiết sản phẩm
                                                 </button>
                                             </td>
-                                            <td>
-                                                <button class="btn" type="button" class="btn"
-                                                        onclick="showDeleteAlert(${order.getId()})"
-                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"
-                                                >
-                                                    Xóa lịch sử
-                                                </button>
-                                            </td>
+<%--                                            <td>--%>
+<%--                                                <button class="btn" type="button" class="btn"--%>
+<%--                                                        onclick="showDeleteAlert(${order.getId()})"--%>
+<%--                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"--%>
+<%--                                                >--%>
+<%--                                                    Xóa lịch sử--%>
+<%--                                                </button>--%>
+<%--                                            </td>--%>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -354,7 +337,7 @@
                 <nav>
                     <ul class="footer-menu">
                         <li>
-                            <a href="home">
+                            <a href="/">
                                 Home
                             </a>
                         </li>
@@ -398,89 +381,36 @@
 
 <script type="text/javascript">
 
-    function showDeleteAlert(id) {
-        const div = document.getElementById("deleteDiv");
-        const closeButton = document.getElementById("closeButtonDelete");
-        document.getElementById("idInputDeleteDiv").value = id;
-        const body = document.querySelector(".wrapper");
-
-        if (div.style.top === "-100%") {
-            div.style.display = "block";
-            body.style.overflow = "hidden"; // Prevent scrolling while the div is open
-            setTimeout(function () {
-                div.style.top = "0";
-                body.classList.add("blur"); // Add class to blur the background
-            }, 10);
-        } else {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
-        }
-
-        closeButton.addEventListener("click", function () {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
-        });
-    }
-
     function showUpdateDiv(order, name, price) {
-        const div = document.getElementById("updateDiv");
-        const closeButton = document.getElementById("closeButton");
-        const body = document.querySelector(".wrapper");
-        var orderValue = JSON.parse(order);
-        console.log(orderValue);
-        var listStorage = JSON.parse(JSON.stringify((orderValue.listStorage)));
-        console.log(listStorage);
-        document.getElementById("idInputUpdateDiv").value = orderValue.id;
-        document.getElementById("productInputUpdateDiv").value = name;
-        document.getElementById("statusInputUpdateDiv").value = orderValue.status;
-        document.getElementById("productPriceInputUpdateDiv").value = price;
-        document.getElementById("quantityInputUpdateDiv").value = listStorage.length;
-        document.getElementById("priceInputUpdateDiv").value = parseInt(price) * parseInt(listStorage.length);
-        var tableContent = div.querySelector(".table");
-        var bodyContent = tableContent.querySelector("tbody");
-        var content = "";
-        for (var s in listStorage) {
-            var storage = JSON.parse(JSON.stringify(listStorage[s]));
-            content += "<tr>";
-            content += "<td>" + storage.id + "</td>";
-            content += "<td>" + storage.serialNumber + "</td>";
-            content += "<td>" + storage.cardNumber + "</td>";
-            content += "</tr>"
+        if (order !== '' && name !== '' && price !== '') {
+            const div = document.getElementById("popup");
+            var orderValue = JSON.parse(order);
+            console.log(orderValue);
+            var listStorage = JSON.parse(JSON.stringify((orderValue.listStorage)));
+            console.log(listStorage);
+            document.getElementById("idInputUpdateDiv").value = orderValue.id;
+            document.getElementById("productInputUpdateDiv").value = name;
+            document.getElementById("statusInputUpdateDiv").value = orderValue.status;
+            document.getElementById("productPriceInputUpdateDiv").value = price;
+            document.getElementById("quantityInputUpdateDiv").value = listStorage.length;
+            document.getElementById("priceInputUpdateDiv").value = parseInt(price) * parseInt(listStorage.length);
+            var tableContent = div.querySelector(".table");
+            var bodyContent = tableContent.querySelector("tbody");
+            var content = "";
+            for (var s in listStorage) {
+                var storage = JSON.parse(JSON.stringify(listStorage[s]));
+                content += "<tr>";
+                content += "<td>" + storage.id + "</td>";
+                content += "<td>" + storage.serialNumber + "</td>";
+                content += "<td>" + storage.cardNumber + "</td>";
+                content += "</tr>"
+            }
+            bodyContent.innerHTML = content;
         }
-        bodyContent.innerHTML = content;
-
-        if (div.style.top === "-100%") {
-            div.style.display = "block";
-            body.style.overflow = "hidden"; // Prevent scrolling while the div is open
-            setTimeout(function () {
-                div.style.top = "0";
-                body.classList.add("blur"); // Add class to blur the background
-            }, 10);
-        } else {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
-        }
-
-        closeButton.addEventListener("click", function () {
-            div.style.top = "-100%";
-            setTimeout(function () {
-                div.style.display = "none";
-                body.style.overflow = ""; // Re-enable scrolling when the div is closed
-                body.classList.remove("blur"); // Remove class to remove the background blur
-            }, 500);
-        });
+        var blur = document.getElementById('blur');
+        blur.classList.toggle('activete');
+        var popup = document.getElementById('popup');
+        popup.classList.toggle('activete');
     }
 
     let pages = ${totalPageNumbers};

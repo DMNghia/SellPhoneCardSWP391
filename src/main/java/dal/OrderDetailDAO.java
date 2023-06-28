@@ -10,12 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDetailDAO extends DBContext {
-    private StorageDAO storageDAO = new StorageDAO();
-    private ProductDAO productDAO = new ProductDAO();
-
-    private SupplierDAO supplierDAO = new SupplierDAO();
-    private UserDAO userDAO = new UserDAO();
+public class OrderDetailDAO extends DAO {
 
     public Long findOrderByListStorage(List<Storage> listStorage) {
         try {

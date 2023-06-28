@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAO extends DBContext {
+public class UserDAO extends DAO {
 
     public User getUserById(int id) {
         try {

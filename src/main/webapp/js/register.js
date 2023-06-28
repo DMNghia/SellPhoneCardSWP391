@@ -18,10 +18,6 @@ function submitData() {
     var captchaInput = document.getElementById("captcha-input")
 
     let x = setInterval(function () {
-        // accountInput.addEventListener("oninput", validate);
-        // passwordInput.addEventListener("oninput", validate);
-        // emailInput.addEventListener("oninput", validate);
-        // captchaInput.addEventListener("oninput", validate);
 
         var accountValidate = document.getElementById("account-validate");
         var paswordValidate = document.getElementById("password-validate");
