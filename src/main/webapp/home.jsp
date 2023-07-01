@@ -79,7 +79,7 @@
             <c:forEach var="s" items="${imgList}">
                 <label style="height: 130px;width: 24%" class="d-flex justify-content-center">
                     <input class="radio-input" type="radio" name="supplier" ${(s.getId() == 1 ? "checked" : "")}
-                           value="${s.getName()}">
+                           value="${s.getId()}">
                     <span class="radio-tile w-100" style="border-radius: 10px;">
                                 <span class="radio-icon">
                                     <img style="max-width: 98%;height: auto;object-fit: cover" src="${s.getImage()}"

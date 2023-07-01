@@ -77,14 +77,16 @@ public class OrderDAO extends DAO {
     public List<Order> getAllOrder(String status, String search, int page) {
         List<Order> listOrder = new ArrayList<>();
         try {
-            String sql = "select * from `order` where status like ? and isDelete = false \n" +
+            String sql = "select distinct od.`order`, o.* from `order` o\n" +
+                    "right join order_detail od on o.id = od.`order`\n" +
+                    "where status like ? and isDelete = false " +
                     "limit 10 offset ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, status);
             ps.setInt(2, page);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                List<Storage> listStorage = orderDetailDAO.getListStorageBySearchProduct(rs.getLong("id"), search);
+                List<Storage> listStorage = orderDetailDAO.getListStorageBySearchProduct(rs.getLong("order"), search);
                 if (listStorage.size() > 0) {
                     listOrder.add(new Order(rs.getLong("id"), userDAO.getUserById(rs.getInt("user")), rs.getString("status"), rs.getInt("totalAmount"),
                             rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
@@ -191,7 +193,9 @@ public class OrderDAO extends DAO {
     public List<Order> getAllOrderWithUser(String status, String search, int page,int userId) {
         List<Order> listOrder = new ArrayList<>();
         try {
-            String sql = "select * from `order` where status like ? and isDelete = false and user = ?  \n" +
+            String sql = "select distinct od.`order`, o.* from `order` o\n" +
+                    "right join order_detail od on o.id = od.`order`\n" +
+                    "where status like ? and isDelete = false and user = ? " +
                     "limit 10 offset ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, status);
@@ -200,12 +204,11 @@ public class OrderDAO extends DAO {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                List<Storage> listStorage = orderDetailDAO.getListStorageBySearchProduct(rs.getLong("id"), search);
+                List<Storage> listStorage = orderDetailDAO.getListStorageBySearchProduct(rs.getLong("order"), search);
                 if (listStorage.size() > 0) {
                     listOrder.add(new Order(rs.getLong("id"), userDAO.getUserById(rs.getInt("user")), rs.getString("status"), rs.getInt("totalAmount"),
                             rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
                             userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")), listStorage));
-
                 }
             }
 

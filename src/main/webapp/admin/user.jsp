@@ -64,7 +64,7 @@ The above copyright notice and this permission notice shall be included in all c
                 <li>
                     <a class="nav-link" href="storage">
                         <i class="nc-icon nc-notes"></i>
-                        <p>Sản phẩm</p>
+                        <p>Kho hàng</p>
                     </a>
                 </li>
                 <li>

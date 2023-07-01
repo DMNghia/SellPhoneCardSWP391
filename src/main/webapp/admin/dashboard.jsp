@@ -61,7 +61,7 @@
                     <li>
                         <a class="nav-link" href="storage">
                             <i class="nc-icon nc-notes"></i>
-                            <p>Sản phẩm</p>
+                            <p>Kho hàng</p>
                         </a>
                     </li>
                     <li>

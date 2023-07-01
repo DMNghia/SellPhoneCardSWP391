@@ -225,7 +225,7 @@
                             <li class="nav-item" style="margin-left: 20px">
                                 <input id="searchInput" type="text" name="search" placeholder="Tìm tên sản phẩm"
                                        class="h-100 border-0"
-                                       >
+                                >
                             </li>
                         </ul>
                     </form>
@@ -341,7 +341,7 @@
 
     $(document).ready( function (){
         $.ajax({
-            url: "api/v1/storage",
+            url: "api/v1/users",
             type: "GET",
             dataType: "json",
             success: function (response) {

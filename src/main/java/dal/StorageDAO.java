@@ -11,16 +11,16 @@ import java.util.List;
 
 public class StorageDAO extends DAO {
 
-    public List<Product> getListDistinctProductWithStorage() {
-        List<Product> list = new ArrayList<>();
+    public List<Integer> getListDistinctProductWithPrice() {
+        List<Integer> list = new ArrayList<>();
         try {
-            String query = "select distinct p.id from product p\n" +
+            String query = "select distinct p.price from product p\n" +
                     "left join storage s on p.id = s.productId\n" +
                     "where s.isUsed = false and s.isDelete = false;";
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(productDAO.findProductById(rs.getInt("id")));
+                list.add(rs.getInt("price"));
             }
         } catch (SQLException e) {
             System.err.println("getListDistinctProductWithStorage: " + e.getMessage());
@@ -28,18 +28,17 @@ public class StorageDAO extends DAO {
         return list;
     }
 
-    public List<Storage> getListStorageWithNearestExpiredAt(int size, String supplierName, int price) {
+    public List<Storage> getListStorageWithNearestExpiredAt(int size, int supplier, int price) {
         List<Storage> listStorage = new ArrayList<>();
         try {
             String query = "select s.* from storage s\n" +
                     "left join product p on s.productId = p.id\n" +
-                    "left join supplier s2 on p.supplier = s2.id\n" +
-                    "where s2.name = ? and p.price = ? and s.isUsed = false and s.isDelete = false\n" +
-                    "and p.isDelete = false and s2.isDelete = false\n" +
+                    "where p.supplier = ? and p.price = ? and s.isUsed = false and s.isDelete = false\n" +
+                    "and p.isDelete = false\n" +
                     "order by s.expiredAt\n" +
                     "limit ?";
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, supplierName);
+            ps.setInt(1, supplier);
             ps.setInt(2, price);
             ps.setInt(3, size);
             ResultSet rs = ps.executeQuery();
@@ -56,23 +55,24 @@ public class StorageDAO extends DAO {
         return listStorage;
     }
 
-    public List<Storage> searchStorage(int price, int productId, String search, int page) {
+    public List<Storage> searchStorage(int price, int supplier, String search, int page) {
         List<Storage> list = new ArrayList<>();
         try {
-            String query = "select s.* from storage s " +
-                    "left join product p on s.productId = p.id " +
-                    "where price" + (price > -1 ? " = ?" : "") +
-                    " and s.productId" + (productId > -1 ? " = ?" : "") +
+            String query = "select s.* from storage s\n" +
+                    "left join product p on s.productId = p.id\n" +
+                    "left join supplier su on p.supplier = su.id" +
+                    " where p.price" + (price > -1 ? " = ?" : "") +
+                    " and su.id" + (supplier > -1 ? " = ?" : "") +
                     " and p.name like ? and s.isUsed = false and s.isDelete = false" +
-                    " limit 10 offset ?";
+                    " and p.isDelete = false limit 10 offset ?";
             PreparedStatement ps = connection.prepareStatement(query);
             int i = 1;
             if (price > -1) {
                 ps.setInt(i, price);
                 i += 1;
             }
-            if (productId > -1) {
-                ps.setInt(i, productId);
+            if (supplier > -1) {
+                ps.setInt(i, supplier);
                 i += 1;
             }
             ps.setString(i, search);
@@ -232,5 +232,24 @@ public class StorageDAO extends DAO {
             System.out.println("getStorageById: " + e.getMessage());
         }
         return null;
+    }
+
+    public void insert(Storage storage) {
+        try {
+            String query = "insert into storage(serialNumber, cardNumber, expiredAt, productId, createdAt, createdBy, isUsed, isDelete)\n" +
+                    "value (?, ?, ?, ?, ?, ?, ?, ?);";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, storage.getSerialNumber());
+            ps.setString(2, storage.getCardNumber());
+            ps.setTimestamp(3, storage.getExpiredAt());
+            ps.setInt(4, storage.getProduct().getId());
+            ps.setTimestamp(5, storage.getCreatedAt());
+            ps.setInt(6, storage.getCreatedBy().getId());
+            ps.setBoolean(7, storage.isUsed());
+            ps.setBoolean(8, storage.isDelete());
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("StorageDAO-insert: " + e.getMessage());
+        }
     }
 }

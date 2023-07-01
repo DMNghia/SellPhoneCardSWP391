@@ -5,6 +5,8 @@ import model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO extends DAO {
 
@@ -184,5 +186,48 @@ public class UserDAO extends DAO {
             System.out.println("UserDAO-isAccountAvailable: " + e.getMessage());
         }
         return false;
+    }
+
+    public int getTotalUsers(int id) {
+        try {
+            String query = "select count(id) from user where isDelete = false and id != ?;";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("count(id)");
+            }
+         } catch (SQLException e) {
+            System.out.println("getTotalUsers: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public List<User> searchUsers(String searchName, int page, int isActive) {
+        List<User> listUser = new ArrayList<>();
+
+        try {
+            String query = "select * from user where isDelete = false\n" +
+                    " and account like ? " + (isActive >= 0 ? "and isActive = ?" : "\n") +
+                    " limit 10 offset ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, searchName);
+            if (isActive >= 0) {
+                ps.setInt(2, isActive);
+                ps.setInt(3, page);
+            } else {
+                ps.setInt(2, page);
+            }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listUser.add(new User().builder().id(rs.getInt("id")).account(rs.getString("account"))
+                        .email(rs.getString("email")).phoneNumber(rs.getString("phoneNumber"))
+                        .isActive(rs.getBoolean("isActive")).balance(rs.getInt("balance"))
+                        .createdAt(rs.getTimestamp("createdAt")).createdBy(rs.getInt("createdBy")).build());
+            }
+        } catch (SQLException e) {
+            System.out.println("searchUsers: " + e.getMessage());
+        }
+        return listUser;
     }
 }

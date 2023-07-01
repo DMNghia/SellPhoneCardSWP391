@@ -67,7 +67,8 @@ public class BuyCardController extends HttpServlet {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                List<Storage> listStorage = storageDAO.getListStorageWithNearestExpiredAt(finalQuantity, supplier, finalPrice);
+
+                List<Storage> listStorage = DAO.storageDAO.getListStorageWithNearestExpiredAt(finalQuantity, Integer.parseInt(supplier), finalPrice);
                 int totalStorage = listStorage.size();
                 if (finalQuantity > totalStorage) {
                     map.put("message", "Số lượng không đủ chỉ còn " + totalStorage + " sản phẩm tương ứng. Vui lòng thực hiện lại!");
@@ -91,6 +92,7 @@ public class BuyCardController extends HttpServlet {
                                 listStorage.get(i).getCardNumber() + " - " +
                                 listStorage.get(i).getExpiredAt() + "\n");
                     }
+
                     Function f = new Function();
                     f.send(user.getEmail(), subject, content);
 
@@ -107,6 +109,13 @@ public class BuyCardController extends HttpServlet {
                     newOrder.setCreatedBy(user);
                     newOrder.setListStorage(listStorage);
                     orderDAO.add(newOrder);
+
+                    // Minus quantity in product
+                    Product product = DAO.productDAO.findProductByPriceAndSupplier(finalPrice, Integer.parseInt(supplier));
+                    product.setQuantity(product.getQuantity() - finalQuantity);
+                    product.setUpdatedAt(Timestamp.valueOf(time));
+                    product.setUpdatedBy(user);
+                    DAO.productDAO.update(product, product.getId());
 
                     // Add order and storage to order_detail
                     Order thisOrder = orderDAO.findOrderByTimeAndUser(user.getId(), time);

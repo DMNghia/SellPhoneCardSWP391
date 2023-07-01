@@ -1,9 +1,5 @@
 package controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import dal.ProductDAO;
 import dal.StorageDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,16 +7,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Product;
 import model.Storage;
 import model.User;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @WebServlet(name = "StorageController", urlPatterns = "/storage")
 public class StorageController extends HttpServlet {
@@ -32,54 +25,8 @@ public class StorageController extends HttpServlet {
             isAdmin = (boolean) session.getAttribute("isAdmin");
         }
         if (isAdmin) {
-//            int price = -1;
-//            int productId = -1;
-//            String search = "%";
-//            int page = 1;
-//            List<Product> listProduct;
-//            List<Storage> list;
-//            if (page_raw != null) {
-//                page = Integer.parseInt(page_raw);
-//            }
-//            if (search_raw != null && !search_raw.isEmpty()) {
-//                search += (search_raw + "%");
-//            }
-//            if (price_raw != null && !price_raw.equals("all")) {
-//                price = Integer.parseInt(price_raw);
-//            }
-//            if (supplier_raw != null && !supplier_raw.equals("all")) {
-//                productId = Integer.parseInt(supplier_raw);
-//            }
-//            list = storageDAO.searchStorage(price, productId, search, (page-1)*10);
-//            Long totalStorage = storageDAO.getTotalStorage(price, productId, search);
-//            if ((search_raw != null && !search_raw.isEmpty()) || (price_raw != null && !price_raw.equals("all")) || (supplier_raw != null && !supplier_raw.equals("all"))) {
-//                if (totalStorage <= 1) {
-//                    page = 1;
-//                }
-//            }
-//            double totalPages = (double) totalStorage / 10;
-//            if (page_raw == null && supplier_raw == null && search_raw == null && price_raw == null) {
-//                listProduct = storageDAO.getListDistinctProductWithStorage();
-//                session.setAttribute("pageNumber", page);
-//                request.setAttribute("listStorage", list);
-//                session.setAttribute("totalPageNumbers", Math.ceil(totalPages));
-//                request.setAttribute("listProduct", listProduct);
-//                request.getRequestDispatcher("admin/storage.jsp").forward(request, response);
-//            } else {
-//                response.setContentType("application/json");
-//                JsonObject responseData = new JsonObject();
-//                Gson gson = new Gson();
-//                Map<String, String> map = new HashMap<>();
-//                map.put("pageNumber", String.valueOf(page));
-//                map.put("totalPageNumbers", String.valueOf(Math.ceil(totalPages)));
-//                responseData.add("data1", new JsonParser().parseString(gson.toJson(list)));
-//                responseData.add("data2", new JsonParser().parseString(gson.toJson(map)));
-//                response.getWriter().println(gson.toJson(responseData));
-//                response.getWriter().flush();
-//            }
             request.getRequestDispatcher("admin/storage.jsp").forward(request, response);
-        }
-        else {
+        } else {
             response.sendRedirect("logout");
         }
     }
