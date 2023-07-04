@@ -43,7 +43,7 @@ public class OrderDetailDAO extends DAO {
             while (rs.next()) {
                 list.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
                         rs.getTimestamp("expiredAt"), productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
-                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
                         userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy"))));
             }
         } catch (SQLException e) {
@@ -90,16 +90,13 @@ public class OrderDetailDAO extends DAO {
         return listStorage;
     }
 
-    public void add(Order order, List<Storage> listStorage) {
+    public void add(Order order, Storage storage) {
         try {
-            for (Storage s : listStorage) {
-                storageDAO.update(s);
-                String query = "insert into order_detail(`order`, storage) values (?, ?)";
-                PreparedStatement ps = connection.prepareStatement(query);
-                ps.setLong(1, order.getId());
-                ps.setLong(2, s.getId());
-                ps.execute();
-            }
+            String query = "insert into order_detail(`order`, storage) values (?, ?)";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setLong(1, order.getId());
+            ps.setLong(2, storage.getId());
+            ps.execute();
         } catch (SQLException e) {
             System.out.println("OrderDetailDAO-add: " + e.getMessage());
         }

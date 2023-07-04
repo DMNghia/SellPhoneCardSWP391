@@ -78,7 +78,7 @@ public class TransactionsController extends HttpServlet {
                 TransactionsDAO td = new TransactionsDAO();
 //                String account =(String) session.getAttribute("account");
                 User u = (User) session.getAttribute("user");
-                List<Transactions> listTr = td.getListTransactionsById(u.getId());
+                List<Transactions> listTr = td.getListTransactionsByUserId(u.getId());
                 int size = listTr.size();
                 int soTrang = (size % 2 == 0) ? (size / 2) : (size / 2 + 1);
                 String xpage = request.getParameter("page");
@@ -124,10 +124,10 @@ public class TransactionsController extends HttpServlet {
             } else {
                 ArrayList<Transactions> listTr1 = new ArrayList<>();
                 User u = (User) session.getAttribute("user");
-                listTr1 = (new TransactionsDAO()).getListTransactionsById(u.getId());
+                listTr1 = (new TransactionsDAO()).getListTransactionsByUserId(u.getId());
                 
                 TransactionsDAO td = new TransactionsDAO();
-                List<Transactions> listTr = td.getListTransactionsById(u.getId());
+                List<Transactions> listTr = td.getListTransactionsByUserId(u.getId());
                 int size = listTr.size(); //count
                 int soTrang = (size % 2 == 0) ? (size / 2) : (size / 2 + 1);
                 String xpage = request.getParameter("page");

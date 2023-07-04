@@ -18,6 +18,8 @@ public class Order {
     private User user;
     private String status;
     private int totalAmount;
+    private Product product;
+    private int quantity;
     private boolean isDelete;
     private Timestamp createdAt;
     private User createdBy;
@@ -27,11 +29,13 @@ public class Order {
     private User deletedBy;
     private List<Storage> listStorage;
 
-    public Order(long id, User user, String status, int totalAmount, boolean isDelete, Timestamp createdAt, User createdBy, Timestamp updatedAt, User updatedBy, Timestamp deletedAt, User deletedBy) {
+    public Order(long id, User user, String status, int totalAmount, Product product, int quantity, boolean isDelete, Timestamp createdAt, User createdBy, Timestamp updatedAt, User updatedBy, Timestamp deletedAt, User deletedBy) {
         this.id = id;
         this.user = user;
         this.status = status;
         this.totalAmount = totalAmount;
+        this.product = product;
+        this.quantity = quantity;
         this.isDelete = isDelete;
         this.createdAt = createdAt;
         this.createdBy = createdBy;

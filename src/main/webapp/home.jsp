@@ -316,12 +316,25 @@
 
 <script>
     document.getElementById("pay").addEventListener('click', buyProduct);
+    setInterval(() =>{
+        $.ajax({
+            url: "/api/v1/scanNotice",
+            dataType: "json",
+            success: function (response) {
+                var listMessage = JSON.parse(response.listMessage);
+                console.log(listMessage);
+                $.each(listMessage, function (i, message) {
+                    console.log(message);
+                    setTimeout(demo.showNotify(message), 1000);
+                });
+            }
+        });
+    }, 10000);
 
     function buyProduct() {
         <c:if test="${user == null}">
         document.querySelector("#frm").submit();
         </c:if>
-        setTimeout(demo.showNotify("Giao dịch đã được xử lý vui lòng chờ"), 100);
         var data = {
             price: document.getElementById("priceValue").innerHTML,
             supplier: document.getElementById("supplierName").innerHTML,

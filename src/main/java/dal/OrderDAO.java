@@ -7,6 +7,7 @@ import model.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class OrderDAO extends DAO {
     public Order findOrderByTimeAndUser(int userId, String time) {
 
         try {
-            String query = "select * from `order` where user = ? and createdAt = ?";
+            String query = "select * from `order` where user = ? and createdAt = ? and isDelete = false;";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, userId);
             ps.setString(2, time);
@@ -24,6 +25,7 @@ public class OrderDAO extends DAO {
             if (rs.next()) {
                 List<Storage> listStorage = orderDetailDAO.getListStorageBySearchProduct(rs.getLong("id"), "%");
                 return new Order(rs.getLong("id"), userDAO.getUserById(rs.getInt("user")), rs.getString("status"), rs.getInt("totalAmount"),
+                        DAO.productDAO.findProductById(rs.getInt("product")), rs.getInt("quantity"),
                         rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
                         userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")), listStorage);
             }
@@ -34,22 +36,28 @@ public class OrderDAO extends DAO {
         return null;
     }
 
-    public void add(Order order) {
+    public Order add(Order order) {
         try {
-            String query = "insert into `order` (user, status, totalAmount, isDelete, createdAt, createdBy)\n" +
-                    "value (?, ?, ?, ?, ?, ?);";
-            PreparedStatement ps = connection.prepareStatement(query);
+            String query = "insert into `order` (user, status, totalAmount, isDelete, createdAt, createdBy, product, quantity)\n" +
+                    "value (?, ?, ?, ?, ?, ?, ?, ?);";
+            PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, order.getUser().getId());
             ps.setString(2, order.getStatus());
             ps.setInt(3, order.getTotalAmount());
             ps.setBoolean(4, order.isDelete());
             ps.setTimestamp(5, order.getCreatedAt());
             ps.setInt(6, order.getCreatedBy().getId());
-            orderDetailDAO.add(order, order.getListStorage());
+            ps.setInt(7, order.getProduct().getId());
+            ps.setInt(8, order.getQuantity());
             ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return getOrderById(rs.getInt(1));
+            }
         } catch (SQLException e) {
             System.err.println("OrderDAO-add: " + e.getMessage());
         }
+        return null;
     }
 
     public long totalOrder(String status, String search) {
@@ -89,6 +97,7 @@ public class OrderDAO extends DAO {
                 List<Storage> listStorage = orderDetailDAO.getListStorageBySearchProduct(rs.getLong("order"), search);
                 if (listStorage.size() > 0) {
                     listOrder.add(new Order(rs.getLong("id"), userDAO.getUserById(rs.getInt("user")), rs.getString("status"), rs.getInt("totalAmount"),
+                            DAO.productDAO.findProductById(rs.getInt("product")), rs.getInt("quantity"),
                             rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
                             userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")), listStorage));
 
@@ -109,6 +118,7 @@ public class OrderDAO extends DAO {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Order(rs.getLong("id"), userDAO.getUserById(rs.getInt("user")), rs.getString("status"), rs.getInt("totalAmount"),
+                        DAO.productDAO.findProductById(rs.getInt("product")), rs.getInt("quantity"),
                         rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
                         userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")));
             }
@@ -207,6 +217,7 @@ public class OrderDAO extends DAO {
                 List<Storage> listStorage = orderDetailDAO.getListStorageBySearchProduct(rs.getLong("order"), search);
                 if (listStorage.size() > 0) {
                     listOrder.add(new Order(rs.getLong("id"), userDAO.getUserById(rs.getInt("user")), rs.getString("status"), rs.getInt("totalAmount"),
+                            DAO.productDAO.findProductById(rs.getInt("product")), rs.getInt("quantity"),
                             rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
                             userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")), listStorage));
                 }
@@ -218,7 +229,26 @@ public class OrderDAO extends DAO {
         return listOrder;
     }
 
-
+    public void update(Order order) {
+        try {
+            String query = "update `order` set `user` = ?, status = ?, totalAmount = ?," +
+                    " product = ?, quantity = ?, isDelete = ?, updatedAt = ?, updatedBy = ?" +
+                    " where id = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, order.getUser().getId());
+            ps.setString(2, order.getStatus());
+            ps.setInt(3, order.getTotalAmount());
+            ps.setInt(4, order.getProduct().getId());
+            ps.setInt(5, order.getQuantity());
+            ps.setBoolean(6, order.isDelete());
+            ps.setTimestamp(7, order.getUpdatedAt());
+            ps.setInt(8, order.getUpdatedBy().getId());
+            ps.setLong(9, order.getId());
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("OrderDAO-update: " + e.getMessage());
+        }
+    }
 
 }
 

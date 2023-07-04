@@ -28,19 +28,18 @@ public class StorageDAO extends DAO {
         return list;
     }
 
-    public List<Storage> getListStorageWithNearestExpiredAt(int size, int supplier, int price) {
+    public List<Storage> getListStorageWithNearestExpiredAt(int size, int product) {
         List<Storage> listStorage = new ArrayList<>();
         try {
             String query = "select s.* from storage s\n" +
                     "left join product p on s.productId = p.id\n" +
-                    "where p.supplier = ? and p.price = ? and s.isUsed = false and s.isDelete = false\n" +
+                    "where p.id = ? and s.isUsed = false and s.isDelete = false\n" +
                     "and p.isDelete = false\n" +
                     "order by s.expiredAt\n" +
                     "limit ?";
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, supplier);
-            ps.setInt(2, price);
-            ps.setInt(3, size);
+            ps.setInt(1, product);
+            ps.setInt(2, size);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 listStorage.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),

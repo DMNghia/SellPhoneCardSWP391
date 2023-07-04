@@ -131,4 +131,22 @@ public class ProductDAO extends DAO {
         }
         return null;
     }
+
+    public int findQuanlity(int finalPrice, int supplier) {
+        try {
+            String query = "select quantity from product where price = ? and supplier = ?" +
+                    " and isDelete = false";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, finalPrice);
+            ps.setInt(2, supplier);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("quantity");
+            }
+        } catch (SQLException e) {
+            System.out.println("findQuanlity: " + e.getMessage());
+        }
+
+        return 0;
+    }
 }

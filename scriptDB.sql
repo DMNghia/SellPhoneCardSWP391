@@ -1747,6 +1747,8 @@ create table `order`
     user        int,
     status      nvarchar(255),
     totalAmount int,
+    product     int,
+    quantity    int,
     isDelete    boolean,
     createdAt   datetime,
     createdBy   int,
@@ -1777,3 +1779,19 @@ CREATE TABLE IF NOT EXISTS sellphonecard.`transactions`
 );
 
 update user set balance = 1000000 where id = 2;
+
+create table notice (
+    id bigint not null auto_increment,
+    subject text collate utf8mb4_unicode_ci,
+    content text collate utf8mb4_unicode_ci,
+    seen tinyint(1),
+    user int,
+    isDelete tinyint(1),
+    createdAt datetime,
+    createdBy int,
+    updatedAt datetime,
+    updatedBy int,
+    deletedAt datetime,
+    deletedBy int,
+    primary key (id)
+);
