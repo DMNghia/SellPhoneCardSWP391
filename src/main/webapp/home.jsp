@@ -47,10 +47,10 @@
                     <li><a href="${(user != null ) ? "order" : "login"}">Đơn hàng</a></li>
                     <li><a href="${(user != null ) ? "transaction" : "login"}">Giao dịch</a></li>
                     <li><a href="contact.jsp">Liên hệ</a></li>
-                    <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li><a href="${(user != null ) ? "rechange" : "login"}">Nạp tiền</a></li>
                     <c:if test="${user != null}">
                         <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: <span
-                                id="balanceValue">${user.getBalance()}</span></span></li>
+                                id="balanceValue"></span></span></li>
                     </c:if>
                     <c:if test="${user != null}">
                         <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
@@ -75,94 +75,94 @@
         <h2 style="color: #000000">MUA THẺ ĐIỆN THOẠI, MUA THẺ CÀO ONLINE GIÁ ĐÚNG</h2>
     </div>
     <div class="container">
-        <div class="radio-inputs container justify-content-between" style="margin-bottom: 100px;">
-            <c:forEach var="s" items="${imgList}">
-                <label style="height: 130px;width: 24%" class="d-flex justify-content-center">
-                    <input class="radio-input" type="radio" name="supplier" ${(s.getId() == 1 ? "checked" : "")}
-                           value="${s.getId()}">
-                    <span class="radio-tile w-100" style="border-radius: 10px;">
-                                <span class="radio-icon">
-                                    <img style="max-width: 98%;height: auto;object-fit: cover" src="${s.getImage()}"
-                                         alt="${s.getName()}"/>
-                                </span>
-                            </span>
-                </label>
-            </c:forEach>
+        <div id="supplierZone" class="container" style="margin-bottom: 100px;">
+            <%--            <c:forEach var="s" items="${imgList}">--%>
+            <%--                <label style="height: 130px;width: 24%" class="d-flex justify-content-center">--%>
+            <%--                    <input class="radio-input" type="radio" name="supplier" ${(s.getId() == 1 ? "checked" : "")}--%>
+            <%--                           value="${s.getId()}">--%>
+            <%--                    <span class="radio-tile w-100" style="border-radius: 10px;">--%>
+            <%--                                <span class="radio-icon">--%>
+            <%--                                    <img style="max-width: 98%;height: auto;object-fit: cover" src="${s.getImage()}"--%>
+            <%--                                         alt="${s.getName()}"/>--%>
+            <%--                                </span>--%>
+            <%--                            </span>--%>
+            <%--                </label>--%>
+            <%--            </c:forEach>--%>
         </div>
         <div class="row justify-content-around" style="margin-bottom: 50px;">
-            <div class="price-div col-5">
-                <div class="row justify-content-between" style="height: fit-content;margin-bottom: 50px">
-                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">
-                        <input class="radio-input" type="radio" value="10000" name="price" checked>
-                        <span class="radio-tile w-100" style="border-radius: 10px;">
-                                <span class="radio-icon">
-                                    10.000đ
-                                </span>
-                            </span>
-                    </label>
-                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">
-                        <input class="radio-input" type="radio" value="20000" name="price">
-                        <span class="radio-tile w-100" style="border-radius: 10px;">
-                                <span class="radio-icon">
-                                    20.000đ
-                                </span>
-                            </span>
-                    </label>
-                </div>
-                <div class="row justify-content-between" style="height: fit-content;margin-bottom: 50px">
-                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">
-                        <input class="radio-input" type="radio" value="30000" name="price">
-                        <span class="radio-tile w-100" style="border-radius: 10px;">
-                                <span class="radio-icon">
-                                    30.000đ
-                                </span>
-                            </span>
-                    </label>
-                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">
-                        <input class="radio-input" type="radio" value="50000" name="price">
-                        <span class="radio-tile w-100" style="border-radius: 10px;">
-                                <span class="radio-icon">
-                                    50.000đ
-                                </span>
-                            </span>
-                    </label>
-                </div>
-                <div class="row justify-content-between" style="height: fit-content;margin-bottom: 50px">
-                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">
-                        <input class="radio-input" type="radio" value="100000" name="price">
-                        <span class="radio-tile w-100" style="border-radius: 10px;">
-                                <span class="radio-icon">
-                                    100.000đ
-                                </span>
-                            </span>
-                    </label>
-                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">
-                        <input class="radio-input" type="radio" value="200000" name="price">
-                        <span class="radio-tile w-100" style="border-radius: 10px;">
-                                <span class="radio-icon">
-                                    200.000đ
-                                </span>
-                            </span>
-                    </label>
-                </div>
-                <div class="row justify-content-between" style="height: fit-content;margin-bottom: 50px">
-                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">
-                        <input class="radio-input" type="radio" value="300000" name="price">
-                        <span class="radio-tile w-100" style="border-radius: 10px;">
-                                <span class="radio-icon">
-                                    300.000đ
-                                </span>
-                            </span>
-                    </label>
-                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">
-                        <input class="radio-input" type="radio" value="500000" name="price">
-                        <span class="radio-tile w-100" style="border-radius: 10px;">
-                                <span class="radio-icon">
-                                    500.000đ
-                                </span>
-                            </span>
-                    </label>
-                </div>
+            <div id="priceZone" class="price-div col-5">
+                <%--                <div class="row justify-content-between" style="height: fit-content;margin-bottom: 50px">--%>
+                <%--                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">--%>
+                <%--                        <input class="radio-input" type="radio" value="10000" name="price" checked>--%>
+                <%--                        <span class="radio-tile w-100" style="border-radius: 10px;">--%>
+                <%--                                <span class="radio-icon">--%>
+                <%--                                    10.000đ--%>
+                <%--                                </span>--%>
+                <%--                            </span>--%>
+                <%--                    </label>--%>
+                <%--                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">--%>
+                <%--                        <input class="radio-input" type="radio" value="20000" name="price">--%>
+                <%--                        <span class="radio-tile w-100" style="border-radius: 10px;">--%>
+                <%--                                <span class="radio-icon">--%>
+                <%--                                    20.000đ--%>
+                <%--                                </span>--%>
+                <%--                            </span>--%>
+                <%--                    </label>--%>
+                <%--                </div>--%>
+                <%--                <div class="row justify-content-between" style="height: fit-content;margin-bottom: 50px">--%>
+                <%--                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">--%>
+                <%--                        <input class="radio-input" type="radio" value="30000" name="price">--%>
+                <%--                        <span class="radio-tile w-100" style="border-radius: 10px;">--%>
+                <%--                                <span class="radio-icon">--%>
+                <%--                                    30.000đ--%>
+                <%--                                </span>--%>
+                <%--                            </span>--%>
+                <%--                    </label>--%>
+                <%--                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">--%>
+                <%--                        <input class="radio-input" type="radio" value="50000" name="price">--%>
+                <%--                        <span class="radio-tile w-100" style="border-radius: 10px;">--%>
+                <%--                                <span class="radio-icon">--%>
+                <%--                                    50.000đ--%>
+                <%--                                </span>--%>
+                <%--                            </span>--%>
+                <%--                    </label>--%>
+                <%--                </div>--%>
+                <%--                <div class="row justify-content-between" style="height: fit-content;margin-bottom: 50px">--%>
+                <%--                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">--%>
+                <%--                        <input class="radio-input" type="radio" value="100000" name="price">--%>
+                <%--                        <span class="radio-tile w-100" style="border-radius: 10px;">--%>
+                <%--                                <span class="radio-icon">--%>
+                <%--                                    100.000đ--%>
+                <%--                                </span>--%>
+                <%--                            </span>--%>
+                <%--                    </label>--%>
+                <%--                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">--%>
+                <%--                        <input class="radio-input" type="radio" value="200000" name="price">--%>
+                <%--                        <span class="radio-tile w-100" style="border-radius: 10px;">--%>
+                <%--                                <span class="radio-icon">--%>
+                <%--                                    200.000đ--%>
+                <%--                                </span>--%>
+                <%--                            </span>--%>
+                <%--                    </label>--%>
+                <%--                </div>--%>
+                <%--                <div class="row justify-content-between" style="height: fit-content;margin-bottom: 50px">--%>
+                <%--                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">--%>
+                <%--                        <input class="radio-input" type="radio" value="300000" name="price">--%>
+                <%--                        <span class="radio-tile w-100" style="border-radius: 10px;">--%>
+                <%--                                <span class="radio-icon">--%>
+                <%--                                    300.000đ--%>
+                <%--                                </span>--%>
+                <%--                            </span>--%>
+                <%--                    </label>--%>
+                <%--                    <label style="height: 50px;width: 45%" class="d-flex justify-content-center">--%>
+                <%--                        <input class="radio-input" type="radio" value="500000" name="price">--%>
+                <%--                        <span class="radio-tile w-100" style="border-radius: 10px;">--%>
+                <%--                                <span class="radio-icon">--%>
+                <%--                                    500.000đ--%>
+                <%--                                </span>--%>
+                <%--                            </span>--%>
+                <%--                    </label>--%>
+                <%--                </div>--%>
             </div>
             <div id="infoOrder" class="content-product col-5 d-none"
                  style="border: 15px solid #1ca799;border-radius: 10px;height: 550px;box-shadow: 0 5px 10px #5e5e5e">
@@ -315,8 +315,99 @@
 </c:if>
 
 <script>
+
+    $(document).ready(() => {
+        $.ajax({
+            url: "/api/v1/home",
+            data: {
+                "supplier": "1"
+            },
+            dataType: "json",
+            success: function (response) {
+                <c:if test="${sessionScope.user != null}">
+                loadUser(response.user);
+                </c:if>
+                loadSupplier(response.listSupplier, response.supplierId);
+                loadProduct(response.listProduct);
+            }
+        })
+    });
+
+    function loadUser(data) {
+        var user = JSON.parse(data);
+        var balance = parseInt(user.balance).toLocaleString();
+        console.log(balance);
+        document.getElementById("balanceValue").innerHTML = balance;
+    }
+
+    function getData(supplier) {
+        $.ajax({
+            url: "/api/v1/home",
+            data: {
+                "supplier": supplier
+            },
+            dataType: "json",
+            success: function (response) {
+                <c:if test="${sessionScope.user != null}">
+                loadUser(response.user);
+                </c:if>
+                loadSupplier(response.listSupplier, response.supplierId);
+                loadProduct(response.listProduct);
+            }
+        });
+    }
+
+    function loadSupplier(data, id) {
+        var list = JSON.parse(data);
+        var content = '<div class="radio-inputs justify-content-between" style="max-width: none">';
+        list.forEach(function (item) {
+            content += '<label style="height: 130px;width: 24%" class="d-flex justify-content-center">' +
+                '<input class="radio-input" type="radio" name="supplier" ' + ((item.id == id) ? 'checked ' : '') +
+                'value="' + item.id + '">' +
+                '<span class="radio-tile w-100" onclick="getData(' + item.id + ')" style="border-radius: 10px;">' +
+                '<span class="radio-icon">' +
+                '<img style="max-width: 98%;height: auto;object-fit: cover" src="' + item.image + '"' +
+                'alt="' + item.name + '"/>' +
+                '</span>' +
+                '</span>' +
+                '</label>';
+
+        });
+        content += '</div>';
+        document.getElementById("supplierZone").innerHTML = content;
+
+    }
+
+    function loadProduct(data) {
+        var list = JSON.parse(data);
+        var check = true;
+        var div = '';
+        for (var i = 0; i < list.length; i++) {
+            div += '<div class="row justify-content-between" style="height: fit-content;margin-bottom: 50px">';
+            var content = '';
+            var z = i;
+            for (z = i; z < i + 2; z++) {
+                if (z < list.length) {
+                    content += `<label style="height: 50px;width: 45%" class="d-flex justify-content-center">
+                    <input class="radio-input" type="radio" value="` + list[z].price + `" name="price" ` + (check ? `checked ` : ``) + `>
+                    <span class="radio-tile w-100" style="border-radius: 10px;">
+                        <span class="radio-icon">
+                            ` + list[z].price.toLocaleString() + `đ
+                        </span>
+                    </span>
+                    </label>`
+                    check = false;
+                }
+            }
+            i = z - 1;
+            div += content;
+            div += '</div>';
+        }
+        document.getElementById("priceZone").innerHTML = div;
+    }
+
     document.getElementById("pay").addEventListener('click', buyProduct);
-    setInterval(() =>{
+    setInterval(() => {
         $.ajax({
             url: "/api/v1/scanNotice",
             dataType: "json",

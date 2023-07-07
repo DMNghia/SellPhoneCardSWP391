@@ -43,6 +43,25 @@ public class TransactionsDAO extends DAO {
         return transactionsList;
     }
 
+    public List<Transactions> findPlusPendingTransaction() {
+        List<Transactions> transactionsList = new ArrayList<>();
+        try {
+            String query = "select * from transactions where status = false and type = true" +
+                    " order by createdAt";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                transactionsList.add(new Transactions(rs.getInt("id"), DAO.userDAO.getUserById(rs.getInt("user")),
+                        rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
+                        rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy"))));
+            }
+        } catch (SQLException e) {
+            System.out.println("findPendingTransaction: " + e.getMessage());
+        }
+        return transactionsList;
+    }
+
     public void insert(Transactions transactions) {
         try {
             String query = "insert into transactions(user, orderId, money, note, type, status, createdAt, createdBy)\n" +

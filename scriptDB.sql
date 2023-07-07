@@ -1795,3 +1795,19 @@ create table notice (
     deletedBy int,
     primary key (id)
 );
+
+DROP TABLE IF EXISTS `paymentTransaction`;
+create table paymentTransaction(
+    id bigint not null auto_increment,
+    type tinyint(1),
+    status tinyint(1),
+    amount bigint,
+    isDelete tinyint(1),
+    createdAt datetime,
+    createdBy int,
+    updatedAt datetime,
+    updatedBy int,
+    deletedAt datetime,
+    deletedBy int,
+    primary key (id)
+);

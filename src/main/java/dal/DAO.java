@@ -12,5 +12,6 @@ public class DAO extends DBContext{
     public static ProductDAO productDAO = new ProductDAO();
     public static StorageDAO storageDAO = new StorageDAO();
     public static NoticeDAO noticeDAO = new NoticeDAO();
+    public static PaymentTransactionDAO paymentTransactionDAO = new PaymentTransactionDAO();
 
 }

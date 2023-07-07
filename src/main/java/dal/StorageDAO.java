@@ -28,7 +28,7 @@ public class StorageDAO extends DAO {
         return list;
     }
 
-    public List<Storage> getListStorageWithNearestExpiredAt(int size, int product) {
+    public List<Storage> getListStorageWithNearestExpiredAt(int product, int size) {
         List<Storage> listStorage = new ArrayList<>();
         try {
             String query = "select s.* from storage s\n" +

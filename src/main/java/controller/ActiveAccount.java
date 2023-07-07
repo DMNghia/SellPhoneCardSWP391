@@ -54,7 +54,7 @@ public class ActiveAccount extends HttpServlet {
                     session.removeAttribute("captchaValue");
                     session.removeAttribute("optValue");
                     session.setAttribute("user", user);
-                    response.sendRedirect("home");
+                    response.sendRedirect("/");
                 } else {
                     String tokenMessageErr = "Token is not correct! Please check again!";
                     request.setAttribute("tokenMessageErr", tokenMessageErr);

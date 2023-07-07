@@ -64,16 +64,16 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <button type="submit"
-                                        style="font-size: 1.2em;cursor: pointer;padding: 5px;" name="option"
-                                        value="confirm">
-                                    <i class="fa fa-check"></i> Xác nhận
-                                </button>
                                 <button type="button" id="reSendButton" class="reSendButton"
                                         style="font-size: 1.2em;padding: 5px;" name="option"
                                         value="sendAgain">
                                     <i class="fa fa-send-o"></i> Gửi lại mã xác nhận
                                 </button>
+                                <button type="submit"
+                                                 style="font-size: 1.2em;cursor: pointer;padding: 5px;" name="option"
+                                                 value="confirm">
+                                <i class="fa fa-check"></i> Xác nhận
+                            </button>
                             </div>
                         </form>
                         <div class="form-row">

@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.DAO;
 import dal.SupplierDAO;
 import dal.UserDAO;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Product;
 import model.Supplier;
 import model.User;
 
@@ -65,24 +67,19 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        User u = (User) session.getAttribute("user");
-        if (u != null) {
-            User user = new UserDAO().getUser(u.getAccount(), u.getPassword());
-            session.setAttribute("user", user);
-        }
-
-        if (session.getAttribute("imgList") == null) {
-            ArrayList<Supplier> list = new ArrayList<>();
-            list = (new SupplierDAO()).getListSupplier();
-            session.setAttribute("imgList", list);
-        }
+        User user = (User) session.getAttribute("user");
         boolean isAdmin = false;
         if (session.getAttribute("isAdmin") != null) {
             isAdmin = (boolean) session.getAttribute("isAdmin");
         }
+        if (user != null) {
+            User newUser = DAO.userDAO.getUserById(user.getId());
+            session.setAttribute("user", newUser);
+        }
         if (isAdmin) {
             request.getRequestDispatcher("admin/dashboard.jsp").forward(request, response);
         } else {
+
             request.getRequestDispatcher("home.jsp").forward(request, response);
         }
     }
