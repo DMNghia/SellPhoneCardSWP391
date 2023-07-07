@@ -1,13 +1,10 @@
 package restapi;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -16,28 +13,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-
-import dal.DAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.PaymentTransaction;
-import model.Transactions;
-import model.User;
 import service.VNPayConfig;
 
 /**
  *
  * @author CTT VNPAY
  */
-@WebServlet(name = "PaymentController", urlPatterns = "/api/v1/payment")
+@WebServlet(name = "PaymentRestController", urlPatterns = "/api/v1/createPayment")
 public class PaymentRestController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         String orderType = req.getParameter("ordertype");
         long amount = Integer.parseInt(req.getParameter("amount"))*100;
         String bankCode = req.getParameter("bankCode");
@@ -49,7 +41,7 @@ public class PaymentRestController extends HttpServlet {
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", VNPayConfig.vnp_Version);
         vnp_Params.put("vnp_Command", VNPayConfig.vnp_Command);
-        vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
+        vnp_Params.put("vnp_TmnCode", VNPayConfig.vnp_TmnCode);
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
 
@@ -105,26 +97,12 @@ public class PaymentRestController extends HttpServlet {
         String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.vnp_HashSecret, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
-
-        // Add plus transaction
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
-        PaymentTransaction paymentTransaction = new PaymentTransaction().builder()
-                .type(true)
-                .status(false)
-                .amount(amount/100)
-                .isDelete(false)
-                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
-                .createdBy(user)
-                .build();
-        long paymentId = DAO.paymentTransactionDAO.insert(paymentTransaction);
-        session.setAttribute("paymentId", paymentId);
-
         com.google.gson.JsonObject job = new JsonObject();
         job.addProperty("code", "00");
-        job.addProperty("message", "Thành công");
+        job.addProperty("message", "success");
         job.addProperty("data", paymentUrl);
         Gson gson = new Gson();
         resp.getWriter().write(gson.toJson(job));
     }
+
 }
