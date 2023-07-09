@@ -66,9 +66,7 @@ public class PaymentTransactionDAO extends DAO{
             ps.setBoolean(4, paymentTransaction.isDelete());
             ps.setTimestamp(5, paymentTransaction.getUpdatedAt());
             ps.setInt(6, paymentTransaction.getUpdatedBy().getId());
-            ps.setTimestamp(7, paymentTransaction.getDeletedAt());
-            ps.setInt(8, paymentTransaction.getUpdatedBy().getId());
-            ps.setLong(9, paymentTransaction.getId());
+            ps.setLong(7, paymentTransaction.getId());
             ps.execute();
         } catch (SQLException e) {
             System.out.println("PaymentTransactionDAO-update: " + e.getMessage());
