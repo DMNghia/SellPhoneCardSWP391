@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class DBContext {
     // Create static field
     protected static Connection connection;
-    private final static String user = "root";
-    private final static String pass = "nghia";
-    private final static String url = "jdbc:mysql://localhost:3306/sellphonecard";
+    private final static String user = "group5";
+    private final static String pass = "Nghia123";
+    private final static String url = "jdbc:mysql://sellphonecard.mysql.database.azure.com:3306/sellphonecard";
 
     protected static Connection getConnection() {
         if (connection == null) {
