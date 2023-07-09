@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'phonecardmarket'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_05B778249D1A4BD29CFEF904504CAD13 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D1DBC45FB6444136B4692D8F6FB6FC0F }}
           package: '*.war'
