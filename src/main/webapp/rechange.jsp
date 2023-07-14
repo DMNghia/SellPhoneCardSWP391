@@ -104,6 +104,17 @@
         .wave-group .input:focus ~ .bar:after {
             width: 50%;
         }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 <body>
@@ -157,7 +168,7 @@
             </div>
             <div class="row w-100 justify-content-center" style="margin-top: 30px;">
                 <div class="wave-group" style="width: fit-content">
-                    <input id="amountInput" required="" type="text" class="input">
+                    <input id="amountInput" required="" type="number" class="input">
                     <span class="bar"></span>
                     <label class="label">
                         <span class="label-char" style="--index: 0">S</span>
@@ -170,14 +181,24 @@
                     </label>
                 </div>
             </div>
-            <button id="rechange-btn" name="option" value="buy" type="button" class="btn"
-                    style="cursor: pointer;background-color: #1ca799;border-radius: 10px; color: #ffffff;font-weight: 500;line-height: 36px;margin: 50px 20px 0px 0px;padding: 9px 31px;text-align: center">
-                Nạp vào ví
-            </button>
+            <div class="w-100">
+                <p id="money"
+                   style="color: #757575;font-size: 0.9em;margin-bottom: 0px;margin-top: 5px;text-align: center"></p>
+            </div>
+            <div class="w-100">
+                <p id="warning" style="color: #ff2929;margin-bottom: 0px;margin-top: 5px;text-align: center"></p>
+            </div>
+            <div class="row w-100 justify-content-center d-flex" style="height: fit-content;margin-top: 20px;">
+                <button id="rechange-btn" name="option" value="buy" type="button" class="btn"
+                        style="cursor: pointer;background-color: #1ca799;border-radius: 10px; color: #ffffff;font-weight: 500;line-height: 36px;padding: 9px 31px;text-align: center">
+                    Nạp vào ví
+                </button>
+            </div>
         </div>
     </div>
 </div>
-<footer class="footer container-fluid" style="background-color: #000000;margin-top: 40px;position: absolute;bottom: 0px;">
+<footer class="footer container-fluid"
+        style="background-color: #000000;margin-top: 40px;position: absolute;bottom: 0px;">
     <div class="container-fluid">
         <nav>
             <ul class="footer-menu">
@@ -213,22 +234,38 @@
     </div>
 </footer>
 </body>
-
+<script src="${pageContext.request.contextPath}/js/readMoney.js"></script>
 <script>
+    var readMoney = new DocTienBangChu();
+    $("#amountInput").on('input', () => {
+        var amount = $("#amountInput").val();
+        $("#money").text(readMoney.doc(amount));
+        $("#amountInput").val(amount);
+    });
     $("#rechange-btn").click(() => {
-        $.ajax({
-            url: "/api/v1/payment",
-            type: "POST",
-            data: {
-                "ordertype": "pay",
-                "amount": $("#amountInput").val()
-            },
-            dataType: "json",
-            success: function (response) {
-                window.open(response.data);
-                demo.showNotify(response.message);
-            }
-        });
+        var amount = $("#amountInput").val();
+        amount = amount.replaceAll(',', '');
+
+        if (amount == "" || parseInt(amount) < 5000 || parseInt(amount) > 20000000) {
+            $("#warning").text("Số tiền lớn hơn 5 nghìn và không quá 20 triệu");
+        } else {
+            $.ajax({
+
+
+                url: "/api/v1/payment",
+                type: "POST",
+                data: {
+                    "ordertype": "pay",
+                    "amount": amount
+                },
+                dataType: "json",
+                success: function (response) {
+                    window.open(response.data);
+                    demo.showNotify(response.message);
+                }
+            });
+        }
+
     });
     <c:if test="${user != null}">
     document.getElementById("balanceValue").innerText = parseInt(document.getElementById("balanceValue").innerText).toLocaleString();
