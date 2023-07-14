@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StorageDAO extends DAO {
+public class StorageDAO {
 
     public List<Integer> getListDistinctProductWithPrice() {
         List<Integer> list = new ArrayList<>();
@@ -17,7 +17,7 @@ public class StorageDAO extends DAO {
             String query = "select distinct p.price from product p\n" +
                     "left join storage s on p.id = s.productId\n" +
                     "where s.isUsed = false and s.isDelete = false;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(rs.getInt("price"));
@@ -37,15 +37,15 @@ public class StorageDAO extends DAO {
                     "and p.isDelete = false\n" +
                     "order by s.expiredAt\n" +
                     "limit ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, product);
             ps.setInt(2, size);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 listStorage.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
-                        rs.getTimestamp("expiredAt"), productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
-                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy"))));
+                        rs.getTimestamp("expiredAt"), DAO.productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy"))));
             }
         } catch (SQLException e) {
             System.err.println("getStorageWithNearestExpiredAt: " + e.getMessage());
@@ -64,7 +64,7 @@ public class StorageDAO extends DAO {
                     " and su.id" + (supplier > -1 ? " = ?" : "") +
                     " and p.name like ? and s.isUsed = false and s.isDelete = false" +
                     " and p.isDelete = false limit 10 offset ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             int i = 1;
             if (price > -1) {
                 ps.setInt(i, price);
@@ -80,9 +80,9 @@ public class StorageDAO extends DAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
-                        rs.getTimestamp("expiredAt"), productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
-                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy"))));
+                        rs.getTimestamp("expiredAt"), DAO.productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy"))));
             }
         } catch (SQLException e) {
             System.err.println("searchStorage: " + e.getMessage());
@@ -95,7 +95,7 @@ public class StorageDAO extends DAO {
             String query = "update storage\n" +
                     "set deletedAt = ?, deletedBy = ?, isDelete = ?\n" +
                     "where id = ?;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setTimestamp(1, storage.getDeletedAt());
             ps.setInt(2, storage.getDeletedBy().getId());
             ps.setBoolean(3, storage.isDelete());
@@ -111,7 +111,7 @@ public class StorageDAO extends DAO {
                     "set serialNumber = ?, cardNumber = ?, expiredAt = ?, productId = ?, createdAt = ?,\n" +
                     "    createdBy = ?, updatedAt = ?, updatedBy = ?, isUsed = ?, isDelete = ?\n" +
                     "where id = ?;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setString(1, storage.getSerialNumber());
             ps.setString(2, storage.getCardNumber());
             ps.setTimestamp(3, storage.getExpiredAt());
@@ -132,14 +132,14 @@ public class StorageDAO extends DAO {
 
         try {
             String query = "select * from storage where isUsed = false and isDelete = false and id = ?;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
-                        rs.getTimestamp("expiredAt"), productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
-                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")));
+                        rs.getTimestamp("expiredAt"), DAO.productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy")));
             }
         } catch (SQLException e) {
             System.out.println("getStorageById: " + e.getMessage());
@@ -154,7 +154,7 @@ public class StorageDAO extends DAO {
                     "where price" + (price > -1 ? " = ?" : "") +
                     " and s.productId" + (productId > -1 ? " = ?" : "") +
                     " and p.name like ? and s.isUsed = false and s.isDelete = false;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             int i = 1;
             if (price > -1) {
                 ps.setInt(i, price);
@@ -181,14 +181,14 @@ public class StorageDAO extends DAO {
         try {
             String query = "select * from storage where isUsed = false and isDelete = false\n" +
                     "limit 10 offset ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, page);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
-                        rs.getTimestamp("expiredAt"), productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
-                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy"))));
+                        rs.getTimestamp("expiredAt"), DAO.productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getAllStorage: " + e.getMessage());
@@ -200,14 +200,13 @@ public class StorageDAO extends DAO {
         List<Storage> list = new ArrayList<>();
         try {
             String query = "select * from storage where isUsed = false and isDelete = false";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            ProductDAO productDAO = new ProductDAO();
             while (rs.next()) {
                 list.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
-                        rs.getTimestamp("expiredAt"), productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
-                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy"))));
+                        rs.getTimestamp("expiredAt"), DAO.productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getAllStorage: " + e.getMessage());
@@ -218,14 +217,14 @@ public class StorageDAO extends DAO {
 
         try {
             String query = "select * from storage where isUsed = true and isDelete = false and id = ?;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
-                        rs.getTimestamp("expiredAt"), productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
-                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")));
+                        rs.getTimestamp("expiredAt"), DAO.productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy")));
             }
         } catch (SQLException e) {
             System.out.println("getStorageById: " + e.getMessage());
@@ -237,7 +236,7 @@ public class StorageDAO extends DAO {
         try {
             String query = "insert into storage(serialNumber, cardNumber, expiredAt, productId, createdAt, createdBy, isUsed, isDelete)\n" +
                     "value (?, ?, ?, ?, ?, ?, ?, ?);";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setString(1, storage.getSerialNumber());
             ps.setString(2, storage.getCardNumber());
             ps.setTimestamp(3, storage.getExpiredAt());

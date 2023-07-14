@@ -10,13 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDetailDAO extends DAO {
+public class OrderDetailDAO {
 
     public Long findOrderByListStorage(List<Storage> listStorage) {
         try {
             for (Storage s : listStorage) {
                 String query = "select * from order_detail where storage = ?";
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = DAO.connection.prepareStatement(query);
                 ps.setLong(1, s.getId());
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
@@ -36,15 +36,15 @@ public class OrderDetailDAO extends DAO {
                     "left join product p on s.productId = p.id\n" +
                     "left join order_detail o on s.id = o.storage\n" +
                     "where s.isUsed = true and p.name like ? and o.`order` = ?;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setString(1, name);
             ps.setLong(2, oid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
-                        rs.getTimestamp("expiredAt"), productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
-                        rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy"))));
+                        rs.getTimestamp("expiredAt"), DAO.productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
+                        rs.getBoolean("isDelete"), rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy"))));
             }
         } catch (SQLException e) {
             System.err.println("getListStorageBySearchProduct: " + e.getMessage());
@@ -57,14 +57,14 @@ public class OrderDetailDAO extends DAO {
         ArrayList<Product> list = new ArrayList<>();
         try {
             String query = "select * from product where name like ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getInt("price"),
-                        supplierDAO.getSuppierById(rs.getInt("supplier")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")),
-                        rs.getBoolean("isDelete"), rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")),
-                        rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy"))));
+                        DAO.supplierDAO.getSuppierById(rs.getInt("supplier")), rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")),
+                        rs.getBoolean("isDelete"), rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy")),
+                        rs.getTimestamp("updatedAt"), DAO.userDAO.getUserById(rs.getInt("updatedBy"))));
             }
 
         } catch (SQLException e) {
@@ -77,11 +77,11 @@ public class OrderDetailDAO extends DAO {
         ArrayList<Storage> listStorage = new ArrayList<>();
         try {
             String sql = "SELECT storage from  order_detail where `order` = ?;";
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = DAO.connection.prepareStatement(sql);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                listStorage.add(storageDAO.getStorageByIdWithUsed(rs.getLong("storage")));
+                listStorage.add(DAO.storageDAO.getStorageByIdWithUsed(rs.getLong("storage")));
             }
 
         } catch (SQLException e) {
@@ -93,7 +93,7 @@ public class OrderDetailDAO extends DAO {
     public void add(Order order, Storage storage) {
         try {
             String query = "insert into order_detail(`order`, storage) values (?, ?)";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setLong(1, order.getId());
             ps.setLong(2, storage.getId());
             ps.execute();

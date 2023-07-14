@@ -7,12 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class PaymentTransactionDAO extends DAO{
+public class PaymentTransactionDAO {
 
     public PaymentTransaction getPaymentById(long id) {
         try {
             String query = "select * from paymentTransaction where id = ? and isDelete = false;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -35,7 +35,7 @@ public class PaymentTransactionDAO extends DAO{
         try {
             String query = "insert into paymentTransaction(type, status, amount, isDelete, createdAt, createdBy) \n" +
                     "value (?, ?, ?, ?, ?, ?);";
-            PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = DAO.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setBoolean(1, paymentTransaction.isType());
             ps.setBoolean(2, paymentTransaction.isStatus());
             ps.setLong(3, paymentTransaction.getAmount());
@@ -59,7 +59,7 @@ public class PaymentTransactionDAO extends DAO{
             String query = "update paymentTransaction set type = ?, status = ?, amount = ?,\n" +
                     "isDelete = ?, updatedAt = ?, updatedBy = ?\n" +
                     "where id = ?;";
-            PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = DAO.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setBoolean(1, paymentTransaction.isType());
             ps.setBoolean(2, paymentTransaction.isStatus());
             ps.setLong(3, paymentTransaction.getAmount());

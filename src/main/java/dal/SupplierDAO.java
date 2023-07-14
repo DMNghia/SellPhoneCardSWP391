@@ -14,19 +14,19 @@ import java.util.ArrayList;
 /**
  * @author hp
  */
-public class SupplierDAO extends DAO {
+public class SupplierDAO {
 
     public Supplier getSuppierById(int id) {
         try {
             String strSelect = "select * from supplier where id =?";
-            PreparedStatement ps = connection.prepareStatement(strSelect);
+            PreparedStatement ps = DAO.connection.prepareStatement(strSelect);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Supplier(rs.getInt("id"), rs.getString("name"), rs.getTimestamp("createdAt"),
                         rs.getTimestamp("deletedAt"), rs.getTimestamp("updatedAt"), rs.getBoolean("isDelete"),
-                        rs.getString("image"), userDAO.getUserById(rs.getInt("createdBy")),
-                        userDAO.getUserById(rs.getInt("deletedBy")), userDAO.getUserById(rs.getInt("createdBy")));
+                        rs.getString("image"), DAO.userDAO.getUserById(rs.getInt("createdBy")),
+                        DAO.userDAO.getUserById(rs.getInt("deletedBy")), DAO.userDAO.getUserById(rs.getInt("createdBy")));
             }
         } catch (SQLException e) {
             System.out.println("getSuppierById: " + e.getMessage());
@@ -38,13 +38,13 @@ public class SupplierDAO extends DAO {
         ArrayList<Supplier> list = new ArrayList<>();
         try {
             String strSelect = "select * from supplier where isDelete = false";
-            PreparedStatement ps = connection.prepareStatement(strSelect);
+            PreparedStatement ps = DAO.connection.prepareStatement(strSelect);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Supplier(rs.getInt("id"), rs.getString("name"), rs.getTimestamp("createdAt"),
                         rs.getTimestamp("deletedAt"), rs.getTimestamp("updatedAt"), rs.getBoolean("isDelete"),
-                        rs.getString("image"), userDAO.getUserById(rs.getInt("createdBy")),
-                        userDAO.getUserById(rs.getInt("deletedBy")), userDAO.getUserById(rs.getInt("updatedBy"))));
+                        rs.getString("image"), DAO.userDAO.getUserById(rs.getInt("createdBy")),
+                        DAO.userDAO.getUserById(rs.getInt("deletedBy")), DAO.userDAO.getUserById(rs.getInt("updatedBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getListSupplier: " + e.getMessage());

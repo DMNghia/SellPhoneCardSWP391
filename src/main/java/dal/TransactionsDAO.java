@@ -18,7 +18,7 @@ import model.User;
  *
  * @author hp
  */
-public class TransactionsDAO extends DAO {
+public class TransactionsDAO {
 
     private static Transactions findTransactionsById(int aInt) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -29,7 +29,7 @@ public class TransactionsDAO extends DAO {
         try {
             String query = "select * from transactions where status = false" +
                     " order by createdAt";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 transactionsList.add(new Transactions(rs.getInt("id"), DAO.userDAO.getUserById(rs.getInt("user")),
@@ -48,7 +48,7 @@ public class TransactionsDAO extends DAO {
         try {
             String query = "select * from transactions where status = false and type = true" +
                     " order by createdAt";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 transactionsList.add(new Transactions(rs.getInt("id"), DAO.userDAO.getUserById(rs.getInt("user")),
@@ -66,7 +66,7 @@ public class TransactionsDAO extends DAO {
         try {
             String query = "insert into transactions(user, orderId, money, note, type, status, createdAt, createdBy)\n" +
                     "value (?, ?, ?, ?, ?, ?, ?, ?);";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, transactions.getUser().getId());
             ps.setLong(2, transactions.getOrderId());
             ps.setInt(3, transactions.getMoney());
@@ -85,14 +85,14 @@ public class TransactionsDAO extends DAO {
         List<Transactions> list = new ArrayList<>();
         try {
             String query = "select * from transactions limit 10 offset ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, page);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
+                list.add(new Transactions(rs.getInt("id"), DAO.userDAO.getUserById(rs.getInt("user")),
                         rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getAllStorage: " + e.getMessage());
@@ -101,19 +101,17 @@ public class TransactionsDAO extends DAO {
 
     }
 
-    private UserDAO userDAO = new UserDAO();
-
     public ArrayList<Transactions> getListTransactions() {
         ArrayList<Transactions> list = new ArrayList<>();
         try {
             String strSelect = "select * from transactions ";
-            PreparedStatement ps = connection.prepareStatement(strSelect);
+            PreparedStatement ps = DAO.connection.prepareStatement(strSelect);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
+                list.add(new Transactions(rs.getInt("id"), DAO.userDAO.getUserById(rs.getInt("user")),
                         rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getListTransactions: " + e.getMessage());
@@ -125,14 +123,14 @@ public class TransactionsDAO extends DAO {
         ArrayList<Transactions> list = new ArrayList<>();
         try {
             String str = "SELECT * FROM transactions where user = ?";
-            PreparedStatement ps = connection.prepareStatement(str);
+            PreparedStatement ps = DAO.connection.prepareStatement(str);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
+                list.add(new Transactions(rs.getInt("id"), DAO.userDAO.getUserById(rs.getInt("user")),
                         rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getListTransactions: " + e.getMessage());
@@ -143,7 +141,7 @@ public class TransactionsDAO extends DAO {
     public Long getTotalTransactions() {
         try {
             String query = "select count(id) from transactions;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getLong(1);
@@ -158,7 +156,7 @@ public class TransactionsDAO extends DAO {
         List<Transactions> list = new ArrayList<>();
         try {
             String query = "select distinct Id from transactions;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(TransactionsDAO.findTransactionsById(rs.getInt("productId")));
@@ -189,7 +187,7 @@ public class TransactionsDAO extends DAO {
                     + (!status.isEmpty() ? " and status = ?" : "")
                     + (!search.isEmpty() ? " and note like ?" : "");
 
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, id);
             int i = 2;
             if (!type.isEmpty()) {
@@ -213,10 +211,10 @@ public class TransactionsDAO extends DAO {
             }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
+                list.add(new Transactions(rs.getInt("id"), DAO.userDAO.getUserById(rs.getInt("user")),
                         rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
             System.err.println("searchStorage: " + e.getMessage());
@@ -228,14 +226,14 @@ public class TransactionsDAO extends DAO {
         List<Transactions> list = new ArrayList<>();
         try {
             String str = "SELECT * FROM transactions where id = ?";
-            PreparedStatement ps = connection.prepareStatement(str);
+            PreparedStatement ps = DAO.connection.prepareStatement(str);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Transactions(rs.getInt("id"), userDAO.getUserById(rs.getInt("user")),
+                list.add(new Transactions(rs.getInt("id"), DAO.userDAO.getUserById(rs.getInt("user")),
                         rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
                         rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy"))));
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
             System.out.println("getDetailHistory: " + e.getMessage());
@@ -248,7 +246,7 @@ public class TransactionsDAO extends DAO {
             String query = "update transactions set `user` = ?, orderId = ?," +
                     " money = ?, note = ?, type = ?, status = ?, updatedAt = ?, updatedBy = ?" +
                     " where id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, transaction.getUser().getId());
             ps.setLong(2, transaction.getOrderId());
             ps.setInt(3, transaction.getMoney());

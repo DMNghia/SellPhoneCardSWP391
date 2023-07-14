@@ -18,20 +18,20 @@ import model.Product;
  *
  * @author hp
  */
-public class ProductDAO extends DAO {
+public class ProductDAO {
 
     public ArrayList<Product> getListProductBySupplier(int id) {
         ArrayList<Product> list = new ArrayList<>();
         try {
             String str = "select * from product where supplier = ? and isDelete = false";
-            PreparedStatement ps = connection.prepareStatement(str);
+            PreparedStatement ps = DAO.connection.prepareStatement(str);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {                
                 list.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getInt("price"),
-                        supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")),
-                        rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")),
-                        rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy") )));
+                        DAO.supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy")),
+                        rs.getTimestamp("updatedAt"), DAO.userDAO.getUserById(rs.getInt("updatedBy") )));
             }
         } catch (SQLException e) {
             System.out.println("getListProductBySupplier: " + e.getMessage());
@@ -42,7 +42,7 @@ public class ProductDAO extends DAO {
         long quantity = 0;
         try {
             String query = "select quantity from product where supplier " + (supplier > 0 ? "= ?" : "");
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             if (supplier > 0) {
                 ps.setInt(1, supplier);
             }
@@ -60,14 +60,14 @@ public class ProductDAO extends DAO {
         Product product = new Product();
         try {
             String str = "select * from product where id = ?";
-            PreparedStatement ps = connection.prepareStatement(str);
+            PreparedStatement ps = DAO.connection.prepareStatement(str);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getInt("price"),
-                        supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")),
-                        rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")),
-                        rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy")));
+                        DAO.supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy")),
+                        rs.getTimestamp("updatedAt"), DAO.userDAO.getUserById(rs.getInt("updatedBy")));
             }
         } catch (SQLException e) {
             System.out.println("findProductById: " + e.getMessage());
@@ -79,7 +79,7 @@ public class ProductDAO extends DAO {
         try {
            String query = "insert into product(`name`, quantity, price, supplier, createdAt, createdBy, isDelete)\n" +
                    "value (?, ?, ?, ?, ?, ?, ?);";
-           PreparedStatement ps = connection.prepareStatement(query);
+           PreparedStatement ps = DAO.connection.prepareStatement(query);
            ps.setString(1, product.getName());
            ps.setInt(2, product.getQuantity());
            ps.setInt(3, product.getPrice());
@@ -98,7 +98,7 @@ public class ProductDAO extends DAO {
             String query = "update product set name = ?, quantity = ?, price = ?,\n" +
                     "supplier = ?, updatedBy = ?, updatedAt = ?\n" +
                     "where id = ?;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setString(1, p.getName());
             ps.setInt(2, p.getQuantity());
             ps.setInt(3, p.getPrice());
@@ -116,15 +116,15 @@ public class ProductDAO extends DAO {
         try {
             String query = "select * from product where isDelete = false\n" +
                     "and price = ? and supplier = ?;";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, finalPrice);
             ps.setInt(2, parseInt);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("quantity"), rs.getInt("price"),
-                        supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), userDAO.getUserById(rs.getInt("createdBy")),
-                        rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), userDAO.getUserById(rs.getInt("deletedBy")),
-                        rs.getTimestamp("updatedAt"), userDAO.getUserById(rs.getInt("updatedBy")));
+                        DAO.supplierDAO.getSuppierById(rs.getInt("supplier")),rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy")),
+                        rs.getTimestamp("updatedAt"), DAO.userDAO.getUserById(rs.getInt("updatedBy")));
             }
         } catch (SQLException e) {
             System.out.println("findProductByPriceAndSupplier: " + e.getMessage());
@@ -136,7 +136,7 @@ public class ProductDAO extends DAO {
         try {
             String query = "select quantity from product where price = ? and supplier = ?" +
                     " and isDelete = false";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, finalPrice);
             ps.setInt(2, supplier);
             ResultSet rs = ps.executeQuery();

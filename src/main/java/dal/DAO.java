@@ -2,8 +2,8 @@ package dal;
 
 import java.sql.Connection;
 
-public class DAO extends DBContext{
-    protected Connection connection = DBContext.getConnection();
+public class DAO {
+    public static Connection connection = DBContext.getConnection();
     public static UserDAO userDAO = new UserDAO();
     public static TransactionsDAO transactionsDAO = new TransactionsDAO();
     public static OrderDAO orderDAO = new OrderDAO();

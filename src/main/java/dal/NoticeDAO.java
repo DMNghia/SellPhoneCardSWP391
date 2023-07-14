@@ -8,13 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoticeDAO extends DAO{
+public class NoticeDAO {
 
     public void insert(Notice notice) {
         try {
             String query = "insert into notice(subject, content, seen, user, isDelete, createdAt, createdBy)\n" +
                     "value (?, ?, ?, ?, ?, ?, ?);";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setString(1, notice.getSubject());
             ps.setString(2, notice.getContent());
             ps.setBoolean(3, notice.isSeen());
@@ -33,7 +33,7 @@ public class NoticeDAO extends DAO{
             String query = "update notice set subject = ?, content = ?, seen = ?," +
                     " isDelete = ?, updatedAt = ?, updatedBy = ?\n" +
                     "where id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setString(1, notice.getSubject());
             ps.setString(2, notice.getContent());
             ps.setBoolean(3, notice.isSeen());
@@ -51,7 +51,7 @@ public class NoticeDAO extends DAO{
         List<Notice> notices = new ArrayList<>();
         try {
             String query = "select * from notice where isDelete = false and seen = false and user = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

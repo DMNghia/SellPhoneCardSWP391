@@ -1777,7 +1777,8 @@ CREATE TABLE IF NOT EXISTS sellphonecard.`transactions`
     INDEX user (user ASC) VISIBLE,
     INDEX orderId (orderId ASC) VISIBLE
 );
-
+insert into user(id, account, password, email, role, phoneNumber, balance, isDelete, isActive, createdAt, createdBy)
+value (2, 'nghia', 'af.$acad91c69f15dce7f3f259224bba823ea24c33c358bd44fab7a44c017b6e158427', 'dmnghia1511@gmail.com', 1, null, null, false, true, '2023-07-10 16:11:15', 2);
 update user set balance = 1000000 where id = 2;
 
 create table notice (

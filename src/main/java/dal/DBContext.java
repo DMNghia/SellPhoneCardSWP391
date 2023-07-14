@@ -9,7 +9,7 @@ public class DBContext {
     protected static Connection connection;
     private final static String user = "group5";
     private final static String pass = "Nghia123";
-    private final static String url = "jdbc:mysql://sellphonecard.mysql.database.azure.com:3306/sellphonecard";
+    private final static String url = "jdbc:mysql://phonecardmarket-server.mysql.database.azure.com:3306/sellphonecard";
 
     protected static Connection getConnection() {
         if (connection == null) {
@@ -20,6 +20,7 @@ public class DBContext {
                 System.out.println(e.getMessage());
             }
         }
+        System.out.println("connect success");
         return connection;
     }
     public DBContext() {
