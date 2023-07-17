@@ -17,12 +17,21 @@ public class AdminAddMoneyController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
         HttpSession session = request.getSession();
-        List<User> list;
-        list = DAO.userDAO.getAllUser();
-        request.setAttribute("listUser", list);
-        request.getRequestDispatcher("admin/addmoney.jsp").forward(request,response);
+        boolean isAdmin = false;
+        if (session.getAttribute("isAdmin") != null) {
+            isAdmin = (boolean) session.getAttribute("isAdmin");
+        }
+        if (isAdmin) {
+            List<User> list;
+
+            int  userId = Integer.parseInt(request.getParameter("userId"));
+            User user  = DAO.userDAO.getUserById1(userId);
+            request.setAttribute("user",user);
+            request.getRequestDispatcher("admin/addmoney.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("logout");
+        }
     }
 
     @Override

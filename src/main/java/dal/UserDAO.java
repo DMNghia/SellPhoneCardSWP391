@@ -283,4 +283,22 @@ public class UserDAO extends DAO {
 //        List<User> listuser = DAO.userDAO.getAllUser();
 //        System.out.println("List user" + listuser);
 //    }
+public User getUserById1(int id) {
+    try {
+        String query = "SELECT * from user where id = ?";
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return new User(rs.getInt("id"), rs.getString("account"), rs.getString("password"),
+                    rs.getString("email"), rs.getInt("role"), rs.getString("phoneNumber"), rs.getInt("balance"),
+                    rs.getBoolean("isDelete"), rs.getBoolean("isActive"), rs.getTimestamp("createdAt"),
+                    rs.getInt("createdBy"), rs.getTimestamp("updatedAt"), rs.getInt("updatedBy"),
+                    rs.getTimestamp("deletedAt"), rs.getInt("deletedBy"));
+        }
+    } catch (SQLException e) {
+        System.out.println("getUserById: " + e.getMessage());
+    }
+    return null;
+}
 }

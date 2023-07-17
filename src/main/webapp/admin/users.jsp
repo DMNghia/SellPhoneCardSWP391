@@ -277,6 +277,7 @@
                                                 </td>
 
                                             <form action="addmoney" method="get">
+                                                <input type="hidden" name="userId" value="${user.getId()}">
                                                 <td>
                                                     <button class="btn"
                                                             style="background-color: #d7d70e;color: #ffffff;cursor: pointer;"
