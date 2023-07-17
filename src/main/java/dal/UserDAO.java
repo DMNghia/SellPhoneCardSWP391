@@ -5,16 +5,36 @@ import model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO extends DAO {
+    public List<User> getAllUser(){
+        List<User> userlist = new ArrayList<>();
+        try{
+            String query = "select * from user where   role = true;";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                userlist.add(new User(rs.getInt("id"), rs.getString("account"), rs.getString("password"),
+                        rs.getString("email"), rs.getInt("role"), rs.getString("phoneNumber"), rs.getInt("balance"),
+                        rs.getBoolean("isDelete"), rs.getBoolean("isActive"), rs.getTimestamp("createdAt"),
+                        rs.getInt("createdBy"), rs.getTimestamp("updatedAt"), rs.getInt("updatedBy"),
+                        rs.getTimestamp("deletedAt"), rs.getInt("deletedBy")));
+            }
 
-    public User getUserById(int id) {
+        }catch (SQLException e){
+            System.out.println("getAllUser: " + e.getMessage());
+        }
+        return  userlist;
+    }
+
+    public User getUserById(long id) {
         try {
             String query = "SELECT * from user where id = ?";
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new User(rs.getInt("id"), rs.getString("account"), rs.getString("password"),
@@ -230,4 +250,37 @@ public class UserDAO extends DAO {
         }
         return listUser;
     }
+//    public Long getTotalUser(String account, int id, String search) {
+//        try {
+//            String query = "select count(s.id) from storage s " +
+//                    "left join product p on s.productId = p.id " +
+//                    "where price" + (price > -1 ? " = ?" : "") +
+//                    " and s.productId" + (productId > -1 ? " = ?" : "") +
+//                    " and p.name like ? and s.isUsed = false and s.isDelete = false;";
+//            PreparedStatement ps = connection.prepareStatement(query);
+//            int i = 1;
+//            if (price > -1) {
+//                ps.setInt(i, price);
+//                i += 1;
+//            }
+//            if (productId > -1) {
+//                ps.setInt(i, productId);
+//                i += 1;
+//            }
+//            ps.setString(i, search);
+//            i += 1;
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                return rs.getLong("count(s.id)");
+//            }
+//        } catch (SQLException e) {
+//            System.err.println("searchStorage: " + e.getMessage());
+//        }
+//        return (long) 0;
+//    }
+
+//    public static void main(String[] args) {
+//        List<User> listuser = DAO.userDAO.getAllUser();
+//        System.out.println("List user" + listuser);
+//    }
 }

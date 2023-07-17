@@ -74,15 +74,15 @@ The above copyright notice and this permission notice shall be included in all c
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="icons.jsp">
+                    <a class="nav-link" href="manager.jsp">
                         <i class="nc-icon nc-atom"></i>
                         <p>Icons</p>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="maps.jsp">
-                        <i class="nc-icon nc-pin-3"></i>
-                        <p>Maps</p>
+                    <a class="nav-link" href="user">
+                        <i class="nc-icon nc-circle-09"></i>
+                        <p>Người dùng</p>
                     </a>
                 </li>
                 <li>

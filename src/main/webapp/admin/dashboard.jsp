@@ -71,27 +71,21 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/icons.jsp">
+                        <a class="nav-link" href="products">
                             <i class="nc-icon nc-atom"></i>
-                            <p>Icons</p>
+                            <p>Sản phẩm</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/maps.jsp">
-                            <i class="nc-icon nc-pin-3"></i>
-                            <p>Maps</p>
+                        <a class="nav-link" href="user">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>Người dùng</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/notifications.jsp">
+                        <a class="nav-link" href="transaction">
                             <i class="nc-icon nc-bell-55"></i>
-                            <p>Notifications</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active active-pro">
-                        <a class="nav-link active" href="${pageContext.request.contextPath}/admin/upgrade.jsp">
-                            <i class="nc-icon nc-alien-33"></i>
-                            <p>Upgrade to PRO</p>
+                            <p>Giao dịch</p>
                         </a>
                     </li>
                 </ul>

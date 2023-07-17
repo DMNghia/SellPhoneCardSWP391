@@ -16,6 +16,7 @@ function submitData() {
     var passwordInput = document.getElementById("password-input");
     var emailInput = document.getElementById("email-input");
     var captchaInput = document.getElementById("captcha-input")
+    var confPasswordInput = document.getElementById("confPassword-input");
 
     let x = setInterval(function () {
 
@@ -23,12 +24,14 @@ function submitData() {
         var paswordValidate = document.getElementById("password-validate");
         var emailValidate = document.getElementById("email-validate");
         var captchaValidate = document.getElementById("captcha-validate");
+        var confPasswordValidate = document.getElementById("confPassword-validate")
 
         //Pattern check validate
         var passwordRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?!.*[!@#$%^&*])(?=.{6,})");
         var accountRegex = new RegExp("(?!.*[!@#$%^&*])(?=.{3})");
         // var emailRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.*[!@#$%^&*])(?=.*@)");
         var emailRegex = new RegExp("^(((?=.*[a-z])|(?=.*[0-9])|(?=.*[A-Z])))(?=.*[!@#$%^&*])(?=.*@)");
+        var confPasswordRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?!.*[!@#$%^&*])(?=.{6,})");
 
 
         var success = true;
@@ -78,6 +81,20 @@ function submitData() {
                 paswordValidate.style.display = "none";
             }
         }
+        if (confPasswordInput.value == "") {
+            confPasswordValidate.style.display = "block";
+            confPasswordValidate.innerHTML = "Password không được để trống";
+            success = false;
+        } else {
+            if (!confPasswordRegex.test(confPasswordInput.value)) {
+                confPasswordValidate.style.display = "block";
+                confPasswordValidate.innerHTML = "Password phải bao gồm cả chữ và số đồng thời ít nhất 6 ký tự (Không cho phép ký tự đặc biệt)!!";
+                success = false;
+            } else {
+                confPasswordValidate.style.display = "none";
+            }
+        }
+
         if (success) {
             clearInterval(x);
             document.getElementById("form-signup").submit();
@@ -90,13 +107,13 @@ function validate() {
     var paswordValidate = document.getElementById("password-validate");
     var emailValidate = document.getElementById("email-validate");
     var captchaValidate = document.getElementById("captcha-validate");
-
+    var confPasswordValidate = document.getElementById("confPassword-validate");
     //Pattern check validate
     var passwordRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?!.*[!@#$%^&*])(?=.{6,})");
     var accountRegex = new RegExp("(?!.*[!@#$%^&*])(?=.{3})");
     // var emailRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.*[!@#$%^&*])(?=.*@)");
     var emailRegex = new RegExp("^(((?=.*[a-z])|(?=.*[0-9])|(?=.*[A-Z])))(?=.*[!@#$%^&*])(?=.*@)");
-
+    var confPasswordRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?!.*[!@#$%^&*])(?=.{6,})");
 
     var success = true;
     if (accountInput.value == "") {
@@ -145,6 +162,21 @@ function validate() {
             paswordValidate.style.display = "none";
         }
     }
+    if (confPasswordInput.value == "") {
+        confPasswordValidate.style.display = "block";
+        confPasswordValidate.innerHTML = "Password không được để trống";
+        success = false;
+    }else{
+        if(!confPasswordRegex.test(confPasswordInput.value)) {
+            confPasswordValidate.style.display = "block";
+            confPasswordValidate.innerHTML = "Password phải bao gồm cả chữ và số đồng thời ít nhất 6 ký tự (Không cho phép ký tự đặc biệt)!!";
+            success = false;
+        }else{
+            confPasswordValidate.style.display = "none";
+        }
+    }
+
+
     if (success) {
         clearInterval(x);
         document.getElementById("form-signup").submit();

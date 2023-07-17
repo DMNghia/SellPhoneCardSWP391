@@ -253,7 +253,7 @@
                                 <th>Số tiền</th>
                                 <th>Tổng thanh toán</th>
                                 <th>Thời gian tạo đơn hàng</th>
-                                <th>Người bán</th>
+<%--                                <th>Người bán</th>--%>
                                 <th>Hành động</th>
                                 </thead>
                                 <tbody>
@@ -290,10 +290,10 @@
                                             </c:if>
                                         </c:forEach>
                                         <td>${order.getStatus()}</td>
-                                        <td>${order.getTotalAmount()}</td>
-                                        <td>${order.getTotalAmount() * quantity}</td>
+                                        <td class="price_order">${order.getTotalAmount()}</td>
+                                        <td class="price_order">${order.getTotalAmount() * quantity}</td>
                                         <td>${order.getCreatedAt()}</td>
-                                        <td>${order.getCreatedBy().getAccount()}</td>
+<%--                                        <td>${order.getCreatedBy().getAccount()}</td>--%>
                                         <td>
                                             <button class="btn"
                                                     style="background-color: #6188e2;color: #ffffff;cursor: pointer;"
@@ -465,6 +465,11 @@
         document.getElementById('pagination').innerHTML = str;
         return str;
     }
+    // Convert price below format 1,000
+    var priceStorage = document.querySelectorAll(".price_order");
+    priceStorage.forEach(p => {
+        p.innerText = parseInt(p.innerText).toLocaleString();
+    });
 
 </script>
 </html>

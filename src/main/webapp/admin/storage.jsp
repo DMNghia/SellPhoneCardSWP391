@@ -188,7 +188,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="users">
+                    <a class="nav-link" href="user">
                         <i class="nc-icon nc-circle-09"></i>
                         <p>Người dùng</p>
                     </a>
@@ -225,7 +225,7 @@
                             <li class="nav-item" style="margin-left: 20px">
                                 <input id="searchInput" type="text" name="search" placeholder="Tìm tên sản phẩm"
                                        class="h-100 border-0"
-                                       >
+                                >
                             </li>
                         </ul>
                     </form>
@@ -339,7 +339,7 @@
 
 <script type="text/javascript">
 
-    $(document).ready( function (){
+    $(document).ready(function () {
         $.ajax({
             url: "api/v1/storage",
             type: "GET",
@@ -422,6 +422,7 @@
                 .text(parseInt(product).toLocaleString()));
         });
     }
+
     function loadListSupplier(data) {
         var listProduct = JSON.parse(data);
         $.each(listProduct, function (i, supplier) {
