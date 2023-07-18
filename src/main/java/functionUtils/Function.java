@@ -131,4 +131,39 @@ public class Function {
         }
     }
 
+    public void sendFeedbackEmail(String userName, String userEmail, String userContent, String userTilte) {
+        String host = "smtp.gmail.com";
+        String port = "587";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", port); // for TLS
+        props.put("mail.smtp.starttls.enable", "true"); // for TLS
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(FROMEMAIL, PASSWORD);
+            }
+        });
+
+        try {
+//            String content = "Cảm ơn bạn đã đăng ký website của chúng tôi để kích hoạt tài khoản và sử dụng vui lòng nhập mã xác thực dưới đây:\nToken: " + token;
+            String content = "From user: " + userName + "\nEmail: " + userEmail + "\nMessage: " + userContent;
+            String toEmail = "dwismngn@gmail.com";
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(FROMEMAIL));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            message.setSubject(userTilte);
+            message.setText(content);
+            Transport.send(message);
+            System.out.println("Email sent successfully!");
+
+        } catch (MessagingException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

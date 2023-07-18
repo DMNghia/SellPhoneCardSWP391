@@ -40,7 +40,7 @@ public class HomeRestController extends HttpServlet {
         // Add attribute to response json
         JsonObject jsonObject = new JsonObject();
         Gson gson = new Gson();
-        jsonObject.addProperty("user", gson.toJson(user));
+        jsonObject.addProperty("user", gson.toJson(newUser));
         jsonObject.addProperty("supplierId", gson.toJson(supplierId));
         jsonObject.addProperty("listSupplier", gson.toJson(listSupplier));
         jsonObject.addProperty("listProduct", gson.toJson(listProduct));

@@ -25,7 +25,7 @@ public class ScanNotice extends HttpServlet {
         Gson gson = new Gson();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        List<String> content = new ArrayList<>();
+        ArrayList<String> content = null;
         if (user != null) {
             List<Notice> notices = DAO.noticeDAO.getListNoticeByUser(user.getId());
             for (Notice notice : notices) {

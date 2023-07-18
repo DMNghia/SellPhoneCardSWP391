@@ -9,6 +9,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
+    public List<User> getAllUser(){
+        List<User> userlist = new ArrayList<>();
+        try{
+            String query = "select * from user where   role = true;";
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                userlist.add(new User(rs.getInt("id"), rs.getString("account"), rs.getString("password"),
+                        rs.getString("email"), rs.getInt("role"), rs.getString("phoneNumber"), rs.getInt("balance"),
+                        rs.getBoolean("isDelete"), rs.getBoolean("isActive"), rs.getTimestamp("createdAt"),
+                        rs.getInt("createdBy"), rs.getTimestamp("updatedAt"), rs.getInt("updatedBy"),
+                        rs.getTimestamp("deletedAt"), rs.getInt("deletedBy")));
+            }
+
+        }catch (SQLException e){
+            System.out.println("getAllUser: " + e.getMessage());
+        }
+        return  userlist;
+    }
+    public User getUserById1(int id) {
+        try {
+            String query = "SELECT * from user where id = ?";
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new User(rs.getInt("id"), rs.getString("account"), rs.getString("password"),
+                        rs.getString("email"), rs.getInt("role"), rs.getString("phoneNumber"), rs.getInt("balance"),
+                        rs.getBoolean("isDelete"), rs.getBoolean("isActive"), rs.getTimestamp("createdAt"),
+                        rs.getInt("createdBy"), rs.getTimestamp("updatedAt"), rs.getInt("updatedBy"),
+                        rs.getTimestamp("deletedAt"), rs.getInt("deletedBy"));
+            }
+        } catch (SQLException e) {
+            System.out.println("getUserById: " + e.getMessage());
+        }
+        return null;
+    }
+
 
     public User getUserById(int id) {
         try {

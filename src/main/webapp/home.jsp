@@ -251,6 +251,7 @@
 
     function loadUser(data) {
         var user = JSON.parse(data);
+        console.log(user);
         var balance = parseInt(user.balance).toLocaleString();
         console.log(balance);
         document.getElementById("balanceValue").innerHTML = balance;
@@ -329,9 +330,7 @@
             dataType: "json",
             success: function (response) {
                 var listMessage = JSON.parse(response.listMessage);
-                console.log(listMessage);
                 $.each(listMessage, function (i, message) {
-                    console.log(message);
                     setTimeout(demo.showNotify(message), 1000);
                 });
             }

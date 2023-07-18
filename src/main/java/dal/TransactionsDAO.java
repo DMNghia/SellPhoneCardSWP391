@@ -146,12 +146,16 @@ public class TransactionsDAO {
     public Long getTotalTransactions(String type, String status, String search, int id) {
         try {
             String query = "SELECT count(id) FROM transactions "
-                    + "where user = ? " + (!type.isEmpty() ? "and type = ?" : "")
+                    + "where user " + (id > 0 ? "= ? " : "") + (!type.isEmpty() ? "and type = ?" : "")
                     + (!status.isEmpty() ? " and status = ?" : "")
                     + (!search.isEmpty() ? " and note like ?" : "");
             PreparedStatement ps = DAO.connection.prepareStatement(query);
-            ps.setInt(1, id);
-            int i = 2;
+
+            int i = 1;
+            if (id > 0) {
+                ps.setInt(i, id);
+                i++;
+            }
             if (!type.isEmpty()) {
                 boolean x = false;
                 if (type.equals("true")) {
@@ -185,14 +189,17 @@ public class TransactionsDAO {
         List<Transactions> list = new ArrayList<>();
         try {
             String query = "SELECT * FROM transactions "
-                    + "where user = ? " + (!type.isEmpty() ? "and type = ?" : "")
+                    + "where user " + (id > 0 ? " = ? " : "") + (!type.isEmpty() ? "and type = ?" : "")
                     + (!status.isEmpty() ? " and status = ?" : "")
                     + (!search.isEmpty() ? " and note like ?" : "")
                     + " limit 10 offset ?";
 
             PreparedStatement ps = DAO.connection.prepareStatement(query);
-            ps.setInt(1, id);
-            int i = 2;
+            int i = 1;
+            if (id > 0) {
+                ps.setInt(i, id);
+                i++;
+            }
             if (!type.isEmpty()) {
                 boolean x = false;
                 if (type.equals("true")) {

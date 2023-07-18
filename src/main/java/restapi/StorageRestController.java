@@ -56,7 +56,7 @@ public class StorageRestController extends HttpServlet {
         }
         list = DAO.storageDAO.searchStorage(price, supplierId, search, (page - 1) * 10);
 
-        totalStorage = DAO.productDAO.getTotalQuanlityBySupplier(supplierId);
+        totalStorage = (long) DAO.storageDAO.getTotalStorage(price, supplierId, search);
 
         if ((search_raw != null && !search_raw.isEmpty()) || (price_raw != null && !price_raw.equals("all")) || (supplier_raw != null && !supplier_raw.equals("all"))) {
             if (totalStorage <= 1) {

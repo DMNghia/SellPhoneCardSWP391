@@ -31,6 +31,29 @@
             user-select: none;
         }
 
+        #listErrorDiv {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            max-height: 800px;
+            padding: 50px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
+            background: #fff;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.5s;
+            z-index: 9999;
+        }
+
+        #listErrorDiv.activete {
+            top: 50%;
+            visibility: visible;
+            opacity: 1;
+            transform: 0.5s;
+        }
+
         #popup {
             position: fixed;
             top: 40%;
@@ -158,21 +181,21 @@
 </div>
 
 <div id="popupAddProduct">
-    <form action="products" method="post" enctype="multipart/form-data">
-        <div class="row pl-1" style="width: fit-content;margin-left: auto">
-            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeAddProductButton"
-                    style="cursor: pointer" onclick="showAddDiv()">
-                <i class="nc-icon nc-simple-remove" style="font-size: 25px;font-weight: bold;"></i>
-            </button>
-        </div>
-        <div class="row" style="margin-bottom: 10px;">
-            <div class="col-md-8 pr-1">
-                <label>Nhà phát hành: </label>
-                <select id="supplierSelectAddProduct" name="supplierSelect" class="h-100 border-0"
-                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">
-                </select>
-                <input type="text" name="supplierInput" id="supplierInputAddProduct" class="d-none">
-                <button type="button" style="border: 0.5px solid #1b1e21;border-radius: 5px;cursor: pointer" onclick="function changeSupplier() {
+    <%--    <form action="products" method="post" enctype="multipart/form-data">--%>
+    <div class="row pl-1" style="width: fit-content;margin-left: auto">
+        <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeAddProductButton"
+                style="cursor: pointer" onclick="showAddDiv()">
+            <i class="nc-icon nc-simple-remove" style="font-size: 25px;font-weight: bold;"></i>
+        </button>
+    </div>
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-8 pr-1">
+            <label>Nhà phát hành: </label>
+            <select id="supplierSelectAddProduct" name="supplierSelect" class="h-100 border-0"
+                    style="background-color: transparent;color: #5e5e5e;cursor: pointer">
+            </select>
+            <input type="text" name="supplierInput" id="supplierInputAddProduct" class="d-none">
+            <button type="button" style="border: 0.5px solid #1b1e21;border-radius: 5px;cursor: pointer" onclick="function changeSupplier() {
                 var supplierInput = document.getElementById('supplierInputAddProduct');
                 var supplierSelect = document.getElementById('supplierSelectAddProduct');
                 var productSelect = document.getElementById('productSelectAddProduct');
@@ -206,22 +229,22 @@
                 }
             }
             changeSupplier()">
-                    <span><i class="fa fa-plus"></i></span>
-                </button>
-            </div>
+                <span><i class="fa fa-plus"></i></span>
+            </button>
         </div>
-        <div id="imageDiv" class="row d-none" style="margin-bottom: 10px;">
-            <label>Đường dẫn ảnh: </label>
-            <input id="image" type="text" name="image">
-        </div>
-        <div class="row" style="margin-bottom: 10px;">
-            <div class="col-md-8 pr-1">
-                <label>Sản phẩm: </label>
-                <select id="productSelectAddProduct" name="productSelect" class="h-100 border-0"
-                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">
-                </select>
-                <input type="text" name="productInput" id="productInputAddProduct" class="d-none">
-                <button type="button" style="border: 0.5px solid #1b1e21;border-radius: 5px;cursor: pointer" onclick="function changeProduct() {
+    </div>
+    <div id="imageDiv" class="row d-none" style="margin-bottom: 10px;">
+        <label>Đường dẫn ảnh: </label>
+        <input id="image" type="text" name="image">
+    </div>
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-8 pr-1">
+            <label>Sản phẩm: </label>
+            <select id="productSelectAddProduct" name="productSelect" class="h-100 border-0"
+                    style="background-color: transparent;color: #5e5e5e;cursor: pointer">
+            </select>
+            <input type="text" name="productInput" id="productInputAddProduct" class="d-none">
+            <button type="button" style="border: 0.5px solid #1b1e21;border-radius: 5px;cursor: pointer" onclick="function changeProduct() {
                 var supplierInput = document.getElementById('supplierInputAddProduct');
                 var supplierSelect = document.getElementById('supplierSelectAddProduct');
                 var productSelect = document.getElementById('productSelectAddProduct');
@@ -256,35 +279,67 @@
                 }
             }
             changeProduct()">
-                    <span id="buttonAddSupplier"><i class="fa fa-plus"></i></span>
-                </button>
-            </div>
-        </div>
-        <div id="productPrice" class="row d-none" style="margin-bottom: 10px;">
-            <div class="col-md-8 pr-1">
-                <label>Giá: </label>
-                <input id="price" type="number" name="productPrice">
-            </div>
-        </div>
-        <div class="row" style="margin-bottom: 10px;">
-            <div class="col-md-8 pr-1">
-                <label>Chọn file excel: </label>
-                <input id="fileInput" type="file" name="file"
-                       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-            </div>
-        </div>
-        <div class="row d-flex justify-content-around" style="margin-bottom: 10px;">
-            <button type="button" aria-hidden="true" class=""
-                    style="color: white;cursor: pointer;border-radius: 5px;background-color: #ef2b65;padding: 0 10px;"
-                    onclick="showAddDiv()">
-                Đóng
-            </button>
-            <button id="submitProductButton" type="submit" name="option" value="add" class="btn"
-                    style="cursor: pointer;background-color: #01b901;color: #ffffff;">
-                Thêm
+                <span id="buttonAddSupplier"><i class="fa fa-plus"></i></span>
             </button>
         </div>
-    </form>
+    </div>
+    <div id="productPrice" class="row d-none" style="margin-bottom: 10px;">
+        <div class="col-md-8 pr-1">
+            <label>Giá: </label>
+            <input id="price" type="number" name="productPrice">
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-8 pr-1">
+            <label>Chọn file excel: </label>
+            <input id="fileData" type="text" name="fileData" class="d-none">
+            <input id="fileInput" type="file"
+                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+        </div>
+    </div>
+    <div class="row d-flex justify-content-around" style="margin-bottom: 10px;">
+        <button type="button" aria-hidden="true" class=""
+                style="color: white;cursor: pointer;border-radius: 5px;background-color: #ef2b65;padding: 0 10px;"
+                onclick="showAddDiv()">
+            Đóng
+        </button>
+        <button id="submitProductButton" type="button" name="option" value="add" class="btn"
+                style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+            Thêm
+        </button>
+    </div>
+    <%--    </form>--%>
+</div>
+<div id="listErrorDiv" style="overflow: scroll;">
+    <div class="row pl-1" style="width: fit-content;margin-left: auto">
+        <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeAddProductButton"
+                style="cursor: pointer" onclick="showErrorList('')">
+            <i class="nc-icon nc-simple-remove" style="font-size: 25px;font-weight: bold;"></i>
+        </button>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="row">
+            <h2 style="color: red">Sản phẩm đã trùng lặp</h2>
+        </div>
+        <table style="">
+            <thead>
+            <tr>
+                <th style="height: 30px;font-size: 1.5em;margin: 0px">Số Seri</th>
+                <th style="height: 30px;font-size: 1.5em;margin: 0px">Số thẻ</th>
+            </tr>
+            </thead>
+            <tbody id="listErrorDivTable" class="w-100 justify-content-around">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="row pr-1" style="margin-top: 20px;">
+        <button type="button" aria-hidden="true" class=""
+                style="color: white;cursor: pointer;border-radius: 5px;background-color: #ef2b65;padding: 10px 10px;"
+                onclick="showErrorList('')">
+            Đóng
+        </button>
+    </div>
 </div>
 <div id="popup">
     <div class="row pl-1" style="width: fit-content;margin-left: auto">
@@ -512,7 +567,7 @@
     </script>
 </c:if>
 </body>
-
+<script src="${pageContext.request.contextPath}/js/xlsx.full.min.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -543,7 +598,7 @@
         getData(1)
     });
 
-    // $('#submitProductButton').click(uploadProduct);
+    $('#submitProductButton').click(uploadProduct);
 
     $('#addProductButton').click(showAddDiv);
 
@@ -551,38 +606,83 @@
 
     $('#deleteButton').click(deleteStorage);
 
-    //     function uploadProduct() {
-    //         const files = document.getElementById("fileInput").files;
-    //         var fileData = new FormData();
-    //         for (let i = 0; i < files.length; i++) {
-    //             fileData.append('files', files[i]);
-    //         }
-    //         const data = {
-    //             supplierSelect: $("#supplierSelectAddProduct").val(),
-    //             supplierInput: $("#supplierInputAddProduct").val(),
-    //             productSelect: $("#productSelectAddProduct").val(),
-    //             productInput: $("#productInputAddProduct").val(),
-    //             option: "add",
-    //             image: $("#image").val(),
-    //             productPrice: $("#price").val(),
-    //         };
-    //
-    // // Append other parameters to the FormData object
-    //         for (let key in data) {
-    //             fileData.append(key, data[key]);
-    //         }
-    //         $.ajax({
-    //             url: "/api/v1/products",
-    //             type: "POST",
-    //             data: fileData,
-    //             processData: false,
-    //             contentType: false,
-    //             dataType: "json",
-    //             success: function (response) {
-    //                 setTimeout(demo.showNotify(response.message), 100);
-    //             }
-    //         });
-    //     }
+    function readFile() {
+        const fileInput = document.getElementById('fileInput');
+
+        if (!fileInput.files.length) {
+            alert('Vui lòng chọn một file');
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            const data = event.target.result;
+            const workbook = XLSX.read(data, {type: 'binary'});
+            const sheetName = workbook.SheetNames[0]; // Assuming you want to read the first sheet
+
+            const sheet = workbook.Sheets[sheetName];
+            const jsonData = XLSX.utils.sheet_to_json(sheet);
+            displayData(jsonData);
+
+        };
+        reader.readAsBinaryString(file);
+    }
+
+    function displayData(data) {
+        var fileData = document.getElementById("fileData");
+        fileData.value = JSON.stringify(data, null, 2);
+        var data = {
+            supplierSelect: $("#supplierSelectAddProduct").val(),
+            supplierInput: $("#supplierInputAddProduct").val(),
+            productSelect: $("#productSelectAddProduct").val(),
+            productInput: $("#productInputAddProduct").val(),
+            option: $("#submitProductButton").val(),
+            image: $("#image").val(),
+            productPrice: $("#price").val(),
+            fileData: $('#fileData').val(),
+        };
+        $.ajax({
+            url: "/api/v1/products",
+            type: "POST",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                setTimeout(demo.showNotify(response.message), 100);
+                console.log(response.errorList);
+                if (response.errorList != null && response.errorList != "") {
+                    showErrorList(JSON.stringify(response.errorList));
+                }
+            }
+        });
+
+    }
+
+    function uploadProduct() {
+        readFile();
+    }
+
+    function showErrorList(data) {
+        showAddDiv();
+        var blur = document.getElementById('blur');
+        blur.classList.toggle('activete');
+        var popup = document.getElementById('listErrorDiv');
+        popup.classList.toggle('activete');
+        if (data != '') {
+            var tableBody = document.getElementById("listErrorDivTable");
+            var list = JSON.parse(data);
+            var bodyContent = "";
+            list.forEach(item => {
+                console.log(item);
+                bodyContent += "<tr class=' w-100 justify-content-around' style='display: flex;border-top: 0.5px solid #000000;margin-bottom: 10px'>";
+                bodyContent += "<td style='margin-right: 30px;height: 30px;display: flex;font-size: 1.5em'>" + item.serialNumber + "</td>";
+                bodyContent += "<td style='height: 30px;font-size: 1.5em'>" + item.cardNumber + "</td>";
+                bodyContent += "</tr>";
+            });
+            tableBody.innerHTML = bodyContent;
+        }
+    }
 
     function showAddDiv() {
         var blur = document.getElementById('blur');
@@ -652,9 +752,9 @@
 
     function loadlistProduct(data) {
         var listProduct = JSON.parse(data);
-            $.each(listProduct, function (i, product) {
-                $('#priceSelect').append($('<option>').val(product)
-                        .text(parseInt(product).toLocaleString()));
+        $.each(listProduct, function (i, product) {
+            $('#priceSelect').append($('<option>').val(product)
+                .text(parseInt(product).toLocaleString()));
         });
     }
 
