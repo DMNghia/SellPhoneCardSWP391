@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "ManagerUserRestController", value = "/api/v1/user")
+@WebServlet(name = "ManagerUserRestController", value = "/api/v1/users")
 public class ManagerUserRestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

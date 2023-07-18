@@ -92,6 +92,8 @@
         </button>
     </form>
 </div>
+
+<%--show thông tin chi tiết users --%>
 <div id="popup">
     <div class="row pl-1" style="width: fit-content;margin-left: auto">
         <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeButton"
@@ -113,27 +115,46 @@
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Số seri</label>
-                    <input type="text" class="form-control" id="seriInputUpdateDiv"
-                           name="seri">
+                    <label>Tên người dùng</label>
+                    <input type="text" class="form-control" id="accountInputUpdateDiv"
+                           readonly name="account">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Số thẻ</label>
-                    <input type="text" class="form-control" id="cardNumberInputUpdateDiv"
-                           name="cardNumber">
+                    <label>Email</label>
+                    <input type="text" class="form-control" id="emailInputUpdateDiv"
+                           name="email">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Hạn sử dụng</label>
-                    <input type="text" class="form-control" id="expiredAtInputUpdateDiv"
-                           name="expiredAt">
+                    <label>Số tiền</label>
+                    <input type="text" class="form-control" id="balanceInputUpdateDiv"
+                           name="balance">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Số điện thoại</label>
+                    <input type="text" class="form-control" id="phoneInputUpdateDiv"
+                           name="phone">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <input type="text" class="form-control" id="isActiveInputUpdateDiv"
+                           name="isActive">
                 </div>
             </div>
         </div>
@@ -271,7 +292,7 @@
                                                 <td>
                                                     <button class="btn"
                                                             style="background-color: #01b901;color: #ffffff;cursor: pointer;"
-                                                            onclick='showUpdateDiv(JSON.stringify(${users.toJson()}))'>
+                                                            onclick='showUpdateDiv(JSON.stringify(${user.toJson()}))'>
                                                         Thông tin
                                                     </button>
                                                 </td>
@@ -281,7 +302,7 @@
                                                 <td>
                                                     <button class="btn"
                                                             style="background-color: #d7d70e;color: #ffffff;cursor: pointer;"
-                                                            onclick='showUpdateDiv(JSON.stringify(${users.toJson()}))'>
+                                                            onclick='showUpdateDiv(JSON.stringify(${user.toJson()}))'>
                                                         Nạp tiền
                                                     </button>
                                                 </td>
@@ -357,7 +378,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: "api/v1/user",
+            url: "api/v1/users",
             type: "GET",
             dataType: "json",
             success: function (response) {
@@ -369,21 +390,24 @@
         });
     });
 
-    $('#updateButton').click(updateStorage);
+    $('#updateButton').click(updateUser);
 
     // $('#deleteButton').click(deleteStorage);
 
-    function updateStorage() {
+    function updateUser() {
         var data = {
             id: $('#idInputUpdateDiv').val(),
             account: $('#accountInputUpdateDiv').val(),
             email: $('#emailInputUpdateDiv').val(),
-            balance: $('#balanceInputUpdateDiv').val()
+            balance: $('#balanceInputUpdateDiv').val() ,
+            phoneNumber : $('#phoneInputUpdateDiv').val(),
+            isActive : $('#isActiveInputUpdateDiv').val()
+
         };
         var page = $('#pagination.page.active span').text();
         console.log(page);
         $.ajax({
-            url: "api/v1/user",
+            url: "api/v1/users",
             type: "POST",
             data: data,
             dataType: "json",
@@ -412,7 +436,7 @@
 
     function getData(page) {
         $.ajax({
-            url: "api/v1/user?page=",
+            url: "api/v1/users?page=",
             type: "GET",
             dataType: "json",
             success: function (response) {
@@ -447,42 +471,43 @@
     //     });
     // }
 
-    function loadContentList(data) {
-        const tableInfo = document.querySelector(".table");
-        var tableBody = tableInfo.querySelector("tbody");
-        var list = JSON.parse(data);
-        var bodyContent = "";
-        list.forEach(item => {
-            var id = JSON.parse(JSON.stringify(item.id));
-            var account = JSON.parse(JSON.stringify(item.account));
-            var email = JSON.parse(JSON.stringify(item.email));
-            var balance = JSON.parse(JSON.stringify(item.balance));
-            // var m = new Date(item.createdAt);
-            // var time = m.getFullYear() + "-" +
-            //     ("0" + (m.getMonth() + 1)).slice(-2) + "-" +
-            //     ("0" + m.getDate()).slice(-2) + " " +
-            //     ("0" + m.getHours()).slice(-2) + ":" +
-            //     ("0" + m.getMinutes()).slice(-2) + ":" +
-            //     ("0" + m.getSeconds()).slice(-2);
-            // var expiredAt = new Date(item.expiredAt);
-            var user = JSON.stringify(item);
-            bodyContent += "<tr>";
-            bodyContent += "<td>" + item.id + "</td>";
-            bodyContent += "<td>" + iem.account + "</td>";
-            bodyContent += "<td>" + iem.email + "</td>";
-            bodyContent += "<td class='price_storage'>" + item.balance + "</td>";
-            // bodyContent += "<td>" + time + "</td>";
-            // bodyContent += "<td>" + createdBy.account + "</td>";
-            bodyContent += `<td> <button class="btn" style="background-color: #01b901;color: #ffffff;cursor: pointer;"onclick='showUpdateDiv(JSON.stringify(` + storage + `))'>Thông tin </button> </td>`
-            // bodyContent += `<td> <button class="btn" style="background-color: #cc2127;color: #ffffff;cursor: pointer;" onclick="showDeleteAlert(` + item.id + `)"> Xóa  </button>  </td>`
-            bodyContent += "</tr>";
-        });
-        tableBody.innerHTML = bodyContent;
-        var priceStorage = document.querySelectorAll(".price_storage");
-        priceStorage.forEach(p => {
-            p.innerText = parseInt(p.innerText).toLocaleString();
-        });
-    }
+    // function loadContentList(data) {
+    //     const tableInfo = document.querySelector(".table");
+    //     var tableBody = tableInfo.querySelector("tbody");
+    //     var list = JSON.parse(data);
+    //     var bodyContent = "";
+    //     list.forEach(item => {
+    //         var id = JSON.parse(JSON.stringify(item.id));
+    //         var account = JSON.parse(JSON.stringify(item.account));
+    //         var email = JSON.parse(JSON.stringify(item.email));
+    //         var balance = JSON.parse(JSON.stringify(item.balance));
+    //         var isActive = JSON.parse(JSON.stringify(item.isActive));
+    //         // var m = new Date(item.createdAt);
+    //         // var time = m.getFullYear() + "-" +
+    //         //     ("0" + (m.getMonth() + 1)).slice(-2) + "-" +
+    //         //     ("0" + m.getDate()).slice(-2) + " " +
+    //         //     ("0" + m.getHours()).slice(-2) + ":" +
+    //         //     ("0" + m.getMinutes()).slice(-2) + ":" +
+    //         //     ("0" + m.getSeconds()).slice(-2);
+    //         // var expiredAt = new Date(item.expiredAt);
+    //         var user = JSON.stringify(item);
+    //         bodyContent += "<tr>";
+    //         bodyContent += "<td>" + item.id + "</td>";
+    //         bodyContent += "<td>" + item.account + "</td>";
+    //         bodyContent += "<td>" + item.email + "</td>";
+    //         bodyContent += "<td class='price_storage'>" + item.balance + "</td>";
+    //         // bodyContent += "<td>" + time + "</td>";
+    //         // bodyContent += "<td>" + createdBy.account + "</td>";
+    //         bodyContent += `<td> <button class="btn" style="background-color: #01b901;color: #ffffff;cursor: pointer;"onclick='showUpdateDiv(JSON.stringify(` + user + `))'>Thông tin </button> </td>`
+    //         bodyContent += `<td> <button class="btn" style="background-color: #cc2127;color: #ffffff;cursor: pointer;" onclick="showDeleteAlert(` + item.id + `)"> Nạp tiền  </button>  </td>`
+    //         bodyContent += "</tr>";
+    //     });
+    //     tableBody.innerHTML = bodyContent;
+    //     var priceStorage = document.querySelectorAll(".price_storage");
+    //     priceStorage.forEach(p => {
+    //         p.innerText = parseInt(p.innerText).toLocaleString();
+    //     });
+    // }
 
     $('#priceSelect').change(() => {
         getData(1);
@@ -516,6 +541,7 @@
             const closeButton = document.getElementById("closeButton");
             const body = document.querySelector(".wrapper");
             var json = JSON.parse(user);
+            console.log(json);
             // var expiredAt = new Date(json.expiredAt);
             // var timeExpiredAt = expiredAt.getFullYear() + "-" +
             //     ("0" + (expiredAt.getMonth() + 1)).slice(-2) + "-" +
@@ -528,6 +554,9 @@
             document.getElementById("accountInputUpdateDiv").value = json.account;
             document.getElementById("emailInputUpdateDiv").value = json.email;
             document.getElementById("balanceInputUpdateDiv").value = json.balance;
+            document.getElementById("phoneInputUpdateDiv").value = json.phoneNumber;
+            document.getElementById("isActiveInputUpdateDiv").value = json.isActive;
+
         }
         var blur = document.getElementById('blur');
         blur.classList.toggle('activete');
