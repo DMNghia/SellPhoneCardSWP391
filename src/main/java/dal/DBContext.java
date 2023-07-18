@@ -8,7 +8,7 @@ public class DBContext {
     // Create static field
     protected static Connection connection;
     private final static String user = "root";
-    private final static String pass = "nghia";
+    private final static String pass = "123456";
     private final static String url = "jdbc:mysql://localhost:3306/sellphonecard";
 
     protected static Connection getConnection() {

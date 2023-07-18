@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.Gson;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -40,6 +41,10 @@ public class User {
 
     public User(String account) {
         this.account = account;
+    }
+
+    public String toJson() {
+        return new Gson().toJson(this);
     }
     
 }

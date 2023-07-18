@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="icons.jsp">
+                        <a class="nav-link" href="manager.jsp">
                             <i class="nc-icon nc-atom"></i>
                             <p>Icons</p>
                         </a>

@@ -45,16 +45,35 @@
                             <!-- User Name Input -->
                             <div class="form-group row justify-content-center px-3">
                                 <div class="col-9 px-0">
-                                    <input type="text" name="password" placeholder="&#xf084; &nbsp; New Password"
+                                    <input id="password-input"
+                                           type="password"
+                                           name="password"
+                                           value="${password}"
+                                           placeholder="&#xf084; &nbsp; New Password"
                                            class="form-control border-info placeicon">
+                                    <p
+                                            id="password-validate"
+                                            class="text-red-600"
+                                    >
+                                        ${passwordMessageErr}
+                                    </p>
                                 </div>
                             </div>
                             <!-- Password Input -->
                             <div class="form-group row justify-content-center px-3">
                                 <div class="col-9 px-0">
-                                    <input type="password" name="confPassword"
+                                    <input id="confPassword-input"
+                                           type="password"
+                                           name="confPassword"
+                                           value="${confPassword}"
                                            placeholder="&#xf084; &nbsp; Confirm New Password"
                                            class="form-control border-info placeicon">
+                                    <p
+                                            id="confPassword-validate"
+                                            class="text-red-600"
+                                    >
+                                        ${passwordMessageErr}
+                                    </p>
                                 </div>
                             </div>
 
@@ -99,8 +118,9 @@
         </div>
     </div>
 </div>
+
+<script src="js/register.js"></script>
 <script type='text/javascript'
         src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js'></script>
-
 </body>
 </html>

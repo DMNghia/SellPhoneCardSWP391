@@ -55,8 +55,8 @@ public class OrderController extends HttpServlet {
                 }
 
                 //list distinct status
-                List<String> listStatus = new ArrayList<>();
-                listStatus = DAO.orderDAO.getDistinctStatus();
+                List<String> listStatus = DAO.orderDAO.getDistinctStatus();
+//                listStatus = DAO.orderDAO.getDistinctStatus();
                 //getAllOrder
                 list = DAO.orderDAO.getAllOrder(status, search, (page - 1) * 10);
                 long totalOrder = DAO.orderDAO.totalOrder(status, search);

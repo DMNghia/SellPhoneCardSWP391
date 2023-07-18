@@ -92,6 +92,8 @@
         </button>
     </form>
 </div>
+
+<%--show thông tin chi tiết users --%>
 <div id="popup">
     <div class="row pl-1" style="width: fit-content;margin-left: auto">
         <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeButton"
@@ -113,27 +115,46 @@
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Số seri</label>
-                    <input type="text" class="form-control" id="seriInputUpdateDiv"
-                           name="seri">
+                    <label>Tên người dùng</label>
+                    <input type="text" class="form-control" id="accountInputUpdateDiv"
+                           readonly name="account">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Số thẻ</label>
-                    <input type="text" class="form-control" id="cardNumberInputUpdateDiv"
-                           name="cardNumber">
+                    <label>Email</label>
+                    <input type="text" class="form-control" id="emailInputUpdateDiv"
+                           name="email">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Hạn sử dụng</label>
-                    <input type="text" class="form-control" id="expiredAtInputUpdateDiv"
-                           name="expiredAt">
+                    <label>Số tiền</label>
+                    <input type="text" class="form-control" id="balanceInputUpdateDiv"
+                           name="balance">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Số điện thoại</label>
+                    <input type="text" class="form-control" id="phoneInputUpdateDiv"
+                           name="phone">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <input type="text" class="form-control" id="isActiveInputUpdateDiv"
+                           name="isActive">
                 </div>
             </div>
         </div>
@@ -169,7 +190,7 @@
                         <p>Thông tin</p>
                     </a>
                 </li>
-                <li class="nav-item active">
+                <li>
                     <a class="nav-link" href="storage">
                         <i class="nc-icon nc-notes"></i>
                         <p>Kho hàng</p>
@@ -187,8 +208,8 @@
                         <p>Sản phẩm</p>
                     </a>
                 </li>
-                <li>
-                    <a class="nav-link" href="users">
+                <li class="nav-item active">
+                    <a class="nav-link" href="user">
                         <i class="nc-icon nc-circle-09"></i>
                         <p>Người dùng</p>
                     </a>
@@ -206,7 +227,7 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg " color-on-scroll="500">
             <div class="container-fluid">
-                <a class="navbar-brand" href="storage"> Kho hàng </a>
+                <a class="navbar-brand" href="user"> Người dùng </a>
                 <div class="collapse navbar-collapse justify-content-end" id="navigation">
                     <form method="get" action="storage">
                         <ul class="nav navbar-nav mr-auto">
@@ -246,40 +267,56 @@
                     <div class="col-md-12">
                         <div class="card strpied-tabled-with-hover">
                             <div class="card-header ">
-                                <h4 class="card-title">Striped Table with Hover</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
+                                <h4 class="card-title">Người dùng</h4>
+                                <p class="card-category">Trang admin quản lí người dùng</p>
                             </div>
                             <div class="card-body table-full-width table-responsive">
                                 <table class="table table-hover table-striped">
                                     <thead>
                                     <th>ID</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Giá</th>
-                                    <th>Tạo lúc</th>
-                                    <th>Tạo bởi</th>
+                                    <th>Tên account</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Ballance</th>
+                                    <th>Hành động</th>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="storage" items="${listStorage}">
+                                    <c:forEach var="user" items="${listUser}">
                                         <tr>
-                                            <td>${storage.getId()}</td>
-                                            <td>${storage.getProduct().getName()}</td>
-                                            <td class="price_storage">${storage.getProduct().getPrice()}</td>
-                                            <td>${storage.getCreatedAt()}</td>
-                                            <td>${storage.getCreatedBy().getAccount()}</td>
-                                            <td>
-                                                <button class="btn"
-                                                        style="background-color: #01b901;color: #ffffff;cursor: pointer;"
-                                                        onclick='showUpdateDiv(JSON.stringify(${storage.toJson()}))'>
-                                                    Thông tin
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button class="btn"
-                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"
-                                                        onclick="showDeleteAlert(${storage.getId()})">
-                                                    Xóa
-                                                </button>
-                                            </td>
+                                            <td>${user.getId()}</td>
+                                            <td>${user.getAccount()}</td>
+                                            <td>${user.getPhoneNumber()}</td>
+                                            <td>${user.getEmail()}</td>
+                                            <td class="ballace_user">${user.getBalance()}</td>
+
+                                                <td>
+                                                    <button class="btn"
+                                                            style="background-color: #01b901;color: #ffffff;cursor: pointer;"
+                                                            onclick='showUpdateDiv(JSON.stringify(${user.toJson()}))'>
+                                                        Thông tin
+                                                    </button>
+                                                </td>
+
+                                            <form action="addmoney" method="get">
+                                                <input type="hidden" name="userId" value="${user.getId()}">
+                                                <td>
+                                                    <button class="btn"
+                                                            style="background-color: #d7d70e;color: #ffffff;cursor: pointer;"
+                                                            onclick='showUpdateDiv(JSON.stringify(${user.toJson()}))'>
+                                                        Nạp tiền
+                                                    </button>
+                                                </td>
+                                            </form>
+
+
+<%--                                            <td>--%>
+<%--                                                <button class="btn"--%>
+<%--                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"--%>
+<%--                                                        onclick="showDeleteAlert(${user.getId()})">--%>
+<%--                                                    Xóa--%>
+<%--                                                </button>--%>
+<%--                                            </td>--%>
+
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -339,35 +376,38 @@
 
 <script type="text/javascript">
 
-    $(document).ready( function (){
+    $(document).ready(function () {
         $.ajax({
             url: "api/v1/users",
             type: "GET",
             dataType: "json",
             success: function (response) {
                 loadPagination(JSON.stringify(response.pagination));
-                loadContentList(JSON.stringify(response.listStorage));
-                loadlistProduct(JSON.stringify(response.listProduct));
-                loadListSupplier(JSON.stringify(response.listSupplier));
+                loadContentList(JSON.stringify(response.listUser));
+                // loadlistProduct(JSON.stringify(response.listProduct));
+                // loadListSupplier(JSON.stringify(response.listSupplier));
             }
         });
     });
 
-    $('#updateButton').click(updateStorage);
+    $('#updateButton').click(updateUser);
 
-    $('#deleteButton').click(deleteStorage);
+    // $('#deleteButton').click(deleteStorage);
 
-    function updateStorage() {
+    function updateUser() {
         var data = {
             id: $('#idInputUpdateDiv').val(),
-            seri: $('#seriInputUpdateDiv').val(),
-            cardNumber: $('#cardNumberInputUpdateDiv').val(),
-            expiredAt: $('#expiredAtInputUpdateDiv').val()
+            account: $('#accountInputUpdateDiv').val(),
+            email: $('#emailInputUpdateDiv').val(),
+            balance: $('#balanceInputUpdateDiv').val() ,
+            phoneNumber : $('#phoneInputUpdateDiv').val(),
+            isActive : $('#isActiveInputUpdateDiv').val()
+
         };
         var page = $('#pagination.page.active span').text();
         console.log(page);
         $.ajax({
-            url: "api/v1/storage",
+            url: "api/v1/users",
             type: "POST",
             data: data,
             dataType: "json",
@@ -378,25 +418,25 @@
         });
     }
 
-    function deleteStorage() {
-        var data = {
-            id: $('#idInputDeleteDiv').val()
-        };
-        $.ajax({
-            url: "api/v1/storage?id=" + data.id,
-            type: "DELETE",
-            data: data,
-            dataType: "json",
-            success: function (response) {
-                setTimeout(demo.showNotify(response.message), 100);
-                getData(1);
-            }
-        });
-    }
+    // function deleteStorage() {
+    //     var data = {
+    //         id: $('#idInputDeleteDiv').val()
+    //     };
+    //     $.ajax({
+    //         url: "api/v1/user?id=" + data.id,
+    //         type: "DELETE",
+    //         data: data,
+    //         dataType: "json",
+    //         success: function (response) {
+    //             setTimeout(demo.showNotify(response.message), 100);
+    //             getData(1);
+    //         }
+    //     });
+    // }
 
     function getData(page) {
         $.ajax({
-            url: "api/v1/storage?page=" + page + "&supplier=" + $('#supplierSelect').val() + "&price=" + $('#priceSelect').val() + "&search=" + $('#searchInput').val(),
+            url: "api/v1/users?page=",
             type: "GET",
             dataType: "json",
             success: function (response) {
@@ -415,54 +455,59 @@
         document.getElementById('pagination').innerHTML = createPagination(totalPage, pageNumber);
     }
 
-    function loadlistProduct(data) {
-        var listProduct = JSON.parse(data);
-        $.each(listProduct, function (i, product) {
-            $('#priceSelect').append($('<option>').val(product)
-                .text(parseInt(product).toLocaleString()));
-        });
-    }
-    function loadListSupplier(data) {
-        var listProduct = JSON.parse(data);
-        $.each(listProduct, function (i, supplier) {
-            $('#supplierSelect').append($('<option>').val(supplier.id)
-                .text(supplier.name));
-        });
-    }
+    // function loadlistProduct(data) {
+    //     var listProduct = JSON.parse(data);
+    //     $.each(listProduct, function (i, product) {
+    //         $('#priceSelect').append($('<option>').val(product)
+    //             .text(parseInt(product).toLocaleString()));
+    //     });
+    // }
 
-    function loadContentList(data) {
-        const tableInfo = document.querySelector(".table");
-        var tableBody = tableInfo.querySelector("tbody");
-        var list = JSON.parse(data);
-        var bodyContent = "";
-        list.forEach(item => {
-            var product = JSON.parse(JSON.stringify(item.product));
-            var createdBy = JSON.parse(JSON.stringify(item.createdBy));
-            var m = new Date(item.createdAt);
-            var time = m.getFullYear() + "-" +
-                ("0" + (m.getMonth() + 1)).slice(-2) + "-" +
-                ("0" + m.getDate()).slice(-2) + " " +
-                ("0" + m.getHours()).slice(-2) + ":" +
-                ("0" + m.getMinutes()).slice(-2) + ":" +
-                ("0" + m.getSeconds()).slice(-2);
-            var expiredAt = new Date(item.expiredAt);
-            var storage = JSON.stringify(item);
-            bodyContent += "<tr>";
-            bodyContent += "<td>" + item.id + "</td>";
-            bodyContent += "<td>" + product.name + "</td>";
-            bodyContent += "<td class='price_storage'>" + product.price + "</td>";
-            bodyContent += "<td>" + time + "</td>";
-            bodyContent += "<td>" + createdBy.account + "</td>";
-            bodyContent += `<td> <button class="btn" style="background-color: #01b901;color: #ffffff;cursor: pointer;"onclick='showUpdateDiv(JSON.stringify(` + storage + `))'>Thông tin </button> </td>`
-            bodyContent += `<td> <button class="btn" style="background-color: #cc2127;color: #ffffff;cursor: pointer;" onclick="showDeleteAlert(` + item.id + `)"> Xóa  </button>  </td>`
-            bodyContent += "</tr>";
-        });
-        tableBody.innerHTML = bodyContent;
-        var priceStorage = document.querySelectorAll(".price_storage");
-        priceStorage.forEach(p => {
-            p.innerText = parseInt(p.innerText).toLocaleString();
-        });
-    }
+    // function loadListSupplier(data) {
+    //     var listProduct = JSON.parse(data);
+    //     $.each(listProduct, function (i, supplier) {
+    //         $('#supplierSelect').append($('<option>').val(supplier.id)
+    //             .text(supplier.name));
+    //     });
+    // }
+
+    // function loadContentList(data) {
+    //     const tableInfo = document.querySelector(".table");
+    //     var tableBody = tableInfo.querySelector("tbody");
+    //     var list = JSON.parse(data);
+    //     var bodyContent = "";
+    //     list.forEach(item => {
+    //         var id = JSON.parse(JSON.stringify(item.id));
+    //         var account = JSON.parse(JSON.stringify(item.account));
+    //         var email = JSON.parse(JSON.stringify(item.email));
+    //         var balance = JSON.parse(JSON.stringify(item.balance));
+    //         var isActive = JSON.parse(JSON.stringify(item.isActive));
+    //         // var m = new Date(item.createdAt);
+    //         // var time = m.getFullYear() + "-" +
+    //         //     ("0" + (m.getMonth() + 1)).slice(-2) + "-" +
+    //         //     ("0" + m.getDate()).slice(-2) + " " +
+    //         //     ("0" + m.getHours()).slice(-2) + ":" +
+    //         //     ("0" + m.getMinutes()).slice(-2) + ":" +
+    //         //     ("0" + m.getSeconds()).slice(-2);
+    //         // var expiredAt = new Date(item.expiredAt);
+    //         var user = JSON.stringify(item);
+    //         bodyContent += "<tr>";
+    //         bodyContent += "<td>" + item.id + "</td>";
+    //         bodyContent += "<td>" + item.account + "</td>";
+    //         bodyContent += "<td>" + item.email + "</td>";
+    //         bodyContent += "<td class='price_storage'>" + item.balance + "</td>";
+    //         // bodyContent += "<td>" + time + "</td>";
+    //         // bodyContent += "<td>" + createdBy.account + "</td>";
+    //         bodyContent += `<td> <button class="btn" style="background-color: #01b901;color: #ffffff;cursor: pointer;"onclick='showUpdateDiv(JSON.stringify(` + user + `))'>Thông tin </button> </td>`
+    //         bodyContent += `<td> <button class="btn" style="background-color: #cc2127;color: #ffffff;cursor: pointer;" onclick="showDeleteAlert(` + item.id + `)"> Nạp tiền  </button>  </td>`
+    //         bodyContent += "</tr>";
+    //     });
+    //     tableBody.innerHTML = bodyContent;
+    //     var priceStorage = document.querySelectorAll(".price_storage");
+    //     priceStorage.forEach(p => {
+    //         p.innerText = parseInt(p.innerText).toLocaleString();
+    //     });
+    // }
 
     $('#priceSelect').change(() => {
         getData(1);
@@ -475,39 +520,43 @@
     })
 
     // Convert price below format 1,000
-    var priceStorage = document.querySelectorAll(".price_storage");
+    var priceStorage = document.querySelectorAll(".ballace_user");
     priceStorage.forEach(p => {
         p.innerText = parseInt(p.innerText).toLocaleString();
     });
 
-    function showDeleteAlert(id) {
-        if (parseInt(id) > 0) {
-            document.getElementById("idInputDeleteDiv").value = id;
-        }
-        var blur = document.getElementById('blur');
-        blur.classList.toggle('activete');
-        var popup = document.getElementById('popupDelete');
-        popup.classList.toggle('activete');
-    }
+    // function showDeleteAlert(id) {
+    //     if (parseInt(id) > 0) {
+    //         document.getElementById("idInputDeleteDiv").value = id;
+    //     }
+    //     var blur = document.getElementById('blur');
+    //     blur.classList.toggle('activete');
+    //     var popup = document.getElementById('popupDelete');
+    //     popup.classList.toggle('activete');
+    // }
 
-    function showUpdateDiv(storage) {
-        if (storage !== '') {
+    function showUpdateDiv(user) {
+        if (user !== '') {
             const div = document.getElementById("updateDiv");
             const closeButton = document.getElementById("closeButton");
             const body = document.querySelector(".wrapper");
-            var json = JSON.parse(storage);
-            var expiredAt = new Date(json.expiredAt);
-            var timeExpiredAt = expiredAt.getFullYear() + "-" +
-                ("0" + (expiredAt.getMonth() + 1)).slice(-2) + "-" +
-                ("0" + expiredAt.getDate()).slice(-2) + " " +
-                ("0" + expiredAt.getHours()).slice(-2) + ":" +
-                ("0" + expiredAt.getMinutes()).slice(-2) + ":" +
-                ("0" + expiredAt.getSeconds()).slice(-2);
-            json.expiredAt = timeExpiredAt;
+            var json = JSON.parse(user);
+            console.log(json);
+            // var expiredAt = new Date(json.expiredAt);
+            // var timeExpiredAt = expiredAt.getFullYear() + "-" +
+            //     ("0" + (expiredAt.getMonth() + 1)).slice(-2) + "-" +
+            //     ("0" + expiredAt.getDate()).slice(-2) + " " +
+            //     ("0" + expiredAt.getHours()).slice(-2) + ":" +
+            //     ("0" + expiredAt.getMinutes()).slice(-2) + ":" +
+            //     ("0" + expiredAt.getSeconds()).slice(-2);
+            // json.expiredAt = timeExpiredAt;
             document.getElementById("idInputUpdateDiv").value = json.id;
-            document.getElementById("seriInputUpdateDiv").value = json.serialNumber;
-            document.getElementById("cardNumberInputUpdateDiv").value = json.cardNumber;
-            document.getElementById("expiredAtInputUpdateDiv").value = json.expiredAt;
+            document.getElementById("accountInputUpdateDiv").value = json.account;
+            document.getElementById("emailInputUpdateDiv").value = json.email;
+            document.getElementById("balanceInputUpdateDiv").value = json.balance;
+            document.getElementById("phoneInputUpdateDiv").value = json.phoneNumber;
+            document.getElementById("isActiveInputUpdateDiv").value = json.isActive;
+
         }
         var blur = document.getElementById('blur');
         blur.classList.toggle('activete');

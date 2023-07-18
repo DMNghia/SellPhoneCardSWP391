@@ -181,27 +181,21 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/icons.jsp">
+                    <a class="nav-link" href="products">
                         <i class="nc-icon nc-atom"></i>
-                        <p>Icons</p>
+                        <p>Sản phẩm</p>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/maps.jsp">
-                        <i class="nc-icon nc-pin-3"></i>
-                        <p>Maps</p>
+                    <a class="nav-link" href="user">
+                        <i class="nc-icon nc-circle-09"></i>
+                        <p>Người dùng</p>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" href="${pageContext.request.contextPath}/admin/notifications.jsp">
+                    <a class="nav-link" href="transaction">
                         <i class="nc-icon nc-bell-55"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
-                <li class="nav-item active active-pro">
-                    <a class="nav-link active" href="${pageContext.request.contextPath}/admin/upgrade.jsp">
-                        <i class="nc-icon nc-alien-33"></i>
-                        <p>Upgrade to PRO</p>
+                        <p>Giao dịch</p>
                     </a>
                 </li>
             </ul>
@@ -265,7 +259,7 @@
                                     <th>Trạng thái đơn hàng</th>
                                     <th>Số tiền</th>
                                     <th>Thời gian tạo đơn hàng</th>
-                                    <th>Người bán</th>
+                                    <th>Người mua</th>
                                     <th>Hành động</th>
                                     </thead>
                                     <tbody>
@@ -302,7 +296,7 @@
                                                 </c:if>
                                             </c:forEach>
                                             <td>${order.getStatus()}</td>
-                                            <td>${order.getTotalAmount()}</td>
+                                            <td class="price_order">${order.getTotalAmount()}</td>
                                             <td>${order.getCreatedAt()}</td>
                                             <td>${order.getCreatedBy().getAccount()}</td>
                                             <td>
@@ -380,6 +374,7 @@
 
 
 <script type="text/javascript">
+
 
     function showUpdateDiv(order, name, price) {
         if (order !== '' && name !== '' && price !== '') {
@@ -487,6 +482,11 @@
         document.getElementById('pagination').innerHTML = str;
         return str;
     }
+    //conver string 1000 --> 1,000
+    var priceStorage = document.querySelectorAll(".price_order");
+    priceStorage.forEach(p => {
+        p.innerText = parseInt(p.innerText).toLocaleString();
+    });
 
 </script>
 </html>
