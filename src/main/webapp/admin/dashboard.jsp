@@ -71,9 +71,9 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/icons.jsp">
+                        <a class="nav-link" href="/products">
                             <i class="nc-icon nc-atom"></i>
-                            <p>Icons</p>
+                            <p>Sản phẩm</p>
                         </a>
                     </li>
                     <li>

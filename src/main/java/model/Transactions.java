@@ -4,6 +4,8 @@
  */
 package model;
 import java.sql.Timestamp;
+
+import com.google.gson.Gson;
 import lombok.*;
 /**
  *
@@ -27,4 +29,8 @@ public class Transactions {
     private User updatedBy ;
     private Timestamp createAt ;
     private User createBy ;
+
+    public String toJson() {
+        return new Gson().toJson(this);
+    }
 }

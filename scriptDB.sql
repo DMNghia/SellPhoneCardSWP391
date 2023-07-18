@@ -120,7 +120,8 @@ CREATE table storage
     updatedBy    int,
     deletedAt    datetime,
     deletedBy    int,
-    primary key (id)
+    primary key (id),
+    unique (serialNumber, cardNumber)
 );
 
 alter table storage

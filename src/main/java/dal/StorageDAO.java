@@ -6,6 +6,7 @@ import model.Storage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +53,26 @@ public class StorageDAO {
         }
 
         return listStorage;
+    }
+
+    public List<Storage> getStorageByProduct(int id) {
+        List<Storage> list = new ArrayList<>();
+        try {
+            String query = "select * from storage where isDelete = false and isUsed = false and productId = ?";
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Storage(rs.getLong("id"), rs.getString("serialNumber"), rs.getString("cardNumber"),
+                        rs.getTimestamp("expiredAt"), DAO.productDAO.findProductById(rs.getInt("productId")), rs.getBoolean("isUsed"),
+                        rs.getBoolean("isDelete"),rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy")), rs.getTimestamp("updatedAt"),
+                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("deletedAt"), DAO.userDAO.getUserById(rs.getInt("deletedBy"))));
+            }
+        } catch (SQLException e) {
+            System.out.println("getStorageByProduct: " + e.getMessage());
+        }
+
+        return list;
     }
 
     public List<Storage> searchStorage(int price, int supplier, String search, int page) {
@@ -232,11 +253,11 @@ public class StorageDAO {
         return null;
     }
 
-    public void insert(Storage storage) {
+    public int insert(Storage storage) {
         try {
             String query = "insert into storage(serialNumber, cardNumber, expiredAt, productId, createdAt, createdBy, isUsed, isDelete)\n" +
                     "value (?, ?, ?, ?, ?, ?, ?, ?);";
-            PreparedStatement ps = DAO.connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, storage.getSerialNumber());
             ps.setString(2, storage.getCardNumber());
             ps.setTimestamp(3, storage.getExpiredAt());
@@ -246,8 +267,14 @@ public class StorageDAO {
             ps.setBoolean(7, storage.isUsed());
             ps.setBoolean(8, storage.isDelete());
             ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
             System.out.println("StorageDAO-insert: " + e.getMessage());
         }
+
+        return -1;
     }
 }

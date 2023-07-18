@@ -4,18 +4,15 @@
  */
 package dal;
 
+import model.Transactions;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Product;
-import model.Supplier;
-import model.Transactions;
-import model.User;
 
 /**
- *
  * @author hp
  */
 public class TransactionsDAO {
@@ -28,25 +25,6 @@ public class TransactionsDAO {
         List<Transactions> transactionsList = new ArrayList<>();
         try {
             String query = "select * from transactions where status = false" +
-                    " order by createdAt";
-            PreparedStatement ps = DAO.connection.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                transactionsList.add(new Transactions(rs.getInt("id"), DAO.userDAO.getUserById(rs.getInt("user")),
-                        rs.getLong("orderId"), rs.getInt("money"), rs.getString("note"),
-                        rs.getBoolean("type"), rs.getBoolean("status"), rs.getTimestamp("updatedAt"),
-                        DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy"))));
-            }
-        } catch (SQLException e) {
-            System.out.println("findPendingTransaction: " + e.getMessage());
-        }
-        return transactionsList;
-    }
-
-    public List<Transactions> findPlusPendingTransaction() {
-        List<Transactions> transactionsList = new ArrayList<>();
-        try {
-            String query = "select * from transactions where status = false and type = true" +
                     " order by createdAt";
             PreparedStatement ps = DAO.connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
@@ -138,20 +116,6 @@ public class TransactionsDAO {
         return list;
     }
 
-    public Long getTotalTransactions() {
-        try {
-            String query = "select count(id) from transactions;";
-            PreparedStatement ps = DAO.connection.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getLong(1);
-            }
-        } catch (SQLException e) {
-            System.out.println("getTotalTransactions: " + e.getMessage());
-        }
-        return (long) -1;
-    }
-
     public List<Transactions> getListDistinctTransactions() {
         List<Transactions> list = new ArrayList<>();
         try {
@@ -179,36 +143,77 @@ public class TransactionsDAO {
         return list1;
     }
 
-    public List<Transactions> searchTransactions(String type, String status, String search,int id) {
+    public Long getTotalTransactions(String type, String status, String search, int id) {
+        try {
+            String query = "SELECT count(id) FROM transactions "
+                    + "where user = ? " + (!type.isEmpty() ? "and type = ?" : "")
+                    + (!status.isEmpty() ? " and status = ?" : "")
+                    + (!search.isEmpty() ? " and note like ?" : "");
+            PreparedStatement ps = DAO.connection.prepareStatement(query);
+            ps.setInt(1, id);
+            int i = 2;
+            if (!type.isEmpty()) {
+                boolean x = false;
+                if (type.equals("true")) {
+                    x = true;
+                }
+                ps.setBoolean(i, x);
+                i++;
+            }
+            if (!status.isEmpty()) {
+                boolean x = false;
+                if (status.equals("true")) {
+                    x = true;
+                }
+                ps.setBoolean(i, x);
+                i++;
+            }
+            if (!search.isEmpty()) {
+                ps.setString(i, "%" + search + "%");
+            }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("getTotalTransactions: " + e.getMessage());
+        }
+        return (long) 0;
+    }
+
+    public List<Transactions> searchTransactions(String type, String status, String search, int id, int offset) {
         List<Transactions> list = new ArrayList<>();
         try {
             String query = "SELECT * FROM transactions "
-                    + "where user=? " + (!type.isEmpty() ? "and type= ?" : "")
+                    + "where user = ? " + (!type.isEmpty() ? "and type = ?" : "")
                     + (!status.isEmpty() ? " and status = ?" : "")
-                    + (!search.isEmpty() ? " and note like ?" : "");
+                    + (!search.isEmpty() ? " and note like ?" : "")
+                    + " limit 10 offset ?";
 
             PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, id);
             int i = 2;
             if (!type.isEmpty()) {
                 boolean x = false;
-                if(type.equals("true")){
+                if (type.equals("true")) {
                     x = true;
                 }
-                ps.setBoolean(i,x);
+                ps.setBoolean(i, x);
                 i++;
             }
             if (!status.isEmpty()) {
-                boolean x =false;
-                if(status.equals("true")){
-                    x=true;
+                boolean x = false;
+                if (status.equals("true")) {
+                    x = true;
                 }
-                ps.setBoolean(i,x);
+                ps.setBoolean(i, x);
                 i++;
             }
-            if (!search.isEmpty()){
-                ps.setString(i, "%"+search+"%");
+            if (!search.isEmpty()) {
+                ps.setString(i, "%" + search + "%");
+                i++;
             }
+            ps.setInt(i, offset);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Transactions(rs.getInt("id"), DAO.userDAO.getUserById(rs.getInt("user")),
@@ -217,7 +222,7 @@ public class TransactionsDAO {
                         DAO.userDAO.getUserById(rs.getInt("updatedBy")), rs.getTimestamp("createdAt"), DAO.userDAO.getUserById(rs.getInt("createdBy"))));
             }
         } catch (SQLException e) {
-            System.err.println("searchStorage: " + e.getMessage());
+            System.err.println("searchTransactions: " + e.getMessage());
         }
         return list;
     }

@@ -67,12 +67,15 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        User u = (User) session.getAttribute("user");
+
         boolean isAdmin = false;
         if (session.getAttribute("isAdmin") != null) {
             isAdmin = (boolean) session.getAttribute("isAdmin");
         }
-        if (user != null) {
+        if (u != null) {
+            User user = DAO.userDAO.getUserById(u.getId());
+            session.setAttribute("user", user);
             User newUser = DAO.userDAO.getUserById(user.getId());
             session.setAttribute("user", newUser);
         }

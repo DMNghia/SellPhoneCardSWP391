@@ -35,12 +35,8 @@ public class HomeRestController extends HttpServlet {
         if (supplier != null && !supplier.equals("1")) {
             supplierId = Integer.parseInt(supplier);
         }
-        long before = System.currentTimeMillis();
         ArrayList<Supplier> listSupplier = DAO.supplierDAO.getListSupplier();
-        before = System.currentTimeMillis();
-        System.out.println(System.currentTimeMillis() - before);
         ArrayList<Product> listProduct = DAO.productDAO.getListProductBySupplier(supplierId);
-        System.out.println(System.currentTimeMillis() - before);
         // Add attribute to response json
         JsonObject jsonObject = new JsonObject();
         Gson gson = new Gson();

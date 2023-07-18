@@ -23,6 +23,7 @@
           rel="stylesheet"/>
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="${pageContext.request.contextPath}/admin/assets/css/demo.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         #blur.activete {
             filter: blur(20px);
@@ -73,6 +74,69 @@
             opacity: 1;
             transform: 0.5s;
         }
+
+        #popupAddProduct {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            padding: 50px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
+            background: #fff;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.5s;
+            z-index: 9999;
+        }
+
+        #popupAddProduct.activete {
+            top: 50%;
+            visibility: visible;
+            opacity: 1;
+            transform: 0.5s;
+        }
+
+        #addProductButton {
+            display: inline-block;
+            border-radius: 7px;
+            border: none;
+            background: #1875FF;
+            color: white;
+            font-family: inherit;
+            text-align: center;
+            font-size: 13px;
+            box-shadow: 0px 14px 56px -11px #1875FF;
+            width: 12em;
+            padding: 1em;
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+
+        #addProductButton span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.4s;
+        }
+
+        #addProductButton span:after {
+            content: 'sản phẩm';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.7s;
+        }
+
+        #addProductButton:hover span {
+            padding-right: 4.6em;
+        }
+
+        #addProductButton:hover span:after {
+            opacity: 4;
+            right: 0;
+        }
     </style>
 </head>
 
@@ -81,7 +145,7 @@
     <h4 style="text-align: center"><b>Bạn có chắc muốn xóa chứ</b></h4>
     <form action="storage" method="post" class="justify-content-around d-flex">
         <input name="id" id="idInputDeleteDiv" class="d-none">
-        <input name="page" id="pageInputDeleteDiv" value='${request.getParameter("page")}' class="d-none">
+        <input name="page" id="pageInputDeleteDiv" class="d-none">
         <button id="deleteButton" class="btn" type="button" name="option" value="delete"
                 style="background-color: #cc2127;color: #ffffff;cursor: pointer;">
             Xóa
@@ -92,6 +156,136 @@
         </button>
     </form>
 </div>
+
+<div id="popupAddProduct">
+    <form action="products" method="post" enctype="multipart/form-data">
+        <div class="row pl-1" style="width: fit-content;margin-left: auto">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeAddProductButton"
+                    style="cursor: pointer" onclick="showAddDiv()">
+                <i class="nc-icon nc-simple-remove" style="font-size: 25px;font-weight: bold;"></i>
+            </button>
+        </div>
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col-md-8 pr-1">
+                <label>Nhà phát hành: </label>
+                <select id="supplierSelectAddProduct" name="supplierSelect" class="h-100 border-0"
+                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">
+                </select>
+                <input type="text" name="supplierInput" id="supplierInputAddProduct" class="d-none">
+                <button type="button" style="border: 0.5px solid #1b1e21;border-radius: 5px;cursor: pointer" onclick="function changeSupplier() {
+                var supplierInput = document.getElementById('supplierInputAddProduct');
+                var supplierSelect = document.getElementById('supplierSelectAddProduct');
+                var productSelect = document.getElementById('productSelectAddProduct');
+                var productInput = document.getElementById('productInputAddProduct');
+                supplierSelect.classList.toggle('d-none');
+                supplierInput.classList.toggle('d-none');
+                document.getElementById('imageDiv').classList.toggle('d-none');
+                document.getElementById('imageDiv').value = '';
+                if (supplierInput.classList.contains('d-none')) {
+                    supplierInput.value = '';
+
+                } else {
+                    supplierSelect.value = '';
+                }
+                if (supplierSelect.classList.contains('d-none')) {
+                    if (!productSelect.classList.contains('d-none')) {
+                        productSelect.classList.toggle('d-none');
+                        productInput.classList.toggle('d-none');
+                    }
+                }
+                if (productInput.classList.contains('d-none')) {
+                    if (!document.getElementById('productPrice').classList.contains('d-none')) {
+                        document.getElementById('productPrice').classList.toggle('d-none');
+                        document.getElementById('productPrice').value = '';
+                    }
+                } else {
+                    if (document.getElementById('productPrice').classList.contains('d-none')) {
+                        document.getElementById('productPrice').classList.toggle('d-none');
+
+                    }
+                }
+            }
+            changeSupplier()">
+                    <span><i class="fa fa-plus"></i></span>
+                </button>
+            </div>
+        </div>
+        <div id="imageDiv" class="row d-none" style="margin-bottom: 10px;">
+            <label>Đường dẫn ảnh: </label>
+            <input id="image" type="text" name="image">
+        </div>
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col-md-8 pr-1">
+                <label>Sản phẩm: </label>
+                <select id="productSelectAddProduct" name="productSelect" class="h-100 border-0"
+                        style="background-color: transparent;color: #5e5e5e;cursor: pointer">
+                </select>
+                <input type="text" name="productInput" id="productInputAddProduct" class="d-none">
+                <button type="button" style="border: 0.5px solid #1b1e21;border-radius: 5px;cursor: pointer" onclick="function changeProduct() {
+                var supplierInput = document.getElementById('supplierInputAddProduct');
+                var supplierSelect = document.getElementById('supplierSelectAddProduct');
+                var productSelect = document.getElementById('productSelectAddProduct');
+                var productInput = document.getElementById('productInputAddProduct');
+                productSelect.classList.toggle('d-none');
+                productInput.classList.toggle('d-none');
+                if (productInput.classList.contains('d-none')) {
+                    if (!document.getElementById('productPrice').classList.contains('d-none')) {
+                        document.getElementById('productPrice').classList.toggle('d-none');
+                        document.getElementById('productPrice').value = '';
+                    } else {
+                        document.getElementById('productPrice').value = '';
+                    }
+                    productInput.value = '';
+                } else {
+                    if (document.getElementById('productPrice').classList.contains('d-none')) {
+                        document.getElementById('productPrice').classList.toggle('d-none');
+                        document.getElementById('productPrice').value = '';
+                    } else {
+                        document.getElementById('productPrice').value = '';
+                    }
+                    productSelect.value = '';
+                }
+                // if (!productInput.classList.contains('d-none')) {
+                //     document.getElementById('productPrice').classList.toggle('d-none');
+                // }
+                if (supplierSelect.classList.contains('d-none')) {
+                    if (!productSelect.classList.contains('d-none')) {
+                        productSelect.classList.toggle('d-none');
+                        // productInput.classList.toggle('d-none');
+                    }
+                }
+            }
+            changeProduct()">
+                    <span id="buttonAddSupplier"><i class="fa fa-plus"></i></span>
+                </button>
+            </div>
+        </div>
+        <div id="productPrice" class="row d-none" style="margin-bottom: 10px;">
+            <div class="col-md-8 pr-1">
+                <label>Giá: </label>
+                <input id="price" type="number" name="productPrice">
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col-md-8 pr-1">
+                <label>Chọn file excel: </label>
+                <input id="fileInput" type="file" name="file"
+                       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+            </div>
+        </div>
+        <div class="row d-flex justify-content-around" style="margin-bottom: 10px;">
+            <button type="button" aria-hidden="true" class=""
+                    style="color: white;cursor: pointer;border-radius: 5px;background-color: #ef2b65;padding: 0 10px;"
+                    onclick="showAddDiv()">
+                Đóng
+            </button>
+            <button id="submitProductButton" type="submit" name="option" value="add" class="btn"
+                    style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+                Thêm
+            </button>
+        </div>
+    </form>
+</div>
 <div id="popup">
     <div class="row pl-1" style="width: fit-content;margin-left: auto">
         <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeButton"
@@ -99,11 +293,11 @@
             <i class="nc-icon nc-simple-remove" style="font-size: 25px;font-weight: bold;"></i>
         </button>
     </div>
-    <form action="storage" method="post" class="">
+    <form action="products" method="post" class="">
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <input name="page" id="pageInputUpdateDiv" value='${param.page}' class="d-none">
+                    <input name="page" id="pageInputUpdateDiv" class="d-none">
                     <label>Id</label>
                     <input type="text" class="form-control" id="idInputUpdateDiv"
                            readonly name="id">
@@ -113,27 +307,27 @@
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Số seri</label>
-                    <input type="text" class="form-control" id="seriInputUpdateDiv"
-                           name="seri">
+                    <label>Tên</label>
+                    <input type="text" class="form-control" id="nameInputUpdateDiv"
+                           name="name">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Số thẻ</label>
-                    <input type="text" class="form-control" id="cardNumberInputUpdateDiv"
-                           name="cardNumber">
+                    <label>Giá</label>
+                    <input type="number" class="form-control" id="priceInputUpdateDiv"
+                           name="price">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
-                    <label>Hạn sử dụng</label>
-                    <input type="text" class="form-control" id="expiredAtInputUpdateDiv"
-                           name="expiredAt">
+                    <label>Số lượng còn lại</label>
+                    <input type="number" class="form-control" id="quantityInputUpdateDiv"
+                           name="quantity">
                 </div>
             </div>
         </div>
@@ -169,7 +363,7 @@
                         <p>Thông tin</p>
                     </a>
                 </li>
-                <li class="nav-item active">
+                <li>
                     <a class="nav-link" href="storage">
                         <i class="nc-icon nc-notes"></i>
                         <p>Kho hàng</p>
@@ -181,7 +375,7 @@
                         <p>Đơn hàng</p>
                     </a>
                 </li>
-                <li>
+                <li class="nav-item active">
                     <a class="nav-link" href="products">
                         <i class="nc-icon nc-atom"></i>
                         <p>Sản phẩm</p>
@@ -206,7 +400,7 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg " color-on-scroll="500">
             <div class="container-fluid">
-                <a class="navbar-brand" href="storage"> Kho hàng </a>
+                <a class="navbar-brand" href="products"> Sản phẩm </a>
                 <div class="collapse navbar-collapse justify-content-end" id="navigation">
                     <form method="get" action="storage">
                         <ul class="nav navbar-nav mr-auto">
@@ -225,7 +419,7 @@
                             <li class="nav-item" style="margin-left: 20px">
                                 <input id="searchInput" type="text" name="search" placeholder="Tìm tên sản phẩm"
                                        class="h-100 border-0"
-                                       >
+                                >
                             </li>
                         </ul>
                     </form>
@@ -242,6 +436,11 @@
         <!-- End Navbar -->
         <div class="content">
             <div class="container-fluid">
+                <div class="row d-flex justify-content-center" style="margin-bottom: 20px;">
+                    <button id="addProductButton" style="vertical-align:middle">
+                        <span>Thêm</span>
+                    </button>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card strpied-tabled-with-hover">
@@ -249,35 +448,16 @@
                                 <table class="table table-hover table-striped">
                                     <thead>
                                     <th>ID</th>
+                                    <th>Ảnh</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Giá</th>
+                                    <th>Số lượng</th>
                                     <th>Tạo lúc</th>
                                     <th>Tạo bởi</th>
+                                    <th>Hành động</th>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="storage" items="${listStorage}">
-                                        <tr>
-                                            <td>${storage.getId()}</td>
-                                            <td>${storage.getProduct().getName()}</td>
-                                            <td class="price_storage">${storage.getProduct().getPrice()}</td>
-                                            <td>${storage.getCreatedAt()}</td>
-                                            <td>${storage.getCreatedBy().getAccount()}</td>
-                                            <td>
-                                                <button class="btn"
-                                                        style="background-color: #01b901;color: #ffffff;cursor: pointer;"
-                                                        onclick='showUpdateDiv(JSON.stringify(${storage.toJson()}))'>
-                                                    Thông tin
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button class="btn"
-                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"
-                                                        onclick="showDeleteAlert(${storage.getId()})">
-                                                    Xóa
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -293,7 +473,7 @@
                 <nav>
                     <ul class="footer-menu">
                         <li>
-                            <a href="home">
+                            <a href="/">
                                 Home
                             </a>
                         </li>
@@ -335,40 +515,97 @@
 
 <script type="text/javascript">
 
-    $(document).ready( function (){
+    $(document).ready(function () {
         $.ajax({
-            url: "api/v1/storage",
+            url: "api/v1/products",
             type: "GET",
             dataType: "json",
             success: function (response) {
                 loadPagination(JSON.stringify(response.pagination));
-                loadContentList(JSON.stringify(response.listStorage));
-                loadlistProduct(JSON.stringify(response.listProduct));
+                loadContentList(JSON.stringify(response.listProduct));
+                loadlistProduct(JSON.stringify(response.listPrice));
                 loadListSupplier(JSON.stringify(response.listSupplier));
+                loadListProductForAddDiv(JSON.stringify(response.listProductBySubblier));
             }
         });
     });
+
+    function loadListProductForAddDiv(data) {
+        var listProduct = JSON.parse(data);
+        $('#productSelectAddProduct').empty();
+        $.each(listProduct, function (i, product) {
+            $('#productSelectAddProduct').append($('<option>').val(product.id)
+                .text(product.name));
+        });
+    }
+
+    $("#supplierSelectAddProduct").change(() => {
+        getData(1)
+    });
+
+    // $('#submitProductButton').click(uploadProduct);
+
+    $('#addProductButton').click(showAddDiv);
 
     $('#updateButton').click(updateStorage);
 
     $('#deleteButton').click(deleteStorage);
 
+    //     function uploadProduct() {
+    //         const files = document.getElementById("fileInput").files;
+    //         var fileData = new FormData();
+    //         for (let i = 0; i < files.length; i++) {
+    //             fileData.append('files', files[i]);
+    //         }
+    //         const data = {
+    //             supplierSelect: $("#supplierSelectAddProduct").val(),
+    //             supplierInput: $("#supplierInputAddProduct").val(),
+    //             productSelect: $("#productSelectAddProduct").val(),
+    //             productInput: $("#productInputAddProduct").val(),
+    //             option: "add",
+    //             image: $("#image").val(),
+    //             productPrice: $("#price").val(),
+    //         };
+    //
+    // // Append other parameters to the FormData object
+    //         for (let key in data) {
+    //             fileData.append(key, data[key]);
+    //         }
+    //         $.ajax({
+    //             url: "/api/v1/products",
+    //             type: "POST",
+    //             data: fileData,
+    //             processData: false,
+    //             contentType: false,
+    //             dataType: "json",
+    //             success: function (response) {
+    //                 setTimeout(demo.showNotify(response.message), 100);
+    //             }
+    //         });
+    //     }
+
+    function showAddDiv() {
+        var blur = document.getElementById('blur');
+        blur.classList.toggle('activete');
+        var popup = document.getElementById('popupAddProduct');
+        popup.classList.toggle('activete');
+    }
+
     function updateStorage() {
         var data = {
             id: $('#idInputUpdateDiv').val(),
-            seri: $('#seriInputUpdateDiv').val(),
-            cardNumber: $('#cardNumberInputUpdateDiv').val(),
-            expiredAt: $('#expiredAtInputUpdateDiv').val()
+            name: $('#nameInputUpdateDiv').val(),
+            price: $('#priceInputUpdateDiv').val(),
+            quantity: $('#quantityInputUpdateDiv').val(),
         };
-        var page = $('#pagination.page.active span').text();
-        console.log(page);
         $.ajax({
-            url: "api/v1/storage",
+            url: "/api/v1/products",
             type: "POST",
             data: data,
             dataType: "json",
             success: function (response) {
                 setTimeout(demo.showNotify(response.message), 100);
+                console.log(response.message);
                 getData(1);
             }
         });
@@ -379,7 +616,7 @@
             id: $('#idInputDeleteDiv').val()
         };
         $.ajax({
-            url: "api/v1/storage?id=" + data.id,
+            url: "api/v1/products?id=" + data.id,
             type: "DELETE",
             data: data,
             dataType: "json",
@@ -391,13 +628,15 @@
     }
 
     function getData(page) {
+        console.log("getData");
         $.ajax({
-            url: "api/v1/storage?page=" + page + "&supplier=" + $('#supplierSelect').val() + "&price=" + $('#priceSelect').val() + "&search=" + $('#searchInput').val(),
+            url: "api/v1/products?page=" + page + "&supplier=" + $('#supplierSelect').val() + "&price=" + $('#priceSelect').val() + "&search=" + $('#searchInput').val() + "&supplierAddProduct=" + $('#supplierSelectAddProduct').val(),
             type: "GET",
             dataType: "json",
             success: function (response) {
                 loadPagination(JSON.stringify(response.pagination));
-                loadContentList(JSON.stringify(response.listStorage));
+                loadContentList(JSON.stringify(response.listProduct));
+                loadListProductForAddDiv(JSON.stringify(response.listProductBySubblier));
             }
         });
     }
@@ -413,15 +652,18 @@
 
     function loadlistProduct(data) {
         var listProduct = JSON.parse(data);
-        $.each(listProduct, function (i, product) {
-            $('#priceSelect').append($('<option>').val(product)
-                .text(parseInt(product).toLocaleString()));
+            $.each(listProduct, function (i, product) {
+                $('#priceSelect').append($('<option>').val(product)
+                        .text(parseInt(product).toLocaleString()));
         });
     }
+
     function loadListSupplier(data) {
         var listProduct = JSON.parse(data);
         $.each(listProduct, function (i, supplier) {
             $('#supplierSelect').append($('<option>').val(supplier.id)
+                .text(supplier.name));
+            $('#supplierSelectAddProduct').append($('<option>').val(supplier.id)
                 .text(supplier.name));
         });
     }
@@ -432,7 +674,6 @@
         var list = JSON.parse(data);
         var bodyContent = "";
         list.forEach(item => {
-            var product = JSON.parse(JSON.stringify(item.product));
             var createdBy = JSON.parse(JSON.stringify(item.createdBy));
             var m = new Date(item.createdAt);
             var time = m.getFullYear() + "-" +
@@ -441,12 +682,13 @@
                 ("0" + m.getHours()).slice(-2) + ":" +
                 ("0" + m.getMinutes()).slice(-2) + ":" +
                 ("0" + m.getSeconds()).slice(-2);
-            var expiredAt = new Date(item.expiredAt);
             var storage = JSON.stringify(item);
             bodyContent += "<tr>";
             bodyContent += "<td>" + item.id + "</td>";
-            bodyContent += "<td>" + product.name + "</td>";
-            bodyContent += "<td class='price_storage'>" + product.price + "</td>";
+            bodyContent += "<td><img style='width: 100px;' src='" + item.supplier.image + "'>"
+            bodyContent += "<td>" + item.name + "</td>";
+            bodyContent += "<td class='price_storage'>" + item.price + "</td>";
+            bodyContent += "<td class='price_storage'>" + item.quantity + "</td>";
             bodyContent += "<td>" + time + "</td>";
             bodyContent += "<td>" + createdBy.account + "</td>";
             bodyContent += `<td> <button class="btn" style="background-color: #01b901;color: #ffffff;cursor: pointer;"onclick='showUpdateDiv(JSON.stringify(` + storage + `))'>Thông tin </button> </td>`
@@ -465,10 +707,10 @@
     });
     $('#supplierSelect').change(() => {
         getData(1);
-    });
+    })
     $('#searchInput').on('input', () => {
         getData(1);
-    });
+    })
 
     // Convert price below format 1,000
     var priceStorage = document.querySelectorAll(".price_storage");
@@ -488,9 +730,6 @@
 
     function showUpdateDiv(storage) {
         if (storage !== '') {
-            const div = document.getElementById("updateDiv");
-            const closeButton = document.getElementById("closeButton");
-            const body = document.querySelector(".wrapper");
             var json = JSON.parse(storage);
             var expiredAt = new Date(json.expiredAt);
             var timeExpiredAt = expiredAt.getFullYear() + "-" +
@@ -501,9 +740,9 @@
                 ("0" + expiredAt.getSeconds()).slice(-2);
             json.expiredAt = timeExpiredAt;
             document.getElementById("idInputUpdateDiv").value = json.id;
-            document.getElementById("seriInputUpdateDiv").value = json.serialNumber;
-            document.getElementById("cardNumberInputUpdateDiv").value = json.cardNumber;
-            document.getElementById("expiredAtInputUpdateDiv").value = json.expiredAt;
+            document.getElementById("nameInputUpdateDiv").value = json.name;
+            document.getElementById("priceInputUpdateDiv").value = json.price;
+            document.getElementById("quantityInputUpdateDiv").value = json.quantity;
         }
         var blur = document.getElementById('blur');
         blur.classList.toggle('activete');

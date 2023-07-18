@@ -33,7 +33,7 @@ public class ReadExcel {
     public static final int COLUMN_INDEX_EXPIRED = 3;
     
     // Get Workbook
-    private static Workbook getWorkbook(InputStream inputStream, String excelFilePath) throws IOException {
+    public static Workbook getWorkbook(InputStream inputStream, String excelFilePath) throws IOException {
         Workbook workbook = null;
         if (excelFilePath.endsWith("xlsx")) {
             workbook = new XSSFWorkbook(inputStream);

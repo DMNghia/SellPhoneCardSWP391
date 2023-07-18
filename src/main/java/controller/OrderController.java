@@ -68,7 +68,9 @@ public class OrderController extends HttpServlet {
 //
                 request.getRequestDispatcher("admin/order.jsp").forward(request, response);
             } else {
-                User user = (User) session.getAttribute("user");
+                User u = (User) session.getAttribute("user");
+                User user = DAO.userDAO.getUserById(u.getId());
+                session.setAttribute("user", user);
                 String page_raw = request.getParameter("page");
                 String status_raw = request.getParameter("status");
                 String search_raw = request.getParameter("search");

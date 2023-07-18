@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.DAO;
 import dal.ProductDAO;
 import dal.TransactionsDAO;
 import java.io.IOException;
@@ -71,85 +72,89 @@ public class TransactionsController extends HttpServlet {
             if (session.getAttribute("isAdmin") != null) {
                 isAdmin = (boolean) session.getAttribute("isAdmin");
             }
+            String type = "";
+            String search = "";
+            int page = 1;
+            String status = "";
             if (isAdmin) {
-                ArrayList<Transactions> listT = new ArrayList<>();
-                listT = (new TransactionsDAO()).getListTransactions();
-
-                TransactionsDAO td = new TransactionsDAO();
-//                String account =(String) session.getAttribute("account");
-                User u = (User) session.getAttribute("user");
-                List<Transactions> listTr = td.getListTransactionsByUserId(u.getId());
-                int size = listTr.size();
-                int soTrang = (size % 2 == 0) ? (size / 2) : (size / 2 + 1);
-                String xpage = request.getParameter("page");
-                int page;
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
-                }
-                int start = (page - 1) * 2;
-                int end = Math.min(page * 2, size);
-                listTr = td.getListTransactionsById(u.getId(), start, end);
-                
-                if(request.getParameter("searchSubmit")!=null){
-                    String type = request.getParameter("type"); 
-                    String status =request.getParameter("status"); 
-                    String search =request.getParameter("search");
-                    listTr = td.searchTransactions(type, status, search,u.getId());
-                }
-                request.setAttribute("soTrang", soTrang);
-                request.setAttribute("list", listTr);
-                request.setAttribute("transactionsList", listT);
-                request.getRequestDispatcher("transactions.jsp").forward(request, response);
-                String status_raw = request.getParameter("status");
-                String type_raw = request.getParameter("type");
-                String search_raw = request.getParameter("search");
-                if (search_raw != null || type_raw != null || status_raw != null) {
-                    String type = "";
-                    String status = "";
-                    String search = "%";
-                    if (search_raw != null && !search_raw.isEmpty()) {
-                        search += (search_raw + "%");
-                    }
-                    List<Transactions> listTrans;
-                    listTrans = td.searchTransactions(type, status, search, u.getId());
-                    List<Transactions> list;
-                    list = td.getListTransactions();
-                    request.setAttribute("pageNumber", 1);
-                    request.setAttribute("transactionsList", list);
-                    request.setAttribute("searchList", listTrans);
-                    request.getRequestDispatcher("transactions.jsp").forward(request, response);
-                }
+//                ArrayList<Transactions> listT = new ArrayList<>();
+//                listT = (new TransactionsDAO()).getListTransactions();
+//
+//                TransactionsDAO td = new TransactionsDAO();
+////                String account =(String) session.getAttribute("account");
+//                User u = (User) session.getAttribute("user");
+//                List<Transactions> listTr = td.getListTransactionsByUserId(u.getId());
+//                int size = listTr.size();
+//                int soTrang = (size % 2 == 0) ? (size / 2) : (size / 2 + 1);
+//                String xpage = request.getParameter("page");
+//                if (xpage == null) {
+//                    page = 1;
+//                } else {
+//                    page = Integer.parseInt(xpage);
+//                }
+//                int start = (page - 1) * 2;
+//                int end = Math.min(page * 2, size);
+//                listTr = td.getListTransactionsById(u.getId(), start, end);
+//
+//                if(request.getParameter("searchSubmit")!=null){
+//                    type = request.getParameter("type");
+//                    status =request.getParameter("status");
+//                    search =request.getParameter("search");
+//                    listTr = td.searchTransactions(type, status, search,u.getId());
+//                }
+//                request.setAttribute("soTrang", soTrang);
+//                request.setAttribute("list", listTr);
+//                request.setAttribute("transactionsList", listT);
+//                request.getRequestDispatcher("transactions.jsp").forward(request, response);
+//                String status_raw = request.getParameter("status");
+//                String type_raw = request.getParameter("type");
+//                String search_raw = request.getParameter("search");
+//                if (search_raw != null || type_raw != null || status_raw != null) {
+//                    type = "";
+//                    status = "";
+//                    search = "%";
+//                    if (search_raw != null && !search_raw.isEmpty()) {
+//                        search += (search_raw + "%");
+//                    }
+//                    List<Transactions> listTrans;
+//                    listTrans = td.searchTransactions(type, status, search, u.getId());
+//                    List<Transactions> list;
+//                    list = td.getListTransactions();
+//                    request.setAttribute("pageNumber", 1);
+//                    request.setAttribute("transactionsList", list);
+//                    request.setAttribute("searchList", listTrans);
+//                    request.getRequestDispatcher("transactions.jsp").forward(request, response);
+//                }
             } else {
-                ArrayList<Transactions> listTr1 = new ArrayList<>();
+                List<Transactions> list = new ArrayList<>();
                 User u = (User) session.getAttribute("user");
-                listTr1 = (new TransactionsDAO()).getListTransactionsByUserId(u.getId());
-                
-                TransactionsDAO td = new TransactionsDAO();
-                List<Transactions> listTr = td.getListTransactionsByUserId(u.getId());
-                int size = listTr.size(); //count
-                int soTrang = (size % 2 == 0) ? (size / 2) : (size / 2 + 1);
-                String xpage = request.getParameter("page");
-                int page;
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
+                User user = DAO.userDAO.getUserById(u.getId());
+                session.setAttribute("user", user);
+                type = request.getParameter("type");
+                status = request.getParameter("status");
+                search = request.getParameter("search");
+                String page_raw = request.getParameter("page");
+                if (page_raw != null && !page_raw.equals("1")) {
+                    page = Integer.parseInt(page_raw);
                 }
-                int start = (page - 1) * 2;
-                int end = Math.min(page * 2, size);
-                listTr = td.getListTransactionsById(u.getId(), start, end);
-                
-                if(request.getParameter("searchSubmit")!=null){
-                    String type = request.getParameter("type"); 
-                    String status = request.getParameter("status"); 
-                    String search = request.getParameter("search");
-                    listTr = td.searchTransactions(type, status, search,u.getId());
+
+                if (type == null) {
+                    type = "";
                 }
-                request.setAttribute("soTrang", soTrang);
-                request.setAttribute("list", listTr);
-                request.setAttribute("transactionsList", listTr1);
+                if (status == null) {
+                    status = "";
+                }
+                if (search == null) {
+                    search = "";
+                }
+
+                list = DAO.transactionsDAO.searchTransactions(type, status, search, user.getId(), (page - 1) * 10);
+
+                long totalTransactions = DAO.transactionsDAO.getTotalTransactions(type, status, search, user.getId());
+                double totalPage = Math.ceil((double) totalTransactions/10);
+                request.setAttribute("pageNumber", page);
+                request.setAttribute("totalPageNumbers", totalPage);
+                request.setAttribute("list", list);
                 request.getRequestDispatcher("transactions.jsp").forward(request, response);
             }
 
