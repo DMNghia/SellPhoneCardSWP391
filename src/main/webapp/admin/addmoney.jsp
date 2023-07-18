@@ -22,6 +22,11 @@
     <input type="number" id="balance" name="balance" required>
     <br>
 
+    <label for="note">Ghi chú:</label>
+    <input type="text" id="note" name="note" required>
+    <br>
+
+
 
     <button type="submit">Cấp tiền</button>
 </form>
