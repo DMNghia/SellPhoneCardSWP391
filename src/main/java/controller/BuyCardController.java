@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 
 @WebServlet(name = "BuyCardController", urlPatterns = "/buyCard")
 public class BuyCardController extends HttpServlet {
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final static ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,7 +35,7 @@ public class BuyCardController extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            response.sendRedirect("logout");
+            response.sendRedirect("/logout");
         } else {
             response.setContentType("application/json");
 
@@ -85,7 +85,7 @@ public class BuyCardController extends HttpServlet {
                         .orderId(DAO.orderDAO.add(newOrder).getId())
                         .type(false)
                         .build();
-                new TransactionsDAO().insert(transactions);
+                DAO.transactionsDAO.insert(transactions);
                 map.put("message", "Giao dịch đang được xử lý vui lòng chờ");
             }
             executorService.execute(new ScanTransaction());

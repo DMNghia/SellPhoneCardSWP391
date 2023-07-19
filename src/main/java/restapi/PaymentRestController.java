@@ -106,20 +106,6 @@ public class PaymentRestController extends HttpServlet {
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
 
-        // Add plus transaction
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
-        PaymentTransaction paymentTransaction = new PaymentTransaction().builder()
-                .type(true)
-                .status(false)
-                .amount(amount/100)
-                .isDelete(false)
-                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
-                .createdBy(user)
-                .build();
-        long paymentId = DAO.paymentTransactionDAO.insert(paymentTransaction);
-        session.setAttribute("paymentId", paymentId);
-
         com.google.gson.JsonObject job = new JsonObject();
         job.addProperty("code", "00");
         job.addProperty("message", "Thành công");

@@ -20,12 +20,12 @@ import java.util.Map;
 public class ScanNotice extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute("user");
         response.setContentType("application/json");
         Map<String, String> map = new HashMap<>();
         Gson gson = new Gson();
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        ArrayList<String> content = null;
+        ArrayList<String> content = new ArrayList<>();
         if (user != null) {
             List<Notice> notices = DAO.noticeDAO.getListNoticeByUser(user.getId());
             for (Notice notice : notices) {
@@ -35,7 +35,7 @@ public class ScanNotice extends HttpServlet {
                 DAO.noticeDAO.update(notice);
                 content.add(notice.getSubject() + "\n" + notice.getContent());
             }
-            if (notices.size() == 0) {
+            if (content.isEmpty()) {
                 map.put("listMessage", "");
             } else {
                 map.put("listMessage", gson.toJson(content));

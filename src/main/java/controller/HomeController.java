@@ -104,12 +104,6 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-    }
-
     /**
      * Returns a short description of the servlet.
      *
