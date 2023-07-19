@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dal.DAO;
 import dal.StorageDAO;
+import dal.UserDAO;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -70,31 +72,41 @@ public class ManagerUserRestController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        StorageDAO storageDAO = new StorageDAO();
-        User user = (User) session.getAttribute("user");
-        String id_raw = request.getParameter("id");
-        String serialNumber = request.getParameter("seri");
-        String cardNumber = request.getParameter("cardNumber");
-        String expiredAt = request.getParameter("expiredAt");
+
+        UserDAO userDAO = new UserDAO();
+//        User user = (User) session.getAttribute("user");
+        int id = Integer.parseInt(request.getParameter("id"));
+        String account = request.getParameter("account");
+        String password = request.getParameter("password");
+        int role = Integer.parseInt(request.getParameter("role"));
+        String email = request.getParameter("email");
+//        Timestamp createdAt = Timestamp.valueOf(request.getParameter("createdAt"));
+        int balance = Integer.parseInt(request.getParameter("balance"));
+        String phoneNumber = request.getParameter("phoneNumber");
+        boolean isActive = Boolean.parseBoolean(request.getParameter("isActive"));
         Map<String, String> map = new HashMap<>();
         response.setContentType("application/json");
         Gson gson = new Gson();
         try {
-            Long id = Long.parseLong(id_raw);
-            Storage storage = storageDAO.getStorageById(id);
-            storage.setSerialNumber(serialNumber);
-            storage.setCardNumber(cardNumber);
-            storage.setExpiredAt(Timestamp.valueOf(expiredAt));
-            storage.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
-            storage.setUpdatedBy(user);
-            storageDAO.update(storage);
-            System.out.println("Update storage success");
-            map.put("message", "Cập nhật thông tin sản phẩm thành công");
+
+            User user = new User();
+            user.setId(id);
+            user.setAccount(account);
+            user.setPassword(password);
+            user.setRole(role);
+            user.setEmail(email);
+//            user.setCreatedAt(createdAt);
+            user.setBalance(balance);
+            user.setPhoneNumber(phoneNumber);
+            user.setActive(isActive);
+            userDAO.update(user, id);
+            System.out.println("Update user success");
+            map.put("message", "Cập nhật thông tin người dùng thành công");
         } catch (NumberFormatException e) {
-            map.put("message", "Cập nhật thông tin sản phẩm thất bại");
+            map.put("message", "Cập nhật thông tin người dùng thất bại");
             System.out.println(e.getMessage());
         } catch (Exception e) {
-            map.put("message", "Cập nhật thông tin sản phẩm thất bại, hạn sử dụng không đúng format \"năm-tháng-ngày giờ:phút:giây\"");
+            map.put("message", "Cập nhật thông tin người dùng thất bại, hạn sử dụng không đúng format \"năm-tháng-ngày giờ:phút:giây\"");
             System.out.println(e.getMessage());
         }
 
