@@ -1,66 +1,67 @@
-<!-- admin_page.jsp -->
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <html>
 <head>
     <title>Trang admin</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Trang admin</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Cấp tiền cho người dùng</h1>
 
-<form action="addmoney" method="post">
-    <label for="userId">ID Người dùng:</label>
-    <input type="text" id="userId" name="userId" value="${user.getId()}" readonly>
-    <br>
+    <form id="transactionForm" action="addmoney" method="post">
+        <div class="mb-3">
+            <label for="userId" class="form-label">ID Người dùng:</label>
+            <input type="text" id="userId" name="userId" value="${user.getId()}" class="form-control" readonly>
+        </div>
 
-    <label for="userAccount">ID Người dùng:</label>
-    <input type="text" id="userAccount" name="userAccount" value="${user.getAccount()}" readonly>
-    <br>
+        <div class="mb-3">
+            <label for="userAccount" class="form-label">Tên người dùng:</label>
+            <input type="text" id="userAccount" name="userAccount" value="${user.getAccount()}" class="form-control" readonly>
+        </div>
 
-    <label for="balance">Số tiền cần cấp:</label>
-    <input type="number" id="balance" name="balance" required>
-    <br>
+        <div class="mb-3">
+            <label for="balance" class="form-label">Số tiền cần cấp:</label>
+            <input type="number" id="balance" name="balance" class="form-control" required>
+        </div>
 
-    <label for="note">Ghi chú:</label>
-    <input type="text" id="note" name="note" required>
-    <br>
+        <div class="mb-3">
+            <label for="note" class="form-label">Ghi chú:</label>
+            <input type="text" id="note" name="note" class="form-control" required>
+        </div>
 
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Cấp tiền</button>
+        </div>
+    </form>
 
-
-    <button type="submit">Cấp tiền</button>
-</form>
-
-<div id="result"></div>
-
+    <div id="result" class="mt-3 text-center"></div>
+</div>
 <script>
-    $(document).ready(function () {
-        $("#transactionForm").submit(function (event) {
-            // Ngăn chặn gửi yêu cầu trực tiếp (refresh trang)
-            event.preventDefault();
+    // Đợi tải xong trang
+    $(document).ready(function() {
+        // Bắt sự kiện nút submit được nhấn
+        $("#transactionForm").submit(function(event) {
+            event.preventDefault(); // Ngăn chặn gửi yêu cầu đến máy chủ
 
-            // Lấy dữ liệu từ form
-            var formData = {
-                userId: $("#userId").val(),
-                amount: $("#balance").val()
-            };
-
-            // Gửi yêu cầu POST thông qua AJAX đến Servlet
+            // Thực hiện yêu cầu AJAX để gửi dữ liệu đến máy chủ
             $.ajax({
-                type: "POST",
-                url: "AdminAddMoneyController",
-                data: formData,
-                success: function (data) {
-                    // Hiển thị kết quả từ Servlet lên trang
-                    $("#result").html("<p>" + data + "</p>");
+                url: $(this).attr("user"),
+                type: $(this).attr("get"),
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Hiển thị thông báo thành công
+                    $("#result").html('<div class="alert alert-success">Cấp tiền thành công!</div>');
                 },
-                error: function (xhr, status, error) {
-                    // Xử lý lỗi nếu có
-                    console.log("Lỗi: " + error);
+                error: function(xhr, status, error) {
+                    // Hiển thị thông báo lỗi nếu có lỗi xảy ra
+                    $("#result").html('<div class="alert alert-danger">Đã xảy ra lỗi: ' + error + '</div>');
                 }
             });
         });
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 </html>

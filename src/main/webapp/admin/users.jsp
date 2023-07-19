@@ -73,6 +73,27 @@
             opacity: 1;
             transform: 0.5s;
         }
+        #popupAddMoney {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            padding: 50px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
+            background: #fff;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.5s;
+            z-index: 9999;
+        }
+        #popupAddMoney.activete {
+            top: 50%;
+            visibility: visible;
+            opacity: 1;
+            transform: 0.5s;
+        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   */
     </style>
 </head>
 
@@ -121,6 +142,13 @@
                 </div>
             </div>
         </div>
+        <label hidden="hidden">Password</label>
+        <input type="text" class="form-control" id="passwordInputUpdateDiv"
+               hidden="hidden" name="password">
+        <%--                    lấy role--%>
+        <label hidden="hidden">Role</label>
+        <input type="text" class="form-control" id="roleInputUpdateDiv"
+               hidden="hidden" name="role">
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
@@ -148,7 +176,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-8 pr-1">
                 <div class="form-group">
@@ -168,6 +195,66 @@
         </div>
     </form>
 </div>
+
+
+<%--show add money--%>
+<div id="popupAddMoney">
+    <div class="row pl-1" style="width: fit-content;margin-left: auto">
+        <button type="button" aria-hidden="true" class="close" data-dismiss="alert" id="closeButton1"
+                style="cursor: pointer" onclick="showAddMoneyDiv('')">
+            <i class="nc-icon nc-simple-remove" style="font-size: 25px;font-weight: bold;"></i>
+        </button>
+    </div>
+    <form action="addmoney" method="POST" class="">
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <input name="page" id="pageInputUpdateDiv1" value='${param.page}' class="d-none">
+                    <label>Id</label>
+                    <input type="text" class="form-control" id="idInput"
+                           readonly name="userId">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Tên người dùng</label>
+                    <input type="text" class="form-control" id="accountInput"
+                           readonly name="account">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <div class="form-group">
+                    <label>Số tiền cần nạp</label>
+                    <input type="text" class="form-control" id="balanceInput"
+                            name="balance" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <area class="form-group">
+                    <label>Ghi chú</label>
+                    <input  type="text" class="form-control" id="noteInput"
+                                  name="note">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-1">
+                <button  type="button" name="option" value="update" class="btn"
+                        style="cursor: pointer;background-color: #01b901;color: #ffffff;">
+                    Nạp tiền
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
 <div class="wrapper" id="blur">
     <div class="sidebar" data-image="${pageContext.request.contextPath}/admin/assets/img/sidebar-5.jpg">
         -->
@@ -289,33 +376,41 @@
                                             <td>${user.getEmail()}</td>
                                             <td class="ballace_user">${user.getBalance()}</td>
 
-                                                <td>
-                                                    <button class="btn"
-                                                            style="background-color: #01b901;color: #ffffff;cursor: pointer;"
-                                                            onclick='showUpdateDiv(JSON.stringify(${user.toJson()}))'>
-                                                        Thông tin
-                                                    </button>
-                                                </td>
+                                            <td>
+                                                <button class="btn"
+                                                        style="background-color: #01b901;color: #ffffff;cursor: pointer;"
+                                                        onclick='showUpdateDiv(JSON.stringify(${user.toJson()}))'>
+                                                    Thông tin
+                                                </button>
+                                            </td>
+
+<%--                                            <td>--%>
+<%--                                                <button class="btn"--%>
+<%--                                                        style="background-color: #d5d71e;color: #ffffff;cursor: pointer;"--%>
+<%--                                                        onclick='showAddMoneyDiv(JSON.stringify(${user.toJson()}))'>--%>
+<%--                                                    Nạp tiền--%>
+<%--                                                </button>--%>
+<%--                                            </td>--%>
 
                                             <form action="addmoney" method="get">
                                                 <input type="hidden" name="userId" value="${user.getId()}">
                                                 <td>
                                                     <button class="btn"
                                                             style="background-color: #d7d70e;color: #ffffff;cursor: pointer;"
-                                                            onclick='showUpdateDiv(JSON.stringify(${user.toJson()}))'>
+                                                            onclick='showUpdateDiv1(JSON.stringify(${user.toJson()}))'>
                                                         Nạp tiền
                                                     </button>
                                                 </td>
                                             </form>
 
 
-<%--                                            <td>--%>
-<%--                                                <button class="btn"--%>
-<%--                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"--%>
-<%--                                                        onclick="showDeleteAlert(${user.getId()})">--%>
-<%--                                                    Xóa--%>
-<%--                                                </button>--%>
-<%--                                            </td>--%>
+                                                <%--                                            <td>--%>
+                                                <%--                                                <button class="btn"--%>
+                                                <%--                                                        style="background-color: #cc2127;color: #ffffff;cursor: pointer;"--%>
+                                                <%--                                                        onclick="showDeleteAlert(${user.getId()})">--%>
+                                                <%--                                                    Xóa--%>
+                                                <%--                                                </button>--%>
+                                                <%--                                            </td>--%>
 
                                         </tr>
                                     </c:forEach>
@@ -391,17 +486,20 @@
     });
 
     $('#updateButton').click(updateUser);
-
+    $('#addMoneyButton').click(addMoneyUser);
     // $('#deleteButton').click(deleteStorage);
 
     function updateUser() {
         var data = {
             id: $('#idInputUpdateDiv').val(),
             account: $('#accountInputUpdateDiv').val(),
+            password: $('#passwordInputUpdateDiv').val(),
+            role: $('#roleInputUpdateDiv').val(),
             email: $('#emailInputUpdateDiv').val(),
-            balance: $('#balanceInputUpdateDiv').val() ,
-            phoneNumber : $('#phoneInputUpdateDiv').val(),
-            isActive : $('#isActiveInputUpdateDiv').val()
+            // createdAt: $('#createdAtInputUpdateDiv').val(),
+            balance: $('#balanceInputUpdateDiv').val(),
+            phoneNumber: $('#phoneInputUpdateDiv').val(),
+            isActive: $('#isActiveInputUpdateDiv').val()
 
         };
         var page = $('#pagination.page.active span').text();
@@ -417,7 +515,32 @@
             }
         });
     }
+    function addMoneyUser() {
+        var data = {
+            id: $('#idInputUpdateDiv').val(),
+            account: $('#accountInputUpdateDiv').val(),
+            // password: $('#passwordInputUpdateDiv').val(),
+            // role: $('#roleInputUpdateDiv').val(),
+            // email: $('#emailInputUpdateDiv').val(),
+            // createdAt: $('#createdAtInputUpdateDiv').val(),
+            // balance: $('#balanceInputUpdateDiv').val(),
+            // phoneNumber: $('#phoneInputUpdateDiv').val(),
+            // isActive: $('#isActiveInputUpdateDiv').val()
 
+        };
+        var page = $('#pagination.page.active span').text();
+        console.log(page);
+        $.ajax({
+            url: "api/v1/users",
+            type: "POST",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                setTimeout(demo.showNotify(response.message), 100);
+                getData(1);
+            }
+        });
+    }
     // function deleteStorage() {
     //     var data = {
     //         id: $('#idInputDeleteDiv').val()
@@ -436,12 +559,12 @@
 
     function getData(page) {
         $.ajax({
-            url: "api/v1/users?page=",
+            url: "api/v1/users?page=" + page,
             type: "GET",
             dataType: "json",
             success: function (response) {
                 loadPagination(JSON.stringify(response.pagination));
-                loadContentList(JSON.stringify(response.listStorage));
+                loadContentList(JSON.stringify(response.listUser));
             }
         });
     }
@@ -452,6 +575,7 @@
         var totalPage = parseInt(dataPage.totalPageNumbers);
         document.getElementById("pageInputDeleteDiv").value = pageNumber;
         document.getElementById("pageInputUpdateDiv").value = pageNumber;
+        document.getElementById("pageInputUpdateDiv1").value = pageNumber;
         document.getElementById('pagination').innerHTML = createPagination(totalPage, pageNumber);
     }
 
@@ -552,7 +676,10 @@
             // json.expiredAt = timeExpiredAt;
             document.getElementById("idInputUpdateDiv").value = json.id;
             document.getElementById("accountInputUpdateDiv").value = json.account;
+            document.getElementById("passwordInputUpdateDiv").value = json.password;
+            document.getElementById("roleInputUpdateDiv").value = json.role;
             document.getElementById("emailInputUpdateDiv").value = json.email;
+            // document.getElementById("createdAtInputUpdateDiv").value = json.createdAt;
             document.getElementById("balanceInputUpdateDiv").value = json.balance;
             document.getElementById("phoneInputUpdateDiv").value = json.phoneNumber;
             document.getElementById("isActiveInputUpdateDiv").value = json.isActive;
@@ -563,6 +690,39 @@
         var popup = document.getElementById('popup');
         popup.classList.toggle('activete');
     }
+    function showAddMoneyDiv(user) {
+        if (user !== '') {
+            const div = document.getElementById("showAddMoneyDiv");
+            const closeButton1 = document.getElementById("closeButton1");
+            const body = document.querySelector(".wrapper");
+            var json = JSON.parse(user);
+            console.log(json);
+            // var expiredAt = new Date(json.expiredAt);
+            // var timeExpiredAt = expiredAt.getFullYear() + "-" +
+            //     ("0" + (expiredAt.getMonth() + 1)).slice(-2) + "-" +
+            //     ("0" + expiredAt.getDate()).slice(-2) + " " +
+            //     ("0" + expiredAt.getHours()).slice(-2) + ":" +
+            //     ("0" + expiredAt.getMinutes()).slice(-2) + ":" +
+            //     ("0" + expiredAt.getSeconds()).slice(-2);
+            // json.expiredAt = timeExpiredAt;
+            document.getElementById("idInput").value = json.id;
+            document.getElementById("accountInput").value = json.account;
+
+
+        }
+        var blur = document.getElementById('blur');
+        blur.classList.toggle('activete');
+        var popupAddMoney = document.getElementById('popupAddMoney');
+        popupAddMoney.classList.toggle('activete');
+    }
+
+    $("#isActiveInputUpdateDiv").on('change', function() {
+        if ($(this).is(':checked')) {
+            $(this).attr('value', 'true');
+        }
+        else {
+            $(this).attr('value', 'false');
+        }});
 
     function createPagination(pages, page) {
         let str = '<ul class="page">';
