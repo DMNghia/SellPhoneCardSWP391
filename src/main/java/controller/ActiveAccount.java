@@ -1,5 +1,6 @@
 package controller;
 
+import dal.DAO;
 import functionUtils.Function;
 import dal.UserDAO;
 import jakarta.servlet.ServletException;
@@ -49,11 +50,10 @@ public class ActiveAccount extends HttpServlet {
             if (captchaValue.equals(captchaInput)) {
                 if (tokenValue != null && (!tokenValue.isEmpty()) && tokenValue.equals(tokenInput)) {
                     user.setActive(true);
-                    UserDAO ud = new UserDAO();
-                    ud.update(user, user.getId());
+                    int userId = DAO.userDAO.update(user, user.getId());
                     session.removeAttribute("captchaValue");
                     session.removeAttribute("optValue");
-                    session.setAttribute("user", user);
+                    session.setAttribute("user", DAO.userDAO.getUserById(userId));
                     response.sendRedirect("/");
                 } else {
                     String tokenMessageErr = "Token is not correct! Please check again!";

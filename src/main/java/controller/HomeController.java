@@ -4,6 +4,7 @@
  */
 package controller;
 
+import com.google.gson.Gson;
 import dal.DAO;
 import dal.SupplierDAO;
 import dal.UserDAO;
@@ -68,6 +69,7 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User u = (User) session.getAttribute("user");
+        Gson gson = new Gson();
 
         boolean isAdmin = false;
         if (session.getAttribute("isAdmin") != null) {
@@ -76,13 +78,15 @@ public class HomeController extends HttpServlet {
         if (u != null) {
             User user = DAO.userDAO.getUserById(u.getId());
             session.setAttribute("user", user);
-            User newUser = DAO.userDAO.getUserById(user.getId());
-            session.setAttribute("user", newUser);
         }
         if (isAdmin) {
-            request.getRequestDispatcher("admin/dashboard.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/dashboard.jsp").forward(request, response);
         } else {
+            ArrayList<Supplier> listSupplier = DAO.supplierDAO.getListSupplier();
+            ArrayList<Product> listProduct = DAO.productDAO.getListProductBySupplier(1);
 
+            request.setAttribute("listSupplier" , gson.toJson(listSupplier));
+            request.setAttribute("listProduct" , gson.toJson(listProduct));
             request.getRequestDispatcher("home.jsp").forward(request, response);
         }
     }

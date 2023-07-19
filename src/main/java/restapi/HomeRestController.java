@@ -17,17 +17,18 @@ import java.util.ArrayList;
 public class HomeRestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Set response content type to json
-        response.setContentType("application/json");
-
         // Get user and update new User to session
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         User newUser = null;
         if (user != null) {
             newUser = DAO.userDAO.getUserById(user.getId());
+            session.removeAttribute("user");
             session.setAttribute("user", newUser);
         }
+
+        // Set response content type to json
+        response.setContentType("application/json");
 
         // Get list supplier and product
         String supplier = request.getParameter("supplier");

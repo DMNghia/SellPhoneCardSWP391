@@ -5,17 +5,18 @@ import model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    public List<User> getAllUser(){
+    public List<User> getAllUser() {
         List<User> userlist = new ArrayList<>();
-        try{
+        try {
             String query = "select * from user where   role = true;";
             PreparedStatement ps = DAO.connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 userlist.add(new User(rs.getInt("id"), rs.getString("account"), rs.getString("password"),
                         rs.getString("email"), rs.getInt("role"), rs.getString("phoneNumber"), rs.getInt("balance"),
                         rs.getBoolean("isDelete"), rs.getBoolean("isActive"), rs.getTimestamp("createdAt"),
@@ -23,11 +24,12 @@ public class UserDAO {
                         rs.getTimestamp("deletedAt"), rs.getInt("deletedBy")));
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("getAllUser: " + e.getMessage());
         }
-        return  userlist;
+        return userlist;
     }
+
     public User getUserById1(int id) {
         try {
             String query = "SELECT * from user where id = ?";
@@ -165,13 +167,13 @@ public class UserDAO {
         }
     }
 
-    public void update(User user, int id) {
+    public int update(User user, int id) {
         try {
             String query = "UPDATE user SET account = ?, password = ?, email = ?, role = ?,"
                     + "phoneNumber = ?, balance = ?, isDelete = ?, isActive = ?, createdAt = ?, createdBy = ?, updatedAt = ?, updatedBy = ?, "
                     + "deletedAt = ?, deletedBy = ? "
                     + "WHERE id = ?";
-            PreparedStatement ps = DAO.connection.prepareStatement(query);
+            PreparedStatement ps = DAO.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getAccount());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getEmail());
@@ -182,16 +184,18 @@ public class UserDAO {
             ps.setBoolean(8, user.isActive());
             ps.setInt(15, id);
             ps.setTimestamp(9, user.getCreatedAt());
-            ps.setInt(10, user.getCreatedBy());
+            ps.setInt(10, user.getId());
             ps.setTimestamp(11, user.getUpdatedAt());
             ps.setInt(12, user.getUpdatedBy());
             ps.setTimestamp(13, user.getDeletedAt());
             ps.setInt(14, user.getDeletedBy());
             ps.execute();
             System.out.println("Update user successfully!");
+            return user.getId();
         } catch (SQLException e) {
             System.out.println("UserDAO-update: " + e.getMessage());
         }
+        return -1;
     }
 
 
@@ -235,7 +239,7 @@ public class UserDAO {
             if (rs.next()) {
                 return rs.getInt("count(id)");
             }
-         } catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("getTotalUsers: " + e.getMessage());
         }
         return 0;

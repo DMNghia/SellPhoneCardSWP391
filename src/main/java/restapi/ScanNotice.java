@@ -35,7 +35,11 @@ public class ScanNotice extends HttpServlet {
                 DAO.noticeDAO.update(notice);
                 content.add(notice.getSubject() + "\n" + notice.getContent());
             }
-            map.put("listMessage", gson.toJson(content));
+            if (notices.size() == 0) {
+                map.put("listMessage", "");
+            } else {
+                map.put("listMessage", gson.toJson(content));
+            }
         } else {
             map.put("listMessage", "");
         }

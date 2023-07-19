@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <style>
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -50,7 +51,7 @@
                     <li><a href="${(user != null ) ? "rechange" : "login"}">Nạp tiền</a></li>
                     <c:if test="${user != null}">
                         <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: <span
-                                id="balanceValue"></span></span></li>
+                                id="balanceValue">${user.getBalance()}</span></li>
                     </c:if>
                     <c:if test="${user != null}">
                         <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
@@ -208,9 +209,7 @@
 </footer>
 
 <!--   Core JS Files   -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/jquery.3.2.1.min.js"
-        type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/popper.min.js" type="text/javascript"></script>
+<%--<script src="${pageContext.request.contextPath}/admin/assets/js/core/popper.min.js" type="text/javascript"></script>--%>
 <script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js" type="text/javascript"></script>
 <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
 <script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-switch.js"></script>
@@ -232,22 +231,25 @@
 
 <script>
 
-    $(document).ready(() => {
-        $.ajax({
-            url: "/api/v1/home",
-            data: {
-                "supplier": "1"
-            },
-            dataType: "json",
-            success: function (response) {
-                <c:if test="${sessionScope.user != null}">
-                loadUser(response.user);
-                </c:if>
-                loadSupplier(response.listSupplier, response.supplierId);
-                loadProduct(response.listProduct);
-            }
-        })
-    });
+    // $(document).ready(() => {
+    //     $.ajax({
+    //         url: "/api/v1/home",
+    //         data: {
+    //             "supplier": "1"
+    //         },
+    //         dataType: "json",
+    //         success: function (response) {
+    //
+    //             loadSupplier(response.listSupplier, response.supplierId);
+    //             loadProduct(response.listProduct);
+    //         }
+    //     })
+    // });
+<%--    <c:if test="${sessionScope.user != null}">--%>
+<%--    loadUser('${sessionScope.user}');--%>
+<%--    </c:if>--%>
+    loadSupplier('${listSupplier}', 1);
+    loadProduct('${listProduct}');
 
     function loadUser(data) {
         var user = JSON.parse(data);
@@ -329,10 +331,24 @@
             url: "/api/v1/scanNotice",
             dataType: "json",
             success: function (response) {
-                var listMessage = JSON.parse(response.listMessage);
-                $.each(listMessage, function (i, message) {
-                    setTimeout(demo.showNotify(message), 1000);
-                });
+                if (response.listMessage != "") {
+                    var listMessage = JSON.parse(response.listMessage);
+                    $.each(listMessage, function (i, message) {
+                        setTimeout(demo.showNotify(message), 1000);
+                    });
+                    $.ajax({
+                        url: "/api/v1/home",
+                        data: {
+                            "supplier": "1"
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            <c:if test="${sessionScope.user != null}">
+                            loadUser(response.user);
+                            </c:if>
+                        }
+                    })
+                }
             }
         });
     }, 10000);
