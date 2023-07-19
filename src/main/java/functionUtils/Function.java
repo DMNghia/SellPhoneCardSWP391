@@ -10,7 +10,7 @@ import java.util.Properties;
 public class Function {
 
     private final String FROMEMAIL = "swp391grou5@gmail.com";
-    private final String PASSWORD = "duhphxeehayasotx";
+    private final String PASSWORD = "pdtmdhjytlbwwwuh";
 
     public String hash(String str) {
         String salt = "af.$ac";

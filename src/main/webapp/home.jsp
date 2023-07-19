@@ -16,14 +16,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="${pageContext.request.contextPath}/admin/assets/css/light-bootstrap-dashboard.css?v=2.0.0 "
-          rel="stylesheet"/>
+    <title>Home</title>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="${pageContext.request.contextPath}/admin/assets/css/light-bootstrap-dashboard.css?v=2.0.0 "
+          rel="stylesheet"/>
     <style>
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -51,7 +52,7 @@
                     <li><a href="${(user != null ) ? "rechange" : "login"}">Nạp tiền</a></li>
                     <c:if test="${user != null}">
                         <li><span style="color: #ffffff;font-size: 20px;line-height: 60px">Số dư: <span
-                                id="balanceValue">${user.getBalance()}</span></li>
+                                id="balanceValue">${user.getBalance()}</span></span></li>
                     </c:if>
                     <c:if test="${user != null}">
                         <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
@@ -208,20 +209,13 @@
     </div>
 </footer>
 
-<!--   Core JS Files   -->
-<%--<script src="${pageContext.request.contextPath}/admin/assets/js/core/popper.min.js" type="text/javascript"></script>--%>
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js" type="text/javascript"></script>
-<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-switch.js"></script>
-<!--  Google Maps Plugin    -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-<!--  Chartist Plugin  -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/chartist.min.js"></script>
-<!--  Notifications Plugin    -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-notify.js"></script>
-<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/light-bootstrap-dashboard.js?v=2.0.0 "
-        type="text/javascript"></script>
+<%--<!--   Core JS Files   -->--%>
+<%--<script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js" type="text/javascript"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-switch.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/chartist.min.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-notify.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/admin/assets/js/light-bootstrap-dashboard.js?v=2.0.0 "--%>
+<%--        type="text/javascript"></script>--%>
 <script src="${pageContext.request.contextPath}/admin/assets/js/demo.js"></script>
 <c:if test="${message != null}">
     <script type="text/javascript">
@@ -231,25 +225,8 @@
 
 <script>
 
-    // $(document).ready(() => {
-    //     $.ajax({
-    //         url: "/api/v1/home",
-    //         data: {
-    //             "supplier": "1"
-    //         },
-    //         dataType: "json",
-    //         success: function (response) {
-    //
-    //             loadSupplier(response.listSupplier, response.supplierId);
-    //             loadProduct(response.listProduct);
-    //         }
-    //     })
-    // });
-<%--    <c:if test="${sessionScope.user != null}">--%>
-<%--    loadUser('${sessionScope.user}');--%>
-<%--    </c:if>--%>
-    loadSupplier('${listSupplier}', 1);
-    loadProduct('${listProduct}');
+    loadSupplier(JSON.stringify(${listSupplier}), 1);
+    loadProduct(JSON.stringify(${listProduct}));
 
     function loadUser(data) {
         var user = JSON.parse(data);
@@ -267,7 +244,7 @@
             },
             dataType: "json",
             success: function (response) {
-                <c:if test="${sessionScope.user != null}">
+                <c:if test="${user != null}">
                 loadUser(response.user);
                 </c:if>
                 loadSupplier(response.listSupplier, response.supplierId);
@@ -326,15 +303,18 @@
     }
 
     document.getElementById("pay").addEventListener('click', buyProduct);
+    <c:if test="${user != null}">
     setInterval(() => {
         $.ajax({
             url: "/api/v1/scanNotice",
             dataType: "json",
+            type: "GET",
             success: function (response) {
+                console.log(response.listMessage);
                 if (response.listMessage != "") {
                     var listMessage = JSON.parse(response.listMessage);
                     $.each(listMessage, function (i, message) {
-                        setTimeout(demo.showNotify(message), 1000);
+                        setTimeout(demo.showNotify(message), 100);
                     });
                     $.ajax({
                         url: "/api/v1/home",
@@ -343,15 +323,16 @@
                         },
                         dataType: "json",
                         success: function (response) {
-                            <c:if test="${sessionScope.user != null}">
+                            <c:if test="${user != null}">
                             loadUser(response.user);
                             </c:if>
                         }
-                    })
+                    });
                 }
             }
         });
     }, 10000);
+    </c:if>
 
     function buyProduct() {
         <c:if test="${user == null}">

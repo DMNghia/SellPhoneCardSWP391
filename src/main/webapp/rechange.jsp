@@ -250,8 +250,6 @@
             $("#warning").text("Số tiền lớn hơn 5 nghìn và không quá 20 triệu");
         } else {
             $.ajax({
-
-
                 url: "/api/v1/payment",
                 type: "POST",
                 data: {
@@ -260,7 +258,7 @@
                 },
                 dataType: "json",
                 success: function (response) {
-                    window.open(response.data);
+                    document.location.href = response.data;
                     demo.showNotify(response.message);
                 }
             });

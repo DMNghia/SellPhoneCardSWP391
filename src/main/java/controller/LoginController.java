@@ -77,7 +77,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         String account = request.getParameter("account");
         String password = request.getParameter("password");
         String captchaValue = (String) session.getAttribute("captchaValue");
@@ -111,7 +111,7 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("isAdmin", false);
             }
             session.setAttribute("user", user);
-
+            session.removeAttribute("captchaValue");
             response.sendRedirect("/");
         }
     }
