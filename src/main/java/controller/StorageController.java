@@ -27,7 +27,7 @@ public class StorageController extends HttpServlet {
         if (isAdmin) {
             request.getRequestDispatcher("admin/storage.jsp").forward(request, response);
         } else {
-            response.sendRedirect("logout");
+            response.sendRedirect("login");
         }
     }
 

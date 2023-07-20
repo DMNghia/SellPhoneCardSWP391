@@ -61,7 +61,7 @@ public class ManagerUserController extends HttpServlet {
 //
                 request.getRequestDispatcher("admin/users.jsp").forward(request, response);
             } else {
-                response.sendRedirect("logout");
+                response.sendRedirect("login");
             }
         }
 

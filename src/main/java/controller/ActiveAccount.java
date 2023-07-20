@@ -66,7 +66,22 @@ public class ActiveAccount extends HttpServlet {
                 request.getRequestDispatcher("activeAccount.jsp").forward(request, response);
             }
         } else {
-            doGet(request, response);
+            session.removeAttribute("optValue");
+            Function f = new Function();
+            String token = (String) session.getAttribute("optValue");
+            if (token == null || token.isEmpty()) {
+                token = f.tokenGenerate();
+                String newTokenValue = token;
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        f.authenEmail(user.getEmail(), newTokenValue);
+                    }
+                };
+                thread.start();
+                session.setAttribute("optValue", newTokenValue);
+            }
+            request.getRequestDispatcher("activeAccount.jsp").forward(request, response);
         }
     }
 }

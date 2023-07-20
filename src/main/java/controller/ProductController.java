@@ -31,7 +31,7 @@ public class ProductController extends HttpServlet {
         if (session.getAttribute("user") != null) {
             request.getRequestDispatcher("/admin/products.jsp").forward(request, response);
         } else {
-            response.sendRedirect("/logout");
+            response.sendRedirect("/login");
         }
     }
 

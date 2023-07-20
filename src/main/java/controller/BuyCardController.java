@@ -35,7 +35,7 @@ public class BuyCardController extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            response.sendRedirect("/logout");
+            response.sendRedirect("/login");
         } else {
             response.setContentType("application/json");
 

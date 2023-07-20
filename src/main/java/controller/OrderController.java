@@ -98,7 +98,7 @@ public class OrderController extends HttpServlet {
                 //getAllOrder
 
                 list = DAO.orderDAO.getAllOrderWithUser(status, search, (page - 1) * 10,user.getId());
-                long totalOrder = DAO.orderDAO.totalOrder(status, search);
+                long totalOrder = DAO.orderDAO.totalOrderByUser(status, search, user.getId());
                 double totalPage = (double) totalOrder / 10;
                 request.setAttribute("totalPageNumbers", Math.ceil(totalPage));
                 request.setAttribute("pageNumber", page);
@@ -107,7 +107,7 @@ public class OrderController extends HttpServlet {
                 request.getRequestDispatcher("order.jsp").forward(request, response);
             }
         } else {
-            response.sendRedirect("logout");
+            response.sendRedirect("login");
         }
 
 

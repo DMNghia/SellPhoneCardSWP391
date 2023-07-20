@@ -35,7 +35,7 @@
                             <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
                                 <ul>
                                     <li><a href="changeProfile">Thông tin người dùng</a></li>
-                                    <li><a href="logout">Đăng xuất</a></li>
+                                    <li><a href="login">Đăng xuất</a></li>
                                 </ul>
                             </li>
                         </c:if>

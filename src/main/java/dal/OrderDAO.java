@@ -82,6 +82,29 @@ public class OrderDAO {
         return result;
     }
 
+    public long totalOrderByUser(String status, String search, int uid) {
+        long result = 0;
+        try {
+            String sql = "select * from `order` where status like ? and isDelete = false and user = ?";
+            PreparedStatement ps = DAO.connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, uid);
+            ResultSet rs = ps.executeQuery();
+            result = 0;
+            while (rs.next()) {
+                List<Storage> listStorage = DAO.orderDetailDAO.getListStorageBySearchProduct(rs.getLong("id"), search);
+                if (listStorage.size() > 0) {
+                    result += 1;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("getAllOrder " + e.getMessage());
+        }
+
+        return result;
+    }
+
     public List<Order> getAllOrder(String status, String search, int page) {
         List<Order> listOrder = new ArrayList<>();
         try {

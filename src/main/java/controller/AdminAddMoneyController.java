@@ -36,7 +36,7 @@ public class AdminAddMoneyController extends HttpServlet {
             request.setAttribute("user",user);
             request.getRequestDispatcher("admin/addmoney.jsp").forward(request, response);
         } else {
-            response.sendRedirect("logout");
+            response.sendRedirect("login");
         }
     }
 

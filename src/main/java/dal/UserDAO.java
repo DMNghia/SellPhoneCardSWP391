@@ -52,7 +52,7 @@ public class UserDAO {
 
     public User getUserById(int id) {
         try {
-            String query = "SELECT * from user where id = ?";
+            String query = "SELECT * from user where id = ? and isDelete = false and isActive = true";
             PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
