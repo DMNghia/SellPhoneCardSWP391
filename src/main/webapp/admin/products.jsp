@@ -44,7 +44,7 @@
             visibility: hidden;
             opacity: 0;
             transition: 0.5s;
-            z-index: 9999;
+            z-index: 999;
         }
 
         #listErrorDiv.activete {
@@ -66,7 +66,7 @@
             visibility: hidden;
             opacity: 0;
             transition: 0.5s;
-            z-index: 9999;
+            z-index: 999;
         }
 
         #popup.activete {
@@ -88,7 +88,7 @@
             visibility: hidden;
             opacity: 0;
             transition: 0.5s;
-            z-index: 9999;
+            z-index: 999;
         }
 
         #popupDelete.activete {
@@ -110,7 +110,7 @@
             visibility: hidden;
             opacity: 0;
             transition: 0.5s;
-            z-index: 9999;
+            z-index: 999;
         }
 
         #popupAddProduct.activete {
@@ -319,7 +319,7 @@
     </div>
     <div class="row d-flex justify-content-center">
         <div class="row">
-            <h2 style="color: red">Sản phẩm đã trùng lặp</h2>
+            <h2 style="color: red">Sản phẩm đã loại bỏ do trùng lặp</h2>
         </div>
         <table style="">
             <thead>
@@ -480,7 +480,7 @@
                     </form>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="logout">
+                            <a class="nav-link" href="login">
                                 <span class="no-icon">Đăng xuất</span>
                             </a>
                         </li>

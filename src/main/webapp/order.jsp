@@ -164,7 +164,7 @@
                             <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
                                 <ul>
                                     <li><a href="changeProfile">Thông tin người dùng</a></li>
-                                    <li><a href="logout">Đăng xuất</a></li>
+                                    <li><a href="login">Đăng xuất</a></li>
                                 </ul>
                             </li>
                         </c:if>
@@ -206,7 +206,7 @@
                 </form>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="logout">
+                        <a class="nav-link" href="login">
                             <span class="no-icon">Log out</span>
                         </a>
                     </li>

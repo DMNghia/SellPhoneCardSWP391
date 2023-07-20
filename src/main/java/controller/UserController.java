@@ -18,9 +18,9 @@ public class UserController extends HttpServlet {
             isAdmin = (boolean) session.getAttribute("isAdmin");
         }
         if (user == null || !isAdmin) {
-            response.sendRedirect("logout");
+            response.sendRedirect("login");
         } else {
-            request.getRequestDispatcher("admin/users.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/users.jsp").forward(request, response);
         }
     }
 

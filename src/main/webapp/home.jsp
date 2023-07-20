@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <link href="${pageContext.request.contextPath}/admin/assets/css/light-bootstrap-dashboard.css?v=2.0.0 "
+    <link href="${pageContext.request.contextPath}/assets/css/light-bootstrap-dashboard.css?v=2.0.0 "
           rel="stylesheet"/>
     <style>
         input::-webkit-outer-spin-button,
@@ -58,7 +58,7 @@
                         <li><a href="#"><i class="fa-solid fa-circle-user"></i></a>
                             <ul>
                                 <li><a href="changeProfile">Thông tin người dùng</a></li>
-                                <li><a href="logout">Đăng xuất</a></li>
+                                <li><a href="/login">Đăng xuất</a></li>
                             </ul>
                         </li>
                     </c:if>
@@ -210,13 +210,14 @@
 </footer>
 
 <%--<!--   Core JS Files   -->--%>
-<%--<script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js" type="text/javascript"></script>--%>
-<%--<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-switch.js"></script>--%>
-<%--<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/chartist.min.js"></script>--%>
-<%--<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-notify.js"></script>--%>
-<%--<script src="${pageContext.request.contextPath}/admin/assets/js/light-bootstrap-dashboard.js?v=2.0.0 "--%>
-<%--        type="text/javascript"></script>--%>
-<script src="${pageContext.request.contextPath}/admin/assets/js/demo.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/assets/js/plugins/bootstrap-switch.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/plugins/chartist.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/plugins/bootstrap-notify.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/light-bootstrap-dashboard.js?v=2.0.0 "
+        type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/assets/js/demo.js"></script>
 <c:if test="${message != null}">
     <script type="text/javascript">
         setTimeout(demo.showNotify("${message}"), 100);
@@ -331,13 +332,14 @@
                 }
             }
         });
-    }, 10000);
+    }, 5000);
     </c:if>
 
     function buyProduct() {
         <c:if test="${user == null}">
         document.querySelector("#frm").submit();
         </c:if>
+        document.getElementById("infoOrder").classList.add("d-none");
         var data = {
             price: document.getElementById("priceValue").innerHTML,
             supplier: document.getElementById("supplierName").innerHTML,
@@ -351,6 +353,7 @@
             dataType: "json",
             success: function (response) {
                 setTimeout(demo.showNotify(response.message), 100);
+                // document.location.href = "/";
             }
         });
     }

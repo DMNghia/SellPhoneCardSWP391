@@ -339,7 +339,7 @@
                     </form>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="logout">
+                            <a class="nav-link" href="login">
                                 <span class="no-icon">Đăng xuất</span>
                             </a>
                         </li>
@@ -479,8 +479,6 @@
             success: function (response) {
                 loadPagination(JSON.stringify(response.pagination));
                 loadContentList(JSON.stringify(response.listUser));
-                // loadlistProduct(JSON.stringify(response.listProduct));
-                // loadListSupplier(JSON.stringify(response.listSupplier));
             }
         });
     });
