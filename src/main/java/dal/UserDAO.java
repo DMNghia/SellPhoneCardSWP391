@@ -86,7 +86,7 @@ public class UserDAO {
 
     public boolean isAccountAvailable(String account) {
         try {
-            String query = "SELECT * from user where account = ? and isActive = true";
+            String query = "SELECT * from user where account = ?";
             PreparedStatement ps = DAO.connection.prepareStatement(query);
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();

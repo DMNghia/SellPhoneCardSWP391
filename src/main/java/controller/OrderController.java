@@ -30,7 +30,7 @@ public class OrderController extends HttpServlet {
 
         if (session.getAttribute("user") != null) {
             boolean isAdmin = false;
-            isAdmin = (boolean) session.getAttribute("isAdmin");
+            isAdmin = (session.getAttribute("isAdmin") != null ? ((boolean) session.getAttribute("isAdmin")) : false);
             //Information
             if (isAdmin) {
                 String page_raw = request.getParameter("page");
