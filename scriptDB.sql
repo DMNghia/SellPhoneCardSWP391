@@ -1,12 +1,14 @@
+DROP DATABASE IF EXISTS `sellphonecard`;
+
 CREATE SCHEMA `sellphonecard`;
 
 USE sellphonecard;
-
+DROP TABLE IF EXISTS `user`;
 create table user
 (
     id          int          not null AUTO_INCREMENT,
-    account     varchar(255) not null,
-    password    varchar(255) not null,
+    account     varchar(255) not null COLLATE utf8_bin,
+    password    varchar(255) not null COLLATE utf8_bin,
     email       varchar(255) not null,
     role        int,
     phoneNumber varchar(255),
@@ -21,7 +23,7 @@ create table user
     deletedBy   int,
     primary key (id)
 );
-
+DROP TABLE IF EXISTS `product`;
 create table product
 (
     id        int not null AUTO_INCREMENT,
@@ -38,7 +40,7 @@ create table product
     updatedBy int,
     primary key (id)
 );
-
+DROP TABLE IF EXISTS `supplier`;
 create table supplier
 (
     id        int not null AUTO_INCREMENT,
@@ -106,7 +108,7 @@ VALUES (4, 'Mobifone', '2023-06-15 22:17:43', 1, 0, NULL, NULL, NULL, NULL, 'ima
 INSERT into user(account, password, email, role, isDelete, isActive) VALUE ('sys_admin',
                                                                             'af.$ac240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
                                                                             'swp391grou5@gmail.com', 0, false, true);
-
+DROP TABLE IF EXISTS `storage`;
 CREATE table storage
 (
     id           bigint not null AUTO_INCREMENT,
@@ -1733,7 +1735,7 @@ values
     ('72334562894', '9800889506433', '2025-07-01 16:33:11', 32, '2023-07-01 16:33:11', 1, false, false);
 
 
-
+DROP TABLE IF EXISTS `order_detail`;
 create table order_detail
 (
     id      bigint AUTO_INCREMENT,
@@ -1741,7 +1743,7 @@ create table order_detail
     storage bigint,
     primary key (id)
 );
-
+DROP TABLE IF EXISTS `order`;
 create table `order`
 (
     id          bigint AUTO_INCREMENT,
@@ -1760,8 +1762,8 @@ create table `order`
     primary key (id)
 );
 
-
-CREATE TABLE IF NOT EXISTS sellphonecard.`transactions`
+DROP TABLE IF EXISTS `transactions`;
+CREATE TABLE IF NOT EXISTS `transactions`
 (
     id        INT        NOT NULL AUTO_INCREMENT,
     user      INT        NULL DEFAULT NULL,
@@ -1782,6 +1784,7 @@ insert into user(id, account, password, email, role, phoneNumber, balance, isDel
 value (2, 'nghia', 'af.$acad91c69f15dce7f3f259224bba823ea24c33c358bd44fab7a44c017b6e158427', 'dmnghia1511@gmail.com', 1, null, null, false, true, '2023-07-10 16:11:15', 2);
 update user set balance = 1000000 where id = 2;
 
+DROP TABLE IF EXISTS `notice`;
 create table notice (
     id bigint not null auto_increment,
     subject text collate utf8mb4_unicode_ci,

@@ -623,6 +623,8 @@
             const sheetName = workbook.SheetNames[0]; // Assuming you want to read the first sheet
 
             const sheet = workbook.Sheets[sheetName];
+            console.log(sheet);
+            console.log(sheetName);
             const jsonData = XLSX.utils.sheet_to_json(sheet);
             displayData(jsonData);
 
@@ -631,9 +633,9 @@
     }
 
     function displayData(data) {
-        var fileData = document.getElementById("fileData");
-        fileData.value = JSON.stringify(data, null, 2);
-        var data = {
+        // var fileData = document.getElementById("fileData");
+        // fileData.value = JSON.stringify(data, null, 2);
+        var dataValue = {
             supplierSelect: $("#supplierSelectAddProduct").val(),
             supplierInput: $("#supplierInputAddProduct").val(),
             productSelect: $("#productSelectAddProduct").val(),
@@ -641,12 +643,13 @@
             option: $("#submitProductButton").val(),
             image: $("#image").val(),
             productPrice: $("#price").val(),
-            fileData: $('#fileData').val(),
+            fileData: JSON.stringify(data),
         };
+        console.log(dataValue.fileData);
         $.ajax({
             url: "/api/v1/products",
             type: "POST",
-            data: data,
+            data: dataValue,
             dataType: "json",
             success: function (response) {
                 setTimeout(demo.showNotify(response.message), 100);

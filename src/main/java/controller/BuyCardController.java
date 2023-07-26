@@ -3,7 +3,6 @@ package controller;
 import com.google.gson.Gson;
 import dal.*;
 import functionUtils.ScanTransaction;
-import service.ScheduleScanTransaction;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

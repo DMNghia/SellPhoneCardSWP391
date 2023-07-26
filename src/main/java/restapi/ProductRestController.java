@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -184,12 +185,24 @@ public class ProductRestController extends HttpServlet {
                         product1 = DAO.productDAO.findProductById(newProductId);
 
                         JSONArray jsonArray = new JSONArray(fileData);
+                        String seri;
+                        String code;
                         try {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                if (jsonObject.get("Seri") instanceof Long || jsonObject.get("Seri") instanceof Integer) {
+                                    seri = String.valueOf(jsonObject.getBigDecimal("Seri"));
+                                } else {
+                                    seri = jsonObject.getString("Seri");
+                                }
+                                if (jsonObject.get("Code") instanceof Long || jsonObject.get("Code") instanceof Integer) {
+                                    code = String.valueOf(jsonObject.get("Code"));
+                                } else {
+                                    code = jsonObject.getString("Code");
+                                }
                                 Storage newStorage = new Storage().builder()
-                                        .serialNumber(jsonObject.getString("Seri"))
-                                        .cardNumber(jsonObject.getString("Code"))
+                                        .serialNumber(seri)
+                                        .cardNumber(code)
                                         .expiredAt(Timestamp.valueOf(jsonObject.getString("Expired Date")))
                                         .createdAt(Timestamp.valueOf(now))
                                         .createdBy(user)
@@ -205,6 +218,7 @@ public class ProductRestController extends HttpServlet {
                             }
                             responseData.add("message", jsonParser.parseString(gson.toJson("Thêm sản phẩm thành công!")));
                         } catch (Exception e) {
+                            System.err.println(e.getMessage());
                             responseData.add("message", jsonParser.parseString(gson.toJson("Thêm sản phẩm thất bại vui lòng xem lại địng dạng!")));
                         }
                         product1.setQuantity(product1.getQuantity() + quantity);
