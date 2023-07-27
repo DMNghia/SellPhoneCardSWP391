@@ -6,10 +6,10 @@
 
 <head>
     <meta charset="utf-8"/>
-    <link href="${pageContext.request.contextPath}/admin/assets/css/pagination.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/pagination.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="76x76"
-          href="${pageContext.request.contextPath}/admin/assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/admin/assets/img/favicon.ico">
+          href="${pageContext.request.contextPath}/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>Light Bootstrap Dashboard - Free Bootstrap 4 Admin Dashboard by Creative Tim</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
@@ -18,12 +18,12 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
     <!-- CSS Files -->
-    <link href="${pageContext.request.contextPath}/admin/assets/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/admin/assets/css/light-bootstrap-dashboard.css?v=2.0.0 "
+    <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/assets/css/light-bootstrap-dashboard.css?v=2.0.0 "
           rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="${pageContext.request.contextPath}/admin/assets/css/demo.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/assets/css/demo.css" rel="stylesheet"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
     <style>
         #blur.activete {
@@ -311,23 +311,23 @@
     </div>
 </div>
 <!--   Core JS Files   -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/jquery.3.2.1.min.js"
+<script src="${pageContext.request.contextPath}/assets/js/core/jquery.3.2.1.min.js"
         type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/popper.min.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/admin/assets/js/core/bootstrap.min.js"
+<script src="${pageContext.request.contextPath}/assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/assets/js/core/bootstrap.min.js"
         type="text/javascript"></script>
 <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-switch.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/plugins/bootstrap-switch.js"></script>
 <!--  Google Maps Plugin    -->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 <!--  Chartist Plugin  -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/chartist.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/plugins/chartist.min.js"></script>
 <!--  Notifications Plugin    -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/plugins/bootstrap-notify.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/plugins/bootstrap-notify.js"></script>
 <!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
-<script src="${pageContext.request.contextPath}/admin/assets/js/light-bootstrap-dashboard.js?v=2.0.0 "
+<script src="${pageContext.request.contextPath}/assets/js/light-bootstrap-dashboard.js?v=2.0.0 "
         type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/admin/assets/js/demo.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/demo.js"></script>
 <c:if test="${message != null}">
     <script type="text/javascript">
         setTimeout(demo.showNotify("${message}"), 100);
